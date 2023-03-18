@@ -138,10 +138,10 @@ export default function PdfGenerator({ filtriraniProfesori }) {
                                             </View>
                                             <View style={styles.tableColData}>
                                                 <Text style={styles.tableCell}>
-                                                    <View style={{ flexDirection: "column" }}>
+                                                    <View style={{ display:"flex",flexDirection: "column" }}>
                                                         {prof.significantPublications.map((data, index) => {
                                                             return (
-                                                                <View key={index} style={{ flexDirection: "row", marginBottom: 4 }}>
+                                                                <View key={index} style={{ display:"flex",flexDirection: "row", marginBottom: 4 }}>
                                                                     <Text style={{ marginRight: 8 }}>{index + 1 + "."}</Text>
                                                                     <Text >{data + '\n'}</Text>
                                                                 </View>

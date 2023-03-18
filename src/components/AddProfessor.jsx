@@ -28,6 +28,8 @@ export default function AddProfessor() {
     const [labaratories, setLabaratories] = useState('');
     const [significantPublications, setSignificantPublications] = useState('');
     const [scientificProjects, setScientificProjects] = useState('');
+    const [tags, setTags] = useState('');
+
 
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
@@ -92,6 +94,14 @@ export default function AddProfessor() {
         });
         const significantPublicationsFINAL = significantPublicationsArrayWithoutEmptyStrings.map((str) => str.trim());
 
+        const tagsArray = tags.replace(/[\t\n]|[^\S\n\r ]+/g, ' ').split("!");
+        const tagsArrayWithoutEmptyStrings = tagsArray.filter((str) => {
+            if(str?.trim() != "" && str?.trim() !== "" && str?.trim() != null && str?.trim() != "null") {
+                return true
+            }
+        });
+        const tagsFINAL = tagsArrayWithoutEmptyStrings.map((str) => str.trim());
+
         //filter zbog nekog razloga nije hteo da radi, moja greska vrv, ovako mi je lakse da ostavim map
         try {
             const response = await axiosPrivate.post("/professors", {
@@ -101,7 +111,8 @@ export default function AddProfessor() {
                 scientificResearch: scientificResearchFINAL,
                 labaratories: labaratoriesFINAL,
                 scientificProjects: scientificProjectsFINAL,
-                significantPublications: significantPublicationsFINAL
+                significantPublications: significantPublicationsFINAL,
+                tags: tagsFINAL
             },
                 {
                     headers: { 'Content-Type': 'application/json' },
@@ -122,6 +133,7 @@ export default function AddProfessor() {
             setLabaratories("");
             setSignificantPublications("");
             setScientificProjects("");
+            setTags("");
 
         } catch (err) {
             if (!err?.response) {
@@ -204,6 +216,16 @@ export default function AddProfessor() {
                             <a href="https://dl.acm.org/ccs">Ponudjena podrucja</a><br />
                             Svako podrucje razdvojiti znakom uzvika !
                         </p>
+                        <label htmlFor="tags">
+                            Tags:
+                        </label>
+                        <textarea
+                            cols="50"
+                            rows="5"
+                            id="tags"
+                            onChange={(e) => setTags(e.target.value)}
+                            value={tags}
+                        />
                     </div>
                     <div>
 

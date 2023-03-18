@@ -366,3 +366,30 @@ label {
     padding: 0px;
     margin: 0px;
 }
+.buttonFlex{
+    display: flex;
+}
+.buttonFlex>select{
+    margin: 10px 0px 10px 0px;
+    width: 250px;
+    background-color: white;
+    color: black;
+    padding: 10px;
+    border-radius: 10px;
+}
+.buttonFlex>button{
+    border-radius: 8px;
+    border: 1px solid black;
+    padding: 0.6em 1.2em;
+    font-size: 1em;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+}
+.material-icons, .icon-text, .material-symbols-outlined {
+    vertical-align: middle;
+    user-select: none;
+  }
+  .notSelectable{
+    user-select: none;
+  }

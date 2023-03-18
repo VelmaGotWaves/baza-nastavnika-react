@@ -5,7 +5,7 @@ export default function SortModal({ sortMax, sortMin}) {
         <div className='sortModal'>
             <ul>
                 <li className='liItem'onClick={()=>sortMax()}>
-                    Sortiraj Max <span class="material-symbols-outlined">arrow_upward</span>
+                    Sortiraj Max <span className="material-symbols-outlined">arrow_upward</span>
                 </li>
                 <li className='liItem' onClick={()=>sortMin()}>
                     Sortiraj Min <span className="material-symbols-outlined">arrow_downward</span>

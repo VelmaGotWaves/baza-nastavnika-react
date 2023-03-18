@@ -15,6 +15,8 @@ import ProfessorsProvider from './context/ProfessorsProvider';
 import EditProfessor from './components/EditProfessor';
 import ProfessorsHome from './components/ProfessorsHome';
 import RequireAuthProfessors from './components/RequireAuthProfessors';
+import { ProfProvider } from './context/ProfProvider';
+
 const ROLES = {
   'User': 2001,
   'Editor': 1984,
@@ -46,16 +48,22 @@ function App() {
             <Route path="professors" element={<ProfessorsProvider />}>
 
               <Route element={<RequireAuthProfessors allowedRoles={[ROLES.Editor, ROLES.Admin]} />}>
-                <Route index element={<ProfessorsHome />} />
+                <Route index
+                  element={
+                    // <ProfProvider>
+                      <ProfessorsHome />
+                    // </ProfProvider>
+                  }
+                />
               </Route>
 
               <Route element={<RequireAuthProfessors allowedRoles={[ROLES.Editor, ROLES.Admin]} />}>
-                <Route path="add" element={<AddProfessor />} />
+                <Route path="add" element={<AddProfessor />}/>
               </Route>
               <Route element={<RequireAuthProfessors allowedRoles={[ROLES.Editor, ROLES.Admin]} />}>
-                <Route path="edit/:id?" element={<EditProfessor />} />
+                <Route path="edit/:id?" element={<EditProfessor />}/>
               </Route>
-              
+
             </Route>
           </Route>
         </Route>
@@ -64,7 +72,7 @@ function App() {
       </Route>
     </Routes>
   );
-  
+
 }
 
 export default App;

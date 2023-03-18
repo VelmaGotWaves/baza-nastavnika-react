@@ -2,14 +2,17 @@ import React, { useRef, useState, useEffect } from 'react'
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useOutletContext, useParams } from 'react-router-dom';
 import DeleteModuo from './DeleteModuo';
+import SearchProfessorsBar from './SearchProfessorsBar';
 const FIRSTNAME_REGEX = /^[a-zA-ZčćžđšČĆŽĐŠ]{3,24}(?:[ -][a-zA-ZčćžđšČĆŽĐŠ]{3,24})*$/;
 const LASTNAME_REGEX = /^[a-zA-ZčćžđšČĆŽĐŠ]{3,24}(?:[ -][a-zA-ZčćžđšČĆŽĐŠ]{3,24})*$/;
 const TITLE_REGEX = /^[A-z-][A-z-_. ]{0,23}$/;
+import { useFilter } from '@react-aria/i18n';
 
 export default function EditProfessor() {
     const { id } = useParams();
-
+    const [query, setQuery] = useState('');
     const [professors, setProfessors] = useOutletContext();
+    const [filtriraniProfesori, setFiltriraniProfesori] = useState(professors);
 
     const axiosPrivate = useAxiosPrivate();
     const firstnameRef = useRef();
@@ -32,6 +35,7 @@ export default function EditProfessor() {
     const [labaratories, setLabaratories] = useState('');
     const [significantPublications, setSignificantPublications] = useState('');
     const [scientificProjects, setScientificProjects] = useState('');
+    const [tags, setTags] = useState('');
 
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
@@ -75,15 +79,15 @@ export default function EditProfessor() {
 
         const scientificResearchArray = scientificResearch.replace(/[\t\n]|[^\S\n\r ]+/g, ' ').split("!");
         const scientificResearchArrayWithoutEmptyStrings = scientificResearchArray.filter((str) => {
-            if(str?.trim() != "" && str?.trim() !== "" && str?.trim() != null && str?.trim() != "null") {
+            if (str?.trim() != "" && str?.trim() !== "" && str?.trim() != null && str?.trim() != "null") {
                 return true
             }
         });
         const scientificResearchFINAL = scientificResearchArrayWithoutEmptyStrings.map((str) => str.trim());
-        
+
         const labaratoriesArray = labaratories.replace(/[\t\n]|[^\S\n\r ]+/g, ' ').split("!");
         const labaratoriesArrayWithoutEmptyStrings = labaratoriesArray.filter((str) => {
-            if(str?.trim() != "" && str?.trim() !== "" && str?.trim() != null && str?.trim() != "null") {
+            if (str?.trim() != "" && str?.trim() !== "" && str?.trim() != null && str?.trim() != "null") {
                 return true
             }
         });
@@ -91,7 +95,7 @@ export default function EditProfessor() {
 
         const scientificProjectsArray = scientificProjects.replace(/[\t\n]|[^\S\n\r ]+/g, ' ').split("!");
         const scientificProjectsArrayWithoutEmptyStrings = scientificProjectsArray.filter((str) => {
-            if(str?.trim() != "" && str?.trim() !== "" && str?.trim() != null && str?.trim() != "null") {
+            if (str?.trim() != "" && str?.trim() !== "" && str?.trim() != null && str?.trim() != "null") {
                 return true
             }
         });
@@ -99,11 +103,19 @@ export default function EditProfessor() {
 
         const significantPublicationsArray = significantPublications.replace(/[\t\n]|[^\S\n\r ]+/g, ' ').split("!");
         const significantPublicationsArrayWithoutEmptyStrings = significantPublicationsArray.filter((str) => {
-            if(str?.trim() != "" && str?.trim() !== "" && str?.trim() != null && str?.trim() != "null") {
+            if (str?.trim() != "" && str?.trim() !== "" && str?.trim() != null && str?.trim() != "null") {
                 return true
             }
         });
         const significantPublicationsFINAL = significantPublicationsArrayWithoutEmptyStrings.map((str) => str.trim());
+
+        const tagsArray = tags.replace(/[\t\n]|[^\S\n\r ]+/g, ' ').split("!");
+        const tagsArrayWithoutEmptyStrings = tagsArray.filter((str) => {
+            if (str?.trim() != "" && str?.trim() !== "" && str?.trim() != null && str?.trim() != "null") {
+                return true
+            }
+        });
+        const tagsFINAL = tagsArrayWithoutEmptyStrings.map((str) => str.trim());
 
         //filter zbog nekog razloga nije hteo da radi, moja greska vrv, ovako mi je lakse da ostavim map
 
@@ -116,7 +128,8 @@ export default function EditProfessor() {
                 scientificResearch: scientificResearchFINAL,
                 labaratories: labaratoriesFINAL,
                 scientificProjects: scientificProjectsFINAL,
-                significantPublications: significantPublicationsFINAL
+                significantPublications: significantPublicationsFINAL,
+                tags: tagsFINAL
             },
                 {
                     headers: { 'Content-Type': 'application/json' },
@@ -175,7 +188,8 @@ export default function EditProfessor() {
             setLabaratories("");
             setSignificantPublications("");
             setScientificProjects("");
-            selectRef.value =""
+            selectRef.value = "";
+            setTags("");
             setProfessors(() => {
                 const profWithoutTheOne = professors.filter(prof => prof._id != response.data._id)
                 return [
@@ -216,7 +230,10 @@ export default function EditProfessor() {
             let tempSP = "";
             selectedProfessor.significantPublications.map(sp => tempSP += sp + "!\n");
             setSignificantPublications(tempSP);
-            
+            let taggg = "";
+            selectedProfessor.tags.map(tag => taggg += tag + "!\n");
+            setTags(taggg);
+
         } else {
             setFirstname("");
             setLastname("");
@@ -225,11 +242,12 @@ export default function EditProfessor() {
             setLabaratories("");
             setSignificantPublications("");
             setScientificProjects("");
+            setTags("")
         }
     }
 
     useEffect(() => {
-        if (id?.length==24) {
+        if (id?.length == 24) {
             selectedProfessorChanged(id)
             // console.log(selectRef)
             // if (selectRef.key != id) {
@@ -240,6 +258,25 @@ export default function EditProfessor() {
             // } OVO NE RADI POPRAVI, QUALITY OF LIFE, NISTA VISE
         }
     }, [id, professors])
+    let { contains } = useFilter({
+        sensitivity: 'base'
+    });
+    console.log(filtriraniProfesori)
+    useEffect(() => {
+        const stariProfesori = [...professors];
+        console.log(stariProfesori)
+        const filtriraniStariProfesori = stariProfesori.filter(professor => {
+            if (query) {
+                let title_firstname_lastname = professor.title + " " + professor.firstname + " " + professor.lastname;
+                if (!(contains(title_firstname_lastname.toLowerCase(), query.toLowerCase()) || contains(professor.title.toLowerCase(), query.toLowerCase()) || contains(professor.lastname.toLowerCase(), query.toLowerCase()) || contains(professor.firstname.toLowerCase(), query.toLowerCase()) || contains(query.toLowerCase(), professor.firstname.toLowerCase()) || contains(query.toLowerCase(), professor.lastname.toLowerCase()) || contains(query.toLowerCase(), professor.title.toLowerCase()))) {
+                    return false;
+                }
+            }
+            return true;
+        });
+
+        setFiltriraniProfesori(filtriraniStariProfesori);
+    }, [query, professors]);
 
 
     return (
@@ -250,17 +287,21 @@ export default function EditProfessor() {
                     <p className={errMsg ? "errmsg" : "offscreen"} >{errMsg}</p>
                     <p className={success ? "sucmsg" : "offscreen"} >Success</p>
                     <h1>Izmeni Profesora</h1>
-                    <select ref={selectRef} onChange={(e) => selectedProfessorChanged(e.target.value)}>
-                        <option value="">Izaberite Profesora</option>
-                        {professors.map(prof => {
-                            return (
-                                <option
-                                    value={prof._id}
-                                    key={prof._id}>
-                                    {prof.title} {prof.firstname} {prof.lastname}
-                                </option>)
-                        })}
-                    </select>
+                    <div className='buttonFlex'>
+                        <SearchProfessorsBar query={query} setQuery={setQuery} />
+                        <select ref={selectRef} onChange={(e) => selectedProfessorChanged(e.target.value)}>
+                            <option value="">Izaberite Profesora</option>
+                            {filtriraniProfesori.map(prof => {
+                                return (
+                                    <option
+                                        value={prof._id}
+                                        key={prof._id}>
+                                        {prof.title} {prof.firstname} {prof.lastname}
+                                    </option>)
+                            })}
+                        </select>
+                    </div>
+
                     <div className="addProfessorFormInputsDiv">
                         <div>
                             <label htmlFor="firstname">
@@ -323,6 +364,16 @@ export default function EditProfessor() {
                                 <a href="https://dl.acm.org/ccs">Ponudjena podrucja</a><br />
                                 Svako podrucje razdvojiti znakom uzvika !
                             </p>
+                            <label htmlFor="tags">
+                                Tags:
+                            </label>
+                            <textarea
+                                cols="50"
+                                rows="5"
+                                id="tags"
+                                onChange={(e) => setTags(e.target.value)}
+                                value={tags}
+                            />
                         </div>
                         <div>
                             <label htmlFor="labaratories">
@@ -368,19 +419,21 @@ export default function EditProfessor() {
                                 Popis najviše pet najznačajnijih publikacija.<br />
                                 Svako podrucje razdvojiti znakom uzvika !
                             </p>
-                            
+
                         </div>
                     </div>
 
 
+                    <div className='buttonFlex'>
+                        <button type='submit' disabled={!validFirstname || !validLastname || !validTitle ? true : false}>Confirm the changes</button>
+                        <button type='reset' disabled={!selectedId ? true : false} onClick={() => setViewDeleteModuo(prev => !prev)}>Delete the Professor</button>
+                    </div>
 
-                    <button type='submit' disabled={!validFirstname || !validLastname || !validTitle ? true : false}>Confirm the changes</button>
-                    <button type='reset' disabled={!selectedId ? true : false}onClick={() => setViewDeleteModuo(prev => !prev)}>Delete the Professor</button>
                 </form>
 
             </div>
             {viewDeleteModuo &&
-                <DeleteModuo placeholder="professor" setViewDeleteModuo={setViewDeleteModuo} handleDelete={handleDelete}/>
+                <DeleteModuo placeholder="professor" setViewDeleteModuo={setViewDeleteModuo} handleDelete={handleDelete} />
             }
 
         </>
