@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useStaten } from "react"
 
 export default function DropdownMultiSelectModuo(importVariables) {
     // console.log(importVariables.nizOpcija)
@@ -8,20 +8,24 @@ export default function DropdownMultiSelectModuo(importVariables) {
     const finalOptions = [...new Set(flatOptions)]
 
     return (
-        <div className="dropdown-moduo">
-            <ul>
+        <div className="dropdown-multi-select-moduo">
+            
                 {
                     finalOptions.map((option) =>
-                        <li
-                            className="liItem"
+                        <option
+                            className="dropdown-multi-select-moduo-result"
                             key={option}
-                            onClick={() => importVariables.setSelectedItems([...importVariables.selectedItems, option])}
+                            value={option}
+                            onClick={() => {
+                                importVariables.setSelectedItems([...importVariables.selectedItems, option]);
+                                importVariables.setModuo(false)
+                            }}
                         >
                             {option}
-                        </li>
+                        </option>
                     )
                 }
-            </ul>
+            
         </div>
     )
 }

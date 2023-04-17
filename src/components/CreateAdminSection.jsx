@@ -1,6 +1,7 @@
 import React from 'react'
 import { useRef, useState, useEffect } from "react";
 import axios from '../api/axios';
+import SuccessModuo from './SuccessModuo';
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -21,8 +22,8 @@ export default function CreateAdminSection() {
     const [validMatch, setValidMatch] = useState(false);
 
     const [errMsg, setErrMsg] = useState('');
-    const [success, setSuccess] = useState(false);
-
+    // const [success, setSuccess] = useState(false);
+    const [viewSuccessModuo, setViewSuccessModuo] = useState(false)
 
     useEffect(() => {
         userRef.current.focus();
@@ -58,11 +59,10 @@ export default function CreateAdminSection() {
                     withCredentials: true
                 }
             );
-            // TODO: remove console.logs before deployment
-            //console.log(JSON.stringify(response?.data));
-            //console.log(JSON.stringify(response))
-            setSuccess(true);
-            //clear state and controlled inputs
+
+            // setSuccess(true);
+                setViewSuccessModuo(true);
+
             setUser('');
             setPwd('');
             setMatchPwd('');
@@ -79,63 +79,79 @@ export default function CreateAdminSection() {
     }
 
     return (
-        <div className='createAdminSection'>
-            <p className={errMsg ? "errmsg" : "offscreen"} >{errMsg}</p>
-            <p className={success ? "sucmsg" : "offscreen"} >Success</p>
-            <h1>Create an Admin</h1>
-            <form onSubmit={handleSubmit}>
+        <>
+            <div className='admin-create-container'>
+                <p className={errMsg ? "errmsg" : "offscreen"} >{errMsg}</p>
+                
+                <span className='admin-create-title'>Napravi administatora</span>
+                <form onSubmit={handleSubmit} className='admin-create-form'>
+                    <div className="admin-create-form-container">
+                        <div className="admin-create-form-username-container">
+                            <label htmlFor="username" className='admin-create-form-label'>
+                                Username:
+                            </label>
+                            <input
+                                type="text"
+                                id="username"
+                                ref={userRef}
+                                autoComplete="off"
+                                onChange={(e) => setUser(e.target.value)}
+                                value={user}
+                                required
+                                className='admin-create-form-input'
+                                placeholder='Unesite username'
+                            />
+                            <span className='admin-create-form-input-description'>
+                                Mora početi slovom i može imati od 4 do 24 karaktera
+                            </span>
+                        </div>
+                        <div className="admin-create-form-password-container">
+                            <label htmlFor="password" className='admin-create-form-label'>
+                                Password:
+                            </label>
+                            <input
+                                type="password"
+                                id="password"
+                                onChange={(e) => setPwd(e.target.value)}
+                                value={pwd}
+                                required
+                                className='admin-create-form-input'
+                                placeholder='Unesite password'
 
-                <label htmlFor="username">
-                    Username:
-                </label>
-                <input
-                    type="text"
-                    id="username"
-                    ref={userRef}
-                    autoComplete="off"
-                    onChange={(e) => setUser(e.target.value)}
-                    value={user}
-                    required
-                />
-                <p>
-                    4 to 24 characters.<br />
-                    Must begin with a letter.<br />
-                    Letters, numbers, underscores, hyphens allowed.
-                </p>
+                            />
+                            <span className='admin-create-form-input-description'>
+                                Mora imati velika i malo slova, broj i specijalni karakter.<br />Dozvoljeni specijalni karakteri su: !, @, #, $, %
+                            </span>
 
-                <label htmlFor="password">
-                    Password:
-                </label>
-                <input
-                    type="password"
-                    id="password"
-                    onChange={(e) => setPwd(e.target.value)}
-                    value={pwd}
-                    required
-                />
-                <p>
-                    8 to 24 characters.<br />
-                    Must include uppercase and lowercase letters, a number and a special character.<br />
-                    Allowed special characters: ! @ # $ %
-                </p>
+                            <label htmlFor="confirm_pwd" className='admin-create-form-label'>
+                                Confirm Password:
+                            </label>
+                            <input
+                                type="password"
+                                id="confirm_pwd"
+                                onChange={(e) => setMatchPwd(e.target.value)}
+                                value={matchPwd}
+                                required
+                                className='admin-create-form-input'
+                                placeholder='Ponovo unesite password'
 
-                <label htmlFor="confirm_pwd">
-                    Confirm Password:
-                </label>
-                <input
-                    type="password"
-                    id="confirm_pwd"
-                    onChange={(e) => setMatchPwd(e.target.value)}
-                    value={matchPwd}
-                    required
-                />
-                <p>
-                    Must match the first password input field.
-                </p>
+                            />
+                            <span className='admin-create-form-input-description'>
+                                Lozinka se mora poklapati sa prethodno kreiranom
+                            </span>
+                        </div>
+                    </div>
 
-                <button disabled={!validName || !validPwd || !validMatch ? true : false}>Sign Up</button>
+                    <hr className='admin-create-seperator' />
 
-            </form>
-        </div>
+                    <button disabled={!validName || !validPwd || !validMatch ? true : false} className='admin-create-submit-button'>Kreiraj novog admina</button>
+
+                </form>
+            </div>
+            {viewSuccessModuo &&
+                <SuccessModuo placeholder="kreirali novog admina" setViewSuccessModuo={setViewSuccessModuo} />
+            }
+        </>
+
     )
 }

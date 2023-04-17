@@ -1,64 +1,13 @@
-:root {
-    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-    color: white;
-    background-color: #242424;
-
-}
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 body {
     margin: 0;
     padding: 0;
+    background-image: url('./pozadina.png');
+    background-size: 100%;
+    min-height: 100vh;
 }
 
-/* navbar */
-.navbar {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    justify-content: space-between;
-    margin-top: 10px;
-}
-
-.navbar>.userDiv {
-    margin-left: 10px;
-}
-
-.professorsButtons {
-    display: flex;
-    gap: 10px;
-}
-
-.navButtons {
-    border-radius: 8px;
-    border: 1px solid transparent;
-    padding: 0.6em 1.2em;
-    font-size: 1em;
-    font-weight: 500;
-    font-family: inherit;
-    cursor: pointer;
-}
-
-.navButtons.professorButton {
-    background-color: rgb(33, 255, 255);
-}
-
-.navButtons.addProfessorButton {
-    background-color: rgb(9, 255, 0);
-}
-
-.navButtons.editProfessorButton {
-    background-color: rgb(255, 251, 0);
-}
-
-.navButtons.adminsButton {
-    background-color: rgb(162, 0, 255);
-}
-
-.navButtons.signoutButton {
-    background-color: rgb(204, 109, 248);
-    margin-right: 10px;
-
-}
 
 /* addprofessors */
 .offscreen {
@@ -70,269 +19,27 @@ body {
 }
 
 .errmsg {
-    background-color: rgb(250, 56, 56)
-}
-
-.addProfessor {
-    display: flex;
-    justify-content: center;
-}
-
-.addProfessorForm {
-    background-color: #2e2e2e;
-    width: fit-content;
-    border-radius: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.addProfessorFormInputsDiv {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.addProfessorFormInputsDiv>div>label {
-    display: block;
-}
-
-.addProfessorFormInputsDiv>div>p {
-    margin-top: 5px;
-}
-
-/* editProfessors */
-.deleteModuoBackground {
-    top: 0;
-    left: 0;
-    margin: 0;
-    padding: 0;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    z-index: 10;
-    display: flex;
-    justify-content: space-around;
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
-.deleteModuo {
-    color: black;
-    top: 30%;
-    position: absolute;
-    width: 400px;
-    height: fit-content;
-    background-color: rgb(255, 255, 255);
-    z-index: 100;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: space-around;
-    justify-content: space-around;
-    border: solid 1px black;
-
-}
-
-.deleteModuo>div>button {
-    border-radius: 8px;
-    border: 1px solid transparent;
-    padding: 0.6em 1.2em;
-    font-size: 1em;
+    background: #F64E60;
+    border-radius: 30px;
+    font-family: 'Poppins';
+    font-style: normal;
     font-weight: 500;
-    font-family: inherit;
-    cursor: pointer;
-}
-
-.deleteModuo>div {
-    margin: 0px 15px 15px 15px;
-}
-
-.deleteModuo>hr {
-    width: 100%;
-    background-color: black;
-    color: black;
-}
-
-.deleteModuoButtons {
-    display: flex;
-    justify-content: space-between;
-}
-
-.deleteModuoDeleteButton {
-    background-color: rgb(255, 0, 0);
-    color: white;
-}
-
-h1 {
-    margin: 10px 0 10px 0;
-}
-
-a {
-    color: rgb(0, 238, 255);
-}
-
-/* professors home */
-.professorsHome {
-    display: flex;
-    flex-direction: row;
-}
-
-.searchFlexContainer {
-    width: 270px;
-}
-
-.resultsFlexContainer {
-    display: flex;
-    flex-direction: column;
-}
-
-.professorsResultContainer {
-    margin: 10px;
-    min-width: 100%;
-}
-
-.resultsTable {
-    border: 1px solid white;
-    border-collapse: collapse;
-    width: 1300px;
-    overflow: hidden;
-    table-layout: fixed;
-}
-
-.resultsTable>thead>tr>th {
-    border: 1px solid white;
-    padding: 5px;
-}
-
-.resultsTable>tbody>tr>td {
-    padding: 5px;
-    border: 1px solid white;
-    overflow: hidden;
-    white-space: nowrap;
+    font-size: 13px;
+    line-height: 20px;
+    /* identical to box height */
+    padding-left: 20px;
+    color: #ffffff;
 }
 
 
-.searchInputDiv {
-    margin: 10px 0px 10px 0px;
-    display: flex;
-    width: 250px;
-    justify-content: space-between;
-    align-items: center;
-    background-color: white;
-    color: black;
-    padding: 10px;
-    border-radius: 10px;
-}
 
-.searchInputDiv>input {
 
-    background-color: white;
-    color: black;
-    border: none;
-}
 
-.searchInputDiv>input:focus {
-    outline: none;
-}
-
-.xlsResultBtn {
-    margin: 10px 5px 10px 5px;
-    width: 125px;
-    border-radius: 8px;
-    border: 1px solid transparent;
-    padding: 0.6em 1.2em;
-    font-size: 1em;
-    font-weight: 500;
-    font-family: inherit;
-    cursor: pointer;
-    background-color: rgb(0, 255, 0);
-}
-
-.pdfResultBtn {
-    margin: 10px 5px 10px 5px;
-    width: 125px;
-    border-radius: 8px;
-    border: 1px solid transparent;
-    padding: 0.6em 1.2em;
-    font-size: 1em;
-    font-weight: 500;
-    font-family: inherit;
-    cursor: pointer;
-    background-color: rgb(253, 133, 35);
-
-}
-
-/* admin page */
-.adminPage {
-    background-color: #2e2e2e;
-    width: fit-content;
-    border-radius: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-top: 50px;
-}
-
-.adminPageContainer {
-    display: flex;
-    justify-content: center;
-}
 
 label {
     display: block;
 }
 
-/* dropdown */
-.classicWhiteSelect {
-    margin: 0px 0px 10px 0px;
-    display: flex;
-    width: 250px;
-    justify-content: space-between;
-    align-items: center;
-    background-color: white;
-    color: black;
-    padding: 10px;
-    border-radius: 10px;
-
-}
-
-.icons {
-    padding-left: 10px;
-    user-select: none;
-    cursor: pointer;
-}
-
-.dropdown-moduo {
-    background-color: white;
-    color: black;
-    margin-top: 10px;
-    border-radius: 10px;
-    padding: 10px 0 10px 0;
-    width: 270px;
-    position: absolute;
-}
-
-.dropdown-moduo>ul {
-    list-style: none;
-    padding: 0px;
-    margin: 0px;
-}
-
-.liItem {
-    user-select: none;
-    cursor: pointer;
-    padding: 10px;
-
-}
-
-.liItem:hover {
-    background-color: lightblue;
-
-}
-
-.oneLineDiv {
-    min-width: fit-content;
-}
 
 /* login */
 .loginContainer {
@@ -366,30 +73,1549 @@ label {
     padding: 0px;
     margin: 0px;
 }
-.buttonFlex{
+
+.buttonFlex {
     display: flex;
 }
-.buttonFlex>select{
-    margin: 10px 0px 10px 0px;
-    width: 250px;
-    background-color: white;
-    color: black;
-    padding: 10px;
-    border-radius: 10px;
-}
-.buttonFlex>button{
-    border-radius: 8px;
-    border: 1px solid black;
-    padding: 0.6em 1.2em;
-    font-size: 1em;
-    font-weight: 500;
-    font-family: inherit;
-    cursor: pointer;
-}
-.material-icons, .icon-text, .material-symbols-outlined {
+
+
+
+
+
+.material-icons,
+.icon-text,
+.material-symbols-outlined {
     vertical-align: middle;
     user-select: none;
-  }
-  .notSelectable{
+}
+
+.notSelectable {
     user-select: none;
-  }
+}
+
+/* //////////////////////////////// */
+/* NAVBAR */
+.navbar {
+    margin-top: 0px !important;
+    color: #FFFFFF;
+    padding: 15px 30px 0px 30px;
+    background: #181C32;
+
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+}
+
+.navbar-header-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.navbar-header-user-container {
+    display: flex;
+    gap: 10px;
+}
+
+.navbar-header-username {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+
+    /* identical to box height */
+
+    color: #FFFFFF;
+}
+
+.navbar-header-title {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 33px;
+    /* identical to box height */
+
+    text-transform: uppercase;
+
+}
+
+.navbar-header-signout-container {
+    display: flex;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.navbar-header-signout-container:hover {
+    color: #3699FF !important;
+
+}
+
+.navbar-header-signout {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+
+
+}
+
+.navbar-seperator {
+    background: #2D2D43 !important;
+    border-color: #2D2D43 !important;
+    margin: 8px 0px 4px 0px;
+    width: 100%;
+}
+
+.navbar-navigation-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.navbar-navigation-nav {
+    display: flex;
+    gap: 10px;
+}
+
+.navbar-navigation-divs {
+    padding: 15px;
+    text-decoration: none !important;
+    cursor: pointer;
+
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 27px;
+
+    color: #FFFFFF;
+}
+
+a:has(.navbar-navigation-divs) {
+    text-decoration: none !important;
+}
+
+.navbar-navigation-divs:hover {
+    color: #3699FF;
+}
+
+.navbar-navigation-divs.active {
+    color: #3699FF;
+}
+
+.navbar-navigation-seperator {
+    background: #A7A8BB;
+    border: none;
+    width: 100%;
+    margin: 0px !important;
+    height: 5px;
+}
+
+.navbar-navigation-indicator {
+    background-color: #3699FF;
+    height: 5px;
+    position: absolute;
+    width: 40px;
+}
+
+/* LOGIN PAGE */
+.login-container {
+    display: flex;
+
+    width: 100vw;
+    height: 100vh;
+}
+
+/* .login-wallpaper {} */
+
+.login-form-container {
+    width: 100%;
+    background-color: #FFFFFF;
+    padding: 5% 70px 0px 70px;
+}
+
+.login-title {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 36px;
+    line-height: 54px;
+    /* identical to box height */
+
+    letter-spacing: -0.02em;
+
+    color: #181C32;
+}
+
+.login-register-container {
+    margin-bottom: 70px;
+}
+
+.login-register-text {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 33px;
+
+    color: #A7A8BB;
+    padding-right: 10px;
+}
+
+.login-register-link {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 33px;
+
+    color: #3699FF;
+
+}
+
+a:has(.login-register-link) {
+    text-decoration: none !important;
+}
+
+a:has(.login-register-link):hover {
+    text-decoration: underline !important;
+    text-decoration-color: #3699FF !important;
+}
+
+.login-form-label {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 27px;
+    /* identical to box height */
+
+
+    color: #181C32;
+}
+
+.login-form-input {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 27px;
+    /* identical to box height */
+
+    padding-left: 15px;
+    color: #181C32;
+
+
+    width: 100%;
+    height: 70px;
+    border: 1.28px solid #E4E6EF;
+    border-radius: 15.36px;
+
+    margin-bottom: 25px;
+}
+
+.login-form-input:focus {
+    outline-color: #3699FF;
+}
+
+.login-form-checkbox-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 50px;
+
+}
+
+.login-form-checkbox {
+    width: 24px;
+    height: 24px;
+
+    background: #3699FF;
+    border-radius: 6px;
+
+    cursor: pointer;
+    margin-right: 8px;
+}
+
+.login-form-checkbox-label {
+    font-family: 'Poppins';
+    font-style: normal;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    /* identical to box height */
+
+
+    color: #A7A8BB;
+}
+
+.login-form-submit {
+    height: 61px;
+    width: 100%;
+    background: #3699FF;
+    border-radius: 7.68px;
+    border: none;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 19.2px;
+    line-height: 29px;
+    /* identical to box height */
+
+    text-align: center;
+
+    color: #FFFFFF;
+
+    cursor: pointer;
+}
+
+/* MISSING CONTENT PAGE */
+.missing-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    background-color: #FFFFFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 100vw;
+    min-height: 100vh;
+}
+
+.missing-image-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+}
+
+.missing-image-span {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 600px;
+    line-height: 600px;
+
+    text-align: center;
+
+    color: #e4e4e4;
+}
+
+.missing-image {
+    position: absolute;
+    width: 460.33px;
+    height: 405.15px;
+}
+
+.missing-span {
+    width: 375px;
+    height: 33px;
+
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 33px;
+    text-align: center;
+
+    color: #A3A3C7;
+
+    z-index: 5;
+}
+
+.missing-button-container {
+    z-index: 5;
+}
+
+.missing-button {
+    cursor: pointer;
+    border: none;
+    padding: 12px 40px;
+    background: #3699FF;
+    border-radius: 6px;
+
+}
+
+.missing-button-span {
+    width: 228px;
+    height: 24px;
+
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    /* identical to box height */
+
+    text-align: center;
+
+    color: #FFFFFF;
+}
+
+/* ADMIN PAGE */
+.admin-page-container {
+    display: flex;
+    justify-content: center;
+    /* background-image: url('src/images/pozadina.png');
+    background-size: cover; */
+    /* min-height: 100vh; */
+    /* overflow-y:scroll;
+    height: calc(100vh - 124px); */
+}
+
+.admin-container {
+    margin-top: 60px;
+    margin-bottom: 60px;
+    width: 800px;
+    height: fit-content;
+    padding: 35px 50px 35px 50px;
+    background: #FFFFFF;
+    border: 2px solid #3699FF;
+    border-radius: 12px;
+}
+
+/* ADMIN TABLE SECTION */
+.admin-display-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-display-title {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 48px;
+    /* identical to box height */
+    margin-bottom: 14px;
+
+    color: #181C32;
+}
+
+.admin-display-seperator {
+    background: #A7A8BB;
+    border: none;
+    width: 100%;
+    margin: 0px !important;
+    height: 2px;
+
+}
+
+.admin-display-table {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border-collapse: collapse;
+}
+
+.admin-display-table-head {
+    background-color: #F3F8FF;
+}
+
+.admin-display-table-head-row {
+    background: #F3F8FF;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 21px;
+    /* identical to box height */
+
+
+    color: #181C32;
+
+
+}
+
+.admin-display-table-head-cell {
+    padding: 16px 0px 16px 0px;
+    text-align: left;
+
+    border-bottom: 1px solid #EFF2F7;
+
+}
+
+.admin-display-table-head-delete-cell {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 21px;
+    /* identical to box height */
+
+
+    color: #181C32;
+}
+
+.admin-display-table-row {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 20px;
+    /* identical to box height */
+
+
+    color: #181C32;
+}
+
+.admin-display-table-cell {
+    border-bottom: 1px solid #EFF2F7;
+    padding: 16px 0px 16px 0px;
+
+}
+
+.admin-display-table-delete-cell {
+    text-align: center;
+}
+
+.admin-display-table-delete-button {
+    background: #F64E60;
+    border-radius: 4px;
+
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 11.37px;
+    line-height: 17px;
+    /* identical to box height */
+    border: none;
+
+    color: #FFFFFF;
+
+    cursor: pointer;
+    padding: 3px 10px;
+}
+
+/* ADMIN CREATE SECTION */
+.admin-create-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-create-title {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 48px;
+    /* identical to box height */
+    margin-bottom: 20px;
+    margin-top: 30px;
+    color: #181C32;
+}
+
+.admin-create-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+}
+
+.admin-create-form-container {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.admin-create-form-username-container {
+    display: flex;
+    flex-direction: column;
+    margin-right: 60px;
+}
+
+.admin-create-form-password-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-create-form-label {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 27px;
+    /* identical to box height */
+
+
+    color: #181C32;
+}
+
+.admin-create-form-input {
+    width: 270px;
+    height: 47px;
+    background: #FFFFFF;
+    border: 1px solid #E4E6EF;
+    border-radius: 6px;
+
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    /* identical to box height */
+
+
+    color: #181C32;
+    padding-left: 15px;
+}
+
+.admin-create-form-input:focus {
+    outline-color: #3699FF;
+}
+
+.admin-create-form-input-description {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 18px;
+
+    color: #6B6B6B;
+
+    margin-bottom: 20px;
+}
+
+.admin-create-seperator {
+    background: #A7A8BB;
+    border: none;
+    width: 100%;
+    margin: 0px !important;
+    height: 2px;
+}
+
+.admin-create-submit-button {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 18px;
+    /* identical to box height */
+
+    text-align: center;
+
+    color: #FFFFFF;
+
+    background: #00A3FF;
+    border-radius: 6px;
+    padding: 12px 80px 12px 80px;
+    width: fit-content;
+    margin: 20px auto 0px auto;
+    cursor: pointer;
+    border: none;
+
+}
+
+.admin-create-submit-button:disabled {
+    background: #6B6B6B;
+    cursor: not-allowed;
+    border: none;
+}
+
+/* DELETE MODUO */
+.delete-moduo-container {
+    /* backdrop-filter: blur(2px); */
+    background-color: rgba(0, 0, 0, 0.5);
+    bottom: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    position: fixed;
+
+    /* position: absolute; */
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    display: flex;
+    justify-content: space-around;
+}
+
+.delete-moduo {
+    /* position: absolute; */
+    position: fixed;
+    width: 500px;
+    height: 393px;
+    top: 30%;
+
+    background: #FFFFFF;
+    box-shadow: 0px 6px 12px -6px rgba(24, 39, 75, 0.12), 0px 8px 24px -4px rgba(24, 39, 75, 0.08);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.delete-moduo-image-container {
+    height: 169px;
+    width: 100%;
+    background: #F25F6F;
+    border-radius: 12px 12px 0px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.delete-moduo-image-trash {
+    width: 100px;
+    height: 100px;
+}
+
+.delete-moduo-image-x {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    height: 14px;
+    cursor: pointer;
+}
+
+.delete-moduo-title {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 38px;
+    /* identical to box height, or 119% */
+
+    text-align: center;
+
+    color: #181C32;
+    margin: 25px 0px 20px 0px;
+}
+
+.delete-moduo-subtitle {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 27px;
+    /* identical to box height */
+
+    text-align: center;
+
+    color: #6B6B6B;
+    margin-bottom: 50px;
+}
+
+.delete-moduo-buttons-container {
+    display: flex;
+    justify-content: space-around;
+    width: 60%;
+}
+
+.delete-moduo-buttons-cancel {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 18px;
+    /* identical to box height */
+
+    text-align: center;
+
+    color: #A7A8BB;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.delete-moduo-buttons-delete {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 22px;
+    /* identical to box height */
+
+    text-align: center;
+    cursor: pointer;
+
+    color: #FFFFFF;
+    background: #F64E60;
+    border-radius: 6px;
+    border: none;
+    padding: 12px 20px;
+}
+
+/* SUCCESS MODUO */
+.success-moduo-container {
+    /* backdrop-filter: blur(2px); */
+    background-color: rgba(0, 0, 0, 0.5);
+    bottom: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    position: fixed;
+
+    /* position: absolute; */
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    display: flex;
+    justify-content: space-around;
+}
+
+.success-moduo {
+    /* position: absolute; */
+    position: fixed;
+    width: 500px;
+    height: 393px;
+    top: 30%;
+
+    background: #FFFFFF;
+    box-shadow: 0px 6px 12px -6px rgba(24, 39, 75, 0.12), 0px 8px 24px -4px rgba(24, 39, 75, 0.08);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.success-moduo-image-container {
+    height: 169px;
+    width: 100%;
+    background: #47C9A2;
+    border-radius: 12px 12px 0px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.success-moduo-image-success {
+    width: 100px;
+    height: 100px;
+}
+
+.success-moduo-image-x {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    height: 14px;
+    cursor: pointer;
+}
+
+.success-moduo-title {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 38px;
+    /* identical to box height, or 119% */
+
+    text-align: center;
+
+    color: #181C32;
+    margin: 25px 0px 20px 0px;
+}
+
+.success-moduo-subtitle {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 27px;
+    /* identical to box height */
+
+    text-align: center;
+
+    color: #6B6B6B;
+    margin-bottom: 50px;
+}
+
+.success-moduo-buttons-ok {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 22px;
+    /* identical to box height */
+
+    text-align: center;
+    cursor: pointer;
+
+    color: #FFFFFF;
+    background: #47C9A2;
+    border-radius: 6px;
+    border: none;
+    padding: 12px 20px;
+}
+
+/* TODO napravi boji succ i errMsg i offscreen i login error handler ,
+, indikator da regex nije dobar na svim stranama ,
+  ulepsaj search malo, ovo plavo mi se ne svidja*/
+/* Add Professor PAGE */
+.add-professor-page-container {
+    display: flex;
+    justify-content: center;
+    /* overflow-y:scroll;
+    height: calc(100vh - 124px); */
+}
+
+.add-professor-form-container {
+    padding: 35px 50px 35px 50px;
+    background: #FFFFFF;
+    border: 2px solid #3699FF;
+    border-radius: 12px;
+    width: 800px;
+    margin-top: 60px;
+    margin-bottom: 60px;
+}
+
+.add-professor-form {
+    display: flex;
+    flex-direction: column;
+    /* box-sizing: border-box; */
+}
+
+.add-professor-form-title {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 48px;
+    /* identical to box height */
+
+
+    color: #181C32;
+}
+
+.add-professor-form-seperator {
+    background: #E4E6EF;
+    border: none;
+    width: 100%;
+    height: 2px;
+
+    margin: 20px 0px 20px 0px;
+}
+
+.add-professor-form-inputs-container {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.add-professor-form-name-inputs-container {
+    display: flex;
+
+}
+
+.add-professor-form-name-inputs-left {
+    display: flex;
+    flex-direction: column;
+}
+
+/* .add-professor-form-name-inputs-right {} */
+
+.add-professor-form-label {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 27px;
+    /* identical to box height */
+
+
+    color: #181C32;
+    margin-top: 10px;
+}
+
+.add-professor-form-name-input {
+    width: 270px;
+    height: 47px;
+    background: #FFFFFF;
+    border: 1px solid #E4E6EF;
+    border-radius: 6px;
+
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    /* identical to box height */
+
+
+    color: #181C32;
+    padding-left: 15px;
+    margin-right: 40px;
+}
+
+.add-professor-form-name-input:focus {
+    outline-color: #3699ff;
+}
+
+.add-professor-form-name-input-description {
+    display: block;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 18px;
+
+    color: #6B6B6B;
+    margin-bottom: 10px;
+}
+
+.add-professor-form-information-inputs-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.add-professor-form-information-input {
+    width: 580px;
+    height: 188px;
+    background: #FFFFFF;
+    border: 1px solid #E4E6EF;
+    border-radius: 6px;
+
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    /* identical to box height */
+    max-width: 800px;
+
+    color: #181C32;
+    padding-left: 15px;
+    padding-top: 15px;
+    margin-top: 5px;
+}
+
+.add-professor-form-information-input:focus {
+    outline-color: #3699ff;
+}
+
+.add-professor-form-information-input-description {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 18px;
+
+    color: #6B6B6B;
+    margin-top: 10px;
+}
+
+.add-professor-form-information-input-description>a {
+    color: #3699FF;
+    text-decoration-color: #3699FF;
+}
+
+.add-professor-form-seperator:not(:first-of-type) {
+    margin-top: 20px !important;
+
+}
+
+.add-professor-form-button-submit {
+    padding: 12px 80px;
+    background: #00A3FF;
+    border-radius: 6px;
+    border: none;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 22px;
+    /* identical to box height */
+
+    cursor: pointer;
+    width: fit-content;
+    color: #FFFFFF;
+    margin: auto;
+}
+
+.add-professor-form-button-submit:disabled {
+    background: #6B6B6B;
+    cursor: not-allowed;
+    border: none;
+}
+
+/* EDIT PROFESSOR PAGE */
+.edit-professor-form-search-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.edit-professor-form-delete-button {
+    padding: 12px 80px;
+    background: #F64E60;
+    border-radius: 6px;
+    border: none;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 22px;
+    /* identical to box height */
+
+    cursor: pointer;
+    width: fit-content;
+    color: #FFFFFF;
+}
+
+.edit-professor-form-delete-button:disabled {
+    display: none;
+}
+
+/* SEARCH COMPONENT WITH RESULTS */
+/* .search-component-container {} */
+
+.search-component-input-container {
+    width: 380px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #FFFFFF;
+    border: 1px solid #E4E6EF;
+    border-radius: 6px;
+}
+/* 
+.search-component-input-container:focus {
+     outline: 2px solid #3699FF;
+} */
+
+.search-component-input {
+    width: 100%;
+    padding: 13px 0px 13px 16px;
+    background-color: transparent;
+
+    border: none;
+    border-radius: 6px 0px 0px 6px;
+
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+}
+
+.search-component-input:focus {
+    /* outline: 2px solid #3699FF; */
+    outline: none;
+}
+
+.search-component-input-label {
+    padding-right: 16px;
+}
+
+.search-component-results-container {
+    position: absolute;
+    background: #FBFDFF;
+    border: 1px solid #E4E6EF;
+    border-radius: 0px 0px 8px 8px;
+    width: 380px;
+    max-height: 320px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.search-component-result {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    /* identical to box height */
+    cursor: pointer;
+
+    padding: 12px;
+    color: #181C32;
+}
+
+.search-component-result:hover {
+    background: #DDDDFF;
+
+}
+
+/* Professors HOME TABLE HOME */
+.professors-home-container {
+    display: flex;
+    background: #FFFFFF;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    height: calc(100vh - 124px);
+}
+
+.professors-home-filters-container {
+    background: #F3F8FF;
+    border-right: 1px solid #1E1E2D;
+    display: flex;
+    gap: 25px;
+    flex-direction: column;
+    min-width: 260px;
+    max-width: 260px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    padding: 15px;
+}
+
+.professors-home-filters-title {
+    margin-top: 100px;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 36px;
+
+    color: #1E1E2D;
+}
+
+.professors-home-filters-span {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 20px;
+    /* identical to box height */
+    display: block;
+
+    color: #1E1E2D;
+
+}
+
+.professors-home-content-container {
+    display: flex;
+    flex-direction: column;
+    padding: 35px 20px 0px 30px;
+    width: 100%;
+    overflow-y: scroll;
+
+}
+
+.professors-home-content-title-container {
+    margin-bottom: 30px;
+
+}
+
+.professors-home-content-title {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 48px;
+
+    color: #3699FF;
+
+}
+
+.professors-home-content-utils-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.professors-home-content-utils-buttons-container {
+    display: flex;
+    gap: 30px;
+}
+
+.professors-home-content-utils-buttons-xls {
+    display: flex;
+    gap: 10px;
+    background-color: transparent;
+    border: 1.5px solid #27AE60;
+    padding: 7.5px 25px 7.5px 30px;
+    border-radius: 6px;
+    height: min-content;
+    cursor: pointer;
+}
+
+.professors-home-content-utils-buttons-xls-img {
+    width: 22.71px;
+    height: 24.72px;
+}
+
+.professors-home-content-utils-buttons-xls-span {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16.8444px;
+    line-height: 25px;
+
+    color: #181C32;
+}
+
+.professors-home-content-utils-buttons-pdf {
+    display: flex;
+    gap: 10px;
+    background-color: transparent;
+    border: 1.5px solid #F2994A;
+    padding: 7.5px 25px 7.5px 30px;
+    border-radius: 6px;
+    height: min-content;
+    cursor: pointer;
+    text-decoration: none !important;
+
+}
+
+.professors-home-content-utils-buttons-pdf-img {
+    width: 22.71px;
+    height: 24.72px;
+}
+
+.professors-home-content-utils-buttons-pdf-span {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16.8444px;
+    line-height: 25px;
+
+    color: #181C32;
+    text-decoration: none !important;
+}
+
+.no-underline {
+    text-decoration: none !important;
+}
+
+.professors-home-table-container {
+    margin-top: 30px;
+}
+
+.professors-home-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+
+.professors-home-table-head-row {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 20px;
+    /* identical to box height */
+
+    color: #181C32;
+    background: #F3F8FF;
+}
+
+.professors-home-table-head-cell {
+
+    padding: 16px 0px 16px 0px;
+    text-align: left;
+    border-bottom: 1px solid #EFF2F7;
+
+}
+
+/* .professors-home-table-head-cell:first{
+    padding:16px 20px 16px 0px !important;
+} */
+
+.professors-home-table-body-row {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 20px;
+    /* identical to box height */
+
+
+    color: #495057;
+}
+
+.professors-home-table-body-cell {
+    padding: 16px 0px 16px 0px;
+    text-align: left;
+    border-bottom: 1px solid #EFF2F7;
+    max-width: 190px;
+    /* limit the width of the cell */
+    white-space: nowrap;
+    /* prevent text from wrapping */
+    overflow: hidden;
+    /* hide any overflowing text */
+    text-overflow: ellipsis;
+    /* show an ellipsis if text overflows */
+    padding-right: 10px;
+}
+
+.professors-home-table-body-cell:first {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 20px;
+    /* identical to box height */
+
+
+    color: #181C32;
+}
+
+.professors-home-table-body-edit-cell {
+    border-bottom: 1px solid #EFF2F7;
+
+}
+
+.professors-home-table-body-edit-cell-button {
+    background: #556EE6;
+    border-radius: 4px;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 11.37px;
+    line-height: 17px;
+    /* identical to box height */
+
+
+    color: #FFFFFF;
+    padding: 5px 16px 5px 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.professors-home-table-body-edit-cell-button>.material-symbols-outlined {
+    padding: none;
+}
+
+/* HOME SEARCH COMPONENT */
+.search-home-input-container {
+    width: 300px;
+    display: flex;
+    align-items: center;
+    background: #FFFFFF;
+    opacity: 0.7;
+    border: 1px solid #E4E6EF;
+    border-radius: 9px;
+    height: min-content;
+}
+
+.search-home-input {
+    width: 100%;
+    background-color: transparent;
+
+    border: none;
+    padding: 10px 0px 10px 0px;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+}
+
+.search-home-input:focus {
+    /* outline: 2px solid #3699FF; */
+    outline: 0px;
+}
+
+/* .search-component-input-label {} */
+
+.search-home-input-icon {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 21px;
+    line-height: 21px;
+    padding: 10px 15px 10px 13px;
+}
+
+/* DROPDOWN MULTI SELECT */
+.dropdown-multi-select {
+    box-sizing: border-box;
+    padding: 10px 5px 10px 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: white;
+    border: 1px solid #E4E6EF;
+    border-radius: 8px;
+    min-height: 40px;
+}
+
+.dropdown-multi-select-span-placeholder {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 20px;
+    /* identical to box height */
+
+
+    color: #A7A8BB;
+}
+
+.dropdown-multi-select-span-icon {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 20px;
+    cursor: pointer;
+}
+
+.dropdown-multi-select-tags-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.dropdown-multi-select-tag-button {
+    background: #EFFAFF;
+    border-radius: 32.5926px;
+    display: flex;
+    gap: 2px;
+    padding: 3.7037px 14.8148px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    max-width: fit-content;
+    cursor: pointer;
+
+}
+
+.dropdown-multi-select-tag-button-icon {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 15px;
+}
+
+.dropdown-multi-select-tag-button-text {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 15px;
+    /* identical to box height */
+
+
+    color: #181C32;
+}
+
+.dropdown-multi-select-moduo {
+    position: absolute;
+    background: #FBFDFF;
+    border: 1px solid #E4E6EF;
+    border-radius: 0px 0px 8px 8px;
+    padding: 15px 0px 15px 0px;
+    width: 260px;
+    max-height: 260px;
+    overflow-y: scroll;
+    overflow-x:hidden;
+    display: flex;
+    flex-direction: column;
+    margin-top:-6px;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+}
+
+.dropdown-multi-select-moduo-result {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 16px;
+
+    padding: 7px 15px 7px 15px;
+
+    color: #181C32;
+    cursor: pointer;
+    white-space: pre-wrap;
+    display: block;
+    min-height: fit-content;
+}
+
+.dropdown-multi-select-moduo-result:hover {
+    background: #DDDDFF;
+
+}

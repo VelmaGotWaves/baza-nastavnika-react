@@ -1,0 +1,483 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+/* ADMIN PAGE */
+.admin-page-container {
+    display: flex;
+    justify-content: center;
+    /* background-image: url('src/images/pozadina.png');
+    background-size: cover; */
+    /* min-height: 100vh; */
+}
+
+.admin-container {
+    margin-top: 60px;
+    width: 800px;
+    height: fit-content;
+    padding: 35px 50px 35px 50px;
+    background: #FFFFFF;
+    border: 2px solid #3699FF;
+    border-radius: 12px;
+}
+
+/* ADMIN TABLE SECTION */
+.admin-display-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-display-title {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 48px;
+    /* identical to box height */
+    margin-bottom: 14px;
+
+    color: #181C32;
+}
+
+.admin-display-seperator {
+    background: #A7A8BB;
+    border: none;
+    width: 100%;
+    margin: 0px !important;
+    height: 2px;
+
+}
+
+.admin-display-table {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border-collapse: collapse;
+}
+
+.admin-display-table-head {
+    background-color: #F3F8FF;
+}
+
+.admin-display-table-head-row {
+    background: #F3F8FF;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 21px;
+    /* identical to box height */
+
+
+    color: #181C32;
+
+
+}
+
+.admin-display-table-head-cell {
+    padding: 16px 0px 16px 0px;
+    text-align: left;
+
+    border-bottom: 1px solid #EFF2F7;
+
+}
+
+.admin-display-table-head-delete-cell {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 21px;
+    /* identical to box height */
+
+
+    color: #181C32;
+}
+
+.admin-display-table-row {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 20px;
+    /* identical to box height */
+
+
+    color: #181C32;
+}
+
+.admin-display-table-cell {
+    border-bottom: 1px solid #EFF2F7;
+    padding: 16px 0px 16px 0px;
+
+}
+
+.admin-display-table-delete-cell {
+    text-align: center;
+}
+
+.admin-display-table-delete-button {
+    background: #F64E60;
+    border-radius: 4px;
+
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 11.37px;
+    line-height: 17px;
+    /* identical to box height */
+    border: none;
+
+    color: #FFFFFF;
+
+    cursor: pointer;
+    padding: 3px 10px;
+}
+
+/* ADMIN CREATE SECTION */
+.admin-create-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-create-title {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 48px;
+    /* identical to box height */
+    margin-bottom: 20px;
+    margin-top: 30px;
+    color: #181C32;
+}
+
+.admin-create-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+}
+
+.admin-create-form-container {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.admin-create-form-username-container {
+    display: flex;
+    flex-direction: column;
+    margin-right: 60px;
+}
+
+.admin-create-form-password-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-create-form-label {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 27px;
+    /* identical to box height */
+
+
+    color: #181C32;
+}
+
+.admin-create-form-input {
+    width: 270px;
+    height: 47px;
+    background: #FFFFFF;
+    border: 1px solid #E4E6EF;
+    border-radius: 6px;
+
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    /* identical to box height */
+
+
+    color: #181C32;
+    padding-left: 15px;
+}
+
+.admin-create-form-input:focus {
+    outline-color: #3699FF;
+}
+
+.admin-create-form-input-description {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 18px;
+
+    color: #6B6B6B;
+
+    margin-bottom: 20px;
+}
+
+.admin-create-seperator {
+    background: #A7A8BB;
+    border: none;
+    width: 100%;
+    margin: 0px !important;
+    height: 2px;
+}
+
+.admin-create-submit-button {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 18px;
+    /* identical to box height */
+
+    text-align: center;
+
+    color: #FFFFFF;
+
+    background: #00A3FF;
+    border-radius: 6px;
+    padding: 12px 80px 12px 80px;
+    width: fit-content;
+    margin: 20px auto 0px auto;
+    cursor: pointer;
+    border:none;
+
+}
+
+.admin-create-submit-button:disabled {
+    background: #6B6B6B;
+    cursor: not-allowed;
+    border:none;
+}
+
+/* DELETE MODUO */
+.delete-moduo-container {
+    backdrop-filter: blur(2px);
+    background-color: rgba(0, 0, 0, 0.5);
+    bottom: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    position: fixed;
+
+    /* position: absolute; */
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    display: flex;
+    justify-content: space-around;
+}
+
+.delete-moduo {
+    /* position: absolute; */
+    position: fixed;
+    width: 500px;
+    height: 393px;
+    top: 30%;
+
+    background: #FFFFFF;
+    box-shadow: 0px 6px 12px -6px rgba(24, 39, 75, 0.12), 0px 8px 24px -4px rgba(24, 39, 75, 0.08);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.delete-moduo-image-container {
+    height: 169px;
+    width: 100%;
+    background: #F25F6F;
+    border-radius: 12px 12px 0px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.delete-moduo-image-trash {
+    width: 100px;
+    height: 100px;
+}
+
+.delete-moduo-image-x {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    height: 14px;
+    cursor: pointer;
+}
+
+.delete-moduo-title {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 38px;
+    /* identical to box height, or 119% */
+
+    text-align: center;
+
+    color: #181C32;
+    margin: 25px 0px 20px 0px;
+}
+
+.delete-moduo-subtitle {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 27px;
+    /* identical to box height */
+
+    text-align: center;
+
+    color: #6B6B6B;
+    margin-bottom: 50px;
+}
+
+.delete-moduo-buttons-container {
+    display: flex;
+    justify-content: space-around;
+    width: 60%;
+}
+
+.delete-moduo-buttons-cancel {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 18px;
+    /* identical to box height */
+
+    text-align: center;
+
+    color: #A7A8BB;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.delete-moduo-buttons-delete {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 22px;
+    /* identical to box height */
+
+    text-align: center;
+    cursor: pointer;
+
+    color: #FFFFFF;
+    background: #F64E60;
+    border-radius: 6px;
+    border: none;
+    padding: 12px 20px;
+}
+
+/* SUCCESS MODUO */
+.success-moduo-container {
+    backdrop-filter: blur(2px);
+    background-color: rgba(0, 0, 0, 0.5);
+    bottom: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    position: fixed;
+
+    /* position: absolute; */
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    display: flex;
+    justify-content: space-around;
+}
+
+.success-moduo {
+    /* position: absolute; */
+    position: fixed;
+    width: 500px;
+    height: 393px;
+    top: 30%;
+
+    background: #FFFFFF;
+    box-shadow: 0px 6px 12px -6px rgba(24, 39, 75, 0.12), 0px 8px 24px -4px rgba(24, 39, 75, 0.08);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.success-moduo-image-container {
+    height: 169px;
+    width: 100%;
+    background: #47C9A2;
+    border-radius: 12px 12px 0px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.success-moduo-image-success {
+    width: 100px;
+    height: 100px;
+}
+
+.success-moduo-image-x {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    height: 14px;
+    cursor: pointer;
+}
+
+.success-moduo-title {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 38px;
+    /* identical to box height, or 119% */
+
+    text-align: center;
+
+    color: #181C32;
+    margin: 25px 0px 20px 0px;
+}
+
+.success-moduo-subtitle {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 27px;
+    /* identical to box height */
+
+    text-align: center;
+
+    color: #6B6B6B;
+    margin-bottom: 50px;
+}
+
+.success-moduo-buttons-ok {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 22px;
+    /* identical to box height */
+
+    text-align: center;
+    cursor: pointer;
+
+    color: #FFFFFF;
+    background: #47C9A2;
+    border-radius: 6px;
+    border: none;
+    padding: 12px 20px;
+}
+/* TODO napravi boji succ i errMsg i offscreen i login error handler ,, indikator da regex nije dobar na svim stranama */

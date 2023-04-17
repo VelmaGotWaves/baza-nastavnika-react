@@ -1,5 +1,6 @@
 import React from 'react'
 import { PDFDownloadLink, Page, Text, View, Document, StyleSheet, Font } from '@react-pdf/renderer';
+import pdfimg from '../images/pdf.png'
 export default function PdfGenerator({ filtriraniProfesori }) {
     Font.register({
         family: 'Roboto',
@@ -23,7 +24,7 @@ export default function PdfGenerator({ filtriraniProfesori }) {
             flexDirection: "row"
         },
         tableColKey: {
-            backgroundColor:"#d5d0ca",
+            backgroundColor: "#d5d0ca",
             width: "25%",
             borderStyle: "solid",
             borderWidth: 1,
@@ -48,7 +49,7 @@ export default function PdfGenerator({ filtriraniProfesori }) {
 
         },
         tableH: {
-            backgroundColor:"#d5d0ca",
+            backgroundColor: "#d5d0ca",
             width: "100%",
             borderStyle: "solid",
             borderWidth: 1,
@@ -58,9 +59,9 @@ export default function PdfGenerator({ filtriraniProfesori }) {
         tableD: {
 
         },
-        tempRow:{
+        tempRow: {
             flexDirection: "row",
-             marginBottom: 4
+            marginBottom: 4
         }
     });
     const MyDoc = () => (
@@ -70,12 +71,11 @@ export default function PdfGenerator({ filtriraniProfesori }) {
                     return (
                         <Page key={index}>
                             <View style={styles.basic}>
-                                <Text>Fakultet organizacionih nauka - logo</Text>
                                 <View style={styles.table}>
                                     <View style={styles.tableHeader}>
                                         <View style={styles.tableRow}>
                                             <View style={styles.tableH} >
-                                                <Text style={{margin: "auto", marginVertical: 5,fontSize: 10}}>Informacije o Profesoru</Text>
+                                                <Text style={{ margin: "auto", marginVertical: 5, fontSize: 10 }}>Informacije o Profesoru</Text>
                                             </View>
                                         </View>
                                     </View>
@@ -138,10 +138,10 @@ export default function PdfGenerator({ filtriraniProfesori }) {
                                             </View>
                                             <View style={styles.tableColData}>
                                                 <Text style={styles.tableCell}>
-                                                    <View style={{ display:"flex",flexDirection: "column" }}>
+                                                    <View style={{ display: "flex", flexDirection: "column" }}>
                                                         {prof.significantPublications.map((data, index) => {
                                                             return (
-                                                                <View key={index} style={{ display:"flex",flexDirection: "row", marginBottom: 4 }}>
+                                                                <View key={index} style={{ display: "flex", flexDirection: "row", marginBottom: 4 }}>
                                                                     <Text style={{ marginRight: 8 }}>{index + 1 + "."}</Text>
                                                                     <Text >{data + '\n'}</Text>
                                                                 </View>
@@ -161,9 +161,24 @@ export default function PdfGenerator({ filtriraniProfesori }) {
         </Document>
     );
     return (
-        <PDFDownloadLink document={<MyDoc />} fileName="profesori.pdf">
+        <PDFDownloadLink document={<MyDoc />} fileName="profesori.pdf" className='no-underline'>
             {({ blob, url, loading, error }) =>
-                loading ? (<button disabled={true}className='pdfResultBtn'>Loading document...</button>) : (<button className='pdfResultBtn'>Eksportuj u PDF</button>)
+                loading ? (
+                    <button className='professors-home-content-utils-buttons-pdf'>
+                        <img src={pdfimg} alt="" className='professors-home-content-utils-buttons-pdf-img' />
+                        <span className='professors-home-content-utils-buttons-pdf-span'>
+                            Loading document...
+                        </span>
+                    </button>
+                ) :
+                    (
+                        <button className='professors-home-content-utils-buttons-pdf'>
+                            <img src={pdfimg} alt="" className='professors-home-content-utils-buttons-pdf-img' />
+                            <span className='professors-home-content-utils-buttons-pdf-span'>
+                                Eksportuj u PDF
+                            </span>
+                        </button>
+                    )
             }
         </PDFDownloadLink>
     )

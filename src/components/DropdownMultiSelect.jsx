@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import DropdownMultiSelectModuo from './DropdownMultiSelectModuo'
+import React, { useState, useEffect, useRef } from 'react'
+// import DropdownMultiSelectModuo from './DropdownMultiSelectModuo'
 // import variables ima: placeholder, niz za biranje, nisam ni blizu kraja ovoga, uniqueSelectedItems iliti set izabranog, bice samo const bez state, takodje import niz sa samo katedrama
 export default function DropdownMultiSelect(importVariables) {
     const [moduo, setModuo] = useState(false);
@@ -20,29 +20,64 @@ export default function DropdownMultiSelect(importVariables) {
         importVariables.setUniqueSelectedItems([]);
         setModuo(false);
     }
+
+    const flatOptions = importVariables.nizOpcija?.flat(1)
+
+    const finalOptions = [...new Set(flatOptions)]
     return (
-        <>
-            <div className="classicWhiteSelect">
-                <span className="spanTags">
-                    {importVariables.uniqueSelectedItems.length == 0 ? <span>{importVariables.placeholder}:</span> :
-                        importVariables.uniqueSelectedItems.map((itemus, index) => (
-                            <button key={index} onClick={() => removeAButton(itemus)}>
-                                {itemus}
-                            </button>))
-                    }
-                </span>
-                <div className="oneLineDiv">
-                    <span className="material-symbols-outlined icons" onClick={buttonX}>
-                        close
-                    </span>
-                   
-                    <span className="material-symbols-outlined icons" onClick={() => setModuo(!moduo)}>
+        <div tabIndex={0} onBlur={() => setModuo(false)}>
+            <div className="dropdown-multi-select notSelectable" onClick={(e) => setModuo(old => !old)}>
+                {importVariables.uniqueSelectedItems.length == 0 ?
+                    <span className="dropdown-multi-select-span-placeholder">{importVariables.placeholder}</span> : (
+                        <div className="dropdown-multi-select-tags-buttons">
+                            {importVariables.uniqueSelectedItems.map((itemus, index) => (
+
+                                <button key={index} onClick={(e) => {
+                                    e.stopPropagation();
+                                    removeAButton(itemus);
+                                }} className="dropdown-multi-select-tag-button">
+
+                                    <span className="material-symbols-outlined dropdown-multi-select-tag-button-icon">
+                                        close
+                                    </span>
+                                    <span className="dropdown-multi-select-tag-button-text">{itemus}</span>
+                                </button>
+
+                            ))}
+                        </div>
+
+                    )
+
+                }
+                <div className="dropdown-multi-select-icons-container">
+                    <span className="material-symbols-outlined dropdown-multi-select-span-icon" >
                         expand_more
                     </span>
                 </div>
             </div>
-            {moduo && <DropdownMultiSelectModuo nizOpcija={importVariables.nizOpcija} selectedItems={selectedItems} setSelectedItems={setSelectedItems} />}
-        </>
+            {/* {moduo && <DropdownMultiSelectModuo nizOpcija={importVariables.nizOpcija} selectedItems={selectedItems} setSelectedItems={setSelectedItems} setModuo={setModuo}/>} */}
+            {moduo && (
+                <div className="dropdown-multi-select-moduo">
+
+                    {
+                        finalOptions.map((option) =>
+                            <option
+                                className="dropdown-multi-select-moduo-result"
+                                key={option}
+                                value={option}
+                                onClick={() => {
+                                    setSelectedItems([...selectedItems, option]);
+                                    setModuo(false)
+                                }}
+                            >
+                                {option}
+                            </option>
+                        )
+                    }
+
+                </div>
+            )}
+        </div>
 
     )
 }

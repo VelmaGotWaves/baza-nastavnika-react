@@ -67,7 +67,7 @@ export default function DisplayAdminSection() {
                 setErrMsg('No Server Response');
             } else if (err.response?.status === 400) {
                 setErrMsg('User ID required');
-            }else if (err.response?.status === 404) {
+            } else if (err.response?.status === 404) {
                 setErrMsg('User with the ID is not found');
             } else {
                 setErrMsg('Failed to delete the user')
@@ -75,39 +75,54 @@ export default function DisplayAdminSection() {
         }
 
     }
+    
+
     return (
         <>
-            <div className='displayAdminSection'>
-                <h2>Admins List</h2>
+            <div className='admin-display-container'>
                 <p className={errMsg ? "errmsg" : "offscreen"} >{errMsg}</p>
                 <p className={success ? "sucmsg" : "offscreen"} >Success</p>
-                <table className='resultsBorder'>
-                    <thead><tr>
-                        <th>Name</th>
-                        <th>Roles</th>
-                        <th>Delete</th>
-                    </tr></thead>
+                <span className='admin-display-title'>Lista administratora</span>
+                <hr className='admin-display-seperator' />
+                <table className='admin-display-table'>
+                    <thead className='admin-display-table-head'>
+                        <tr className='admin-display-table-head-row'>
+                            <th className='admin-display-table-head-cell'>Username</th>
+                            <th className='admin-display-table-head-cell'>Uloge</th>
+                            <th className='admin-display-table-head-delete-cell'>Brisanje admina</th>
+                        </tr>
+                    </thead>
                     <tbody>
                         {
                             users?.map(user => {
                                 // console.log(Object.keys(user.roles))
                                 return (
-                                    <tr key={user._id} >
-                                        <td className='profesorInfo'>{user.username}</td>
-                                        <td className='profesorInfo'>{Object.keys(user.roles).map(key => key + " ")}</td>
-                                        <td className='profesorInfo'><button onClick={() => {
-                                            setSelectedId(user._id)
-                                            setViewDeleteModuo(true)
-                                        }}>Delete</button></td>
+                                    <tr className='admin-display-table-row' key={user._id} >
+                                        <td className='admin-display-table-cell'>{user.username}</td>
+                                        <td className='admin-display-table-cell'>{Object.keys(user.roles).map(key => key + " ")}</td>
+                                        <td className='admin-display-table-delete-cell'>
+                                            <button className='admin-display-table-delete-button' onClick={() => {
+                                                setSelectedId(user._id)
+                                                setViewDeleteModuo(true)
+                                            }}>
+                                                <span className="material-symbols-outlined">
+                                                    delete_forever
+                                                </span>
+                                                <span>
+                                                    Obriši
+                                                </span>
+                                            </button>
+                                        </td>
                                     </tr>
                                 )
                             })
                         }
                     </tbody>
                 </table>
+
             </div>
             {viewDeleteModuo &&
-                <DeleteModuo placeholder="professor" setViewDeleteModuo={setViewDeleteModuo} handleDelete={deleteAdminButton} />
+                <DeleteModuo placeholder="admina" setViewDeleteModuo={setViewDeleteModuo} handleDelete={deleteAdminButton} />
             }
         </>
     )

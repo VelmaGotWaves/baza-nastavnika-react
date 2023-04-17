@@ -3,6 +3,8 @@ import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useOutletContext, useParams } from 'react-router-dom';
 import DeleteModuo from './DeleteModuo';
 import SearchProfessorsBar from './SearchProfessorsBar';
+import SuccessModuo from './SuccessModuo';
+
 const FIRSTNAME_REGEX = /^[a-zA-ZčćžđšČĆŽĐŠ]{3,24}(?:[ -][a-zA-ZčćžđšČĆŽĐŠ]{3,24})*$/;
 const LASTNAME_REGEX = /^[a-zA-ZčćžđšČĆŽĐŠ]{3,24}(?:[ -][a-zA-ZčćžđšČĆŽĐŠ]{3,24})*$/;
 const TITLE_REGEX = /^[A-z-][A-z-_. ]{0,23}$/;
@@ -10,6 +12,8 @@ import { useFilter } from '@react-aria/i18n';
 
 export default function EditProfessor() {
     const { id } = useParams();
+    const [firstFire , setFirstFire]= useState(true);
+
     const [query, setQuery] = useState('');
     const [professors, setProfessors] = useOutletContext();
     const [filtriraniProfesori, setFiltriraniProfesori] = useState(professors);
@@ -190,6 +194,7 @@ export default function EditProfessor() {
             setScientificProjects("");
             selectRef.value = "";
             setTags("");
+            setQuery("");
             setProfessors(() => {
                 const profWithoutTheOne = professors.filter(prof => prof._id != response.data._id)
                 return [
@@ -233,8 +238,11 @@ export default function EditProfessor() {
             let taggg = "";
             selectedProfessor.tags.map(tag => taggg += tag + "!\n");
             setTags(taggg);
+            setQuery(`${selectedProfessor.title} ${selectedProfessor.firstname} ${selectedProfessor.lastname}`);
+            setFirstFire(false);
 
         } else {
+            setQuery("");
             setFirstname("");
             setLastname("");
             setTitle("");
@@ -247,7 +255,9 @@ export default function EditProfessor() {
     }
 
     useEffect(() => {
-        if (id?.length == 24) {
+        // ovo moras da limitiras na jedan fire ovo je najveci error, ovo mora da se upali jednom i to je to
+        if (id?.length == 24 && firstFire) {
+            console.log('if ga je odradio')
             selectedProfessorChanged(id)
             // console.log(selectRef)
             // if (selectRef.key != id) {
@@ -281,159 +291,168 @@ export default function EditProfessor() {
 
     return (
         <>
-            <div className='addProfessor'>
+            <div className='add-professor-page-container'>
+                <div className="add-professor-form-container">
+                    <form onSubmit={handleSubmit} className="add-professor-form">
+                        <p className={errMsg ? "errmsg" : "offscreen"} >{errMsg}</p>
+                        <span className="add-professor-form-title">Izmeni Profesora</span>
+                        <hr className="add-professor-form-seperator" />
 
-                <form onSubmit={handleSubmit} className="addProfessorForm">
-                    <p className={errMsg ? "errmsg" : "offscreen"} >{errMsg}</p>
-                    <p className={success ? "sucmsg" : "offscreen"} >Success</p>
-                    <h1>Izmeni Profesora</h1>
-                    <div className='buttonFlex'>
-                        <SearchProfessorsBar query={query} setQuery={setQuery} />
-                        <select ref={selectRef} onChange={(e) => selectedProfessorChanged(e.target.value)}>
-                            <option value="">Izaberite Profesora</option>
-                            {filtriraniProfesori.map(prof => {
-                                return (
-                                    <option
-                                        value={prof._id}
-                                        key={prof._id}>
-                                        {prof.title} {prof.firstname} {prof.lastname}
-                                    </option>)
-                            })}
-                        </select>
-                    </div>
-
-                    <div className="addProfessorFormInputsDiv">
-                        <div>
-                            <label htmlFor="firstname">
-                                Ime:
-                            </label>
-                            <input
-                                type="text"
-                                id="firstname"
-                                ref={firstnameRef}
-                                onChange={(e) => setFirstname(e.target.value)}
-                                value={firstname}
-                                required
-                            />
-                            <p >
-                                3 to 24 characters.<br />
-                                Must begin with a letter.<br />
-                                Letters, hyphens, space allowed.
-                            </p>
-                            <label htmlFor="lastname">
-                                Prezime:
-                            </label>
-                            <input
-                                type="text"
-                                id="lastname"
-                                onChange={(e) => setLastname(e.target.value)}
-                                value={lastname}
-                                required
-                            />
-                            <p >
-                                3 to 24 characters.<br />
-                                Must begin with a letter.<br />
-                                Letters, hyphens, space allowed.
-                            </p>
-                            <label htmlFor="title">
-                                Titula:
-                            </label>
-                            <input
-                                type="text"
-                                id="title"
-                                onChange={(e) => setTitle(e.target.value)}
-                                value={title}
-                            />
-                            <p >
-                                0 to 24 characters.<br />
-                                Must begin with a letter.<br />
-                                Letters, hyphens, underscores, space and dots allowed.
-                            </p>
-                            <label htmlFor="scientificResearch">
-                                Naucno Istrazivanje(Kategorije):
-                            </label>
-                            <textarea
-                                cols="50"
-                                rows="10"
-                                id="scientificResearch"
-                                onChange={(e) => setScientificResearch(e.target.value)}
-                                value={scientificResearch}
-                            />
-                            <p >
-                                Područje znanstvenog istraživanja.<br />
-                                <a href="https://dl.acm.org/ccs">Ponudjena podrucja</a><br />
-                                Svako podrucje razdvojiti znakom uzvika !
-                            </p>
-                            <label htmlFor="tags">
-                                Tags:
-                            </label>
-                            <textarea
-                                cols="50"
-                                rows="5"
-                                id="tags"
-                                onChange={(e) => setTags(e.target.value)}
-                                value={tags}
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="labaratories">
-                                Labaratorije:
-                            </label>
-                            <textarea
-                                cols="50"
-                                rows="10"
-                                id="labaratories"
-                                onChange={(e) => setLabaratories(e.target.value)}
-                                value={labaratories}
-                            />
-                            <p >
-                                Labaratorije u kojima djeluje.<br />
-                                Na kraj dodati (voditeljstvo/clastvno)<br />
-                                Svako podrucje razdvojiti znakom uzvika !
-                            </p>
-                            <label htmlFor="scientificProjects">
-                                Naucni Projekti:
-                            </label>
-                            <textarea
-                                cols="50"
-                                rows="10"
-                                id="scientificProjects"
-                                onChange={(e) => setScientificProjects(e.target.value)}
-                                value={scientificProjects}
-                            />
-                            <p >
-                                Popis znanstvenih projekata koje trenutno vodi ili u njima sudjeluje<br />
-                                Svako podrucje razdvojiti znakom uzvika !
-                            </p>
-                            <label htmlFor="significantPublications">
-                                Najznacajnije Publikacije:
-                            </label>
-                            <textarea
-                                cols="50"
-                                rows="10"
-                                id="significantPublications"
-                                onChange={(e) => setSignificantPublications(e.target.value)}
-                                value={significantPublications}
-                            />
-                            <p >
-                                Popis najviše pet najznačajnijih publikacija.<br />
-                                Svako podrucje razdvojiti znakom uzvika !
-                            </p>
+                        <div className='edit-professor-form-search-container'>
+                            <SearchProfessorsBar query={query} setQuery={setQuery} filtriraniProfesori={filtriraniProfesori} selectedProfessorChanged={selectedProfessorChanged}/>
+                            
+                            <button type='reset' disabled={!selectedId ? true : false} onClick={() => setViewDeleteModuo(prev => !prev)} className='edit-professor-form-delete-button'>Obriši profesora</button>
 
                         </div>
-                    </div>
+
+                        <div className="add-professor-form-inputs-container">
+                            <div className="add-professor-form-name-inputs-container">
+                                <div className="add-professor-form-name-inputs-left">
+                                    <label htmlFor="firstname" className="add-professor-form-label">
+                                        Ime
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="firstname"
+                                        ref={firstnameRef}
+                                        onChange={(e) => setFirstname(e.target.value)}
+                                        value={firstname}
+                                        required
+                                        className='add-professor-form-name-input'
+                                        placeholder='Unesite ime'
+                                    />
+                                    <span className='add-professor-form-name-input-description'>
+                                        Mora početi slovom i može imati <br />od 3 do 24 karaktera
+                                    </span>
+                                    <label htmlFor="title" className="add-professor-form-label">
+                                        Titula
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="title"
+                                        onChange={(e) => setTitle(e.target.value)}
+                                        value={title}
+                                        className='add-professor-form-name-input'
+                                        placeholder='Unesite titulu'
+                                    />
+                                    <span className='add-professor-form-name-input-description'>
+                                        Mora početi slovom i može imati <br />od 0 do 24 karaktera
+                                    </span>
+                                </div>
+                                <div className="add-professor-form-name-inputs-right">
+                                    <label htmlFor="lastname" className="add-professor-form-label">
+                                        Prezime
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="lastname"
+                                        onChange={(e) => setLastname(e.target.value)}
+                                        value={lastname}
+                                        required
+                                        className='add-professor-form-name-input'
+                                        placeholder='Unesite prezime'
+                                    />
+                                    <span className='add-professor-form-name-input-description'>
+                                        Mora početi slovom i može imati <br />od 3 do 24 karaktera
+                                    </span>
+                                </div>
 
 
-                    <div className='buttonFlex'>
-                        <button type='submit' disabled={!validFirstname || !validLastname || !validTitle ? true : false}>Confirm the changes</button>
-                        <button type='reset' disabled={!selectedId ? true : false} onClick={() => setViewDeleteModuo(prev => !prev)}>Delete the Professor</button>
-                    </div>
 
-                </form>
+                            </div>
+                            <div className="add-professor-form-information-inputs-container">
 
+
+                                <label htmlFor="scientificResearch" className="add-professor-form-label">
+                                    Kategorije naučnog istraživanja
+                                </label>
+                                <span className='add-professor-form-information-input-description'>
+                                    Potrebno je uneti područje znastvenog istraživanja. <a href="https://dl.acm.org/ccs">Ponuđena područja</a> <br />Svako područje je potrebno razdvojiti <b>zarezom.</b>
+                                </span>
+                                <textarea
+                                    id="scientificResearch"
+                                    onChange={(e) => setScientificResearch(e.target.value)}
+                                    value={scientificResearch}
+                                    className='add-professor-form-information-input'
+                                    placeholder='Unesite kategorije'
+                                />
+
+                                <label htmlFor="tags" className="add-professor-form-label">
+                                    Tags:
+                                </label>
+                                <textarea
+                                    id="tags"
+                                    onChange={(e) => setTags(e.target.value)}
+                                    className='add-professor-form-information-input'
+                                    value={tags}
+                                    placeholder='Unesite tagove'
+                                />
+                                <label htmlFor="labaratories" className="add-professor-form-label">
+                                    Labaratorije
+                                </label>
+                                <span className='add-professor-form-information-input-description'>
+                                    Potrebno je uneti laboratorije u kojima profesor radi. Na kraj dodati voditeljstvo/članstvo.<br />Svako područje je potrebno razdvojiti <b>zarezom.</b>
+                                </span>
+                                <textarea
+                                    className='add-professor-form-information-input'
+                                    id="labaratories"
+                                    onChange={(e) => setLabaratories(e.target.value)}
+                                    value={labaratories}
+                                    placeholder='Unesite labaratorije'
+
+                                />
+
+
+
+                                <label htmlFor="scientificProjects" className="add-professor-form-label">
+                                    Naučni projekti
+                                </label>
+                                <span className='add-professor-form-information-input-description'>
+                                    Potrebno je uneti projekte koje profesor trenutno vodi ili u njima učestvuje.<br />Svako područje je potrebno razdvojiti <b>zarezom.</b>
+                                </span>
+                                <textarea
+                                    className='add-professor-form-information-input'
+
+                                    id="scientificProjects"
+                                    onChange={(e) => setScientificProjects(e.target.value)}
+                                    value={scientificProjects}
+                                    placeholder='Unesite naučne projekte'
+
+                                />
+
+                                <label htmlFor="significantPublications" className="add-professor-form-label">
+                                    Najznačajnije publikacije
+                                </label>
+                                <span className='add-professor-form-information-input-description'>
+                                    Potrebno je uneti najviše pet(5) najznačajnijih publikacija.<br />Svako područje je potrebno razdvojiti <b>zarezom.</b>
+                                </span>
+                                <textarea
+                                    className='add-professor-form-information-input'
+
+                                    id="significantPublications"
+                                    onChange={(e) => setSignificantPublications(e.target.value)}
+                                    value={significantPublications}
+                                    placeholder='Unesite najznačajnije publikacije'
+                                />
+
+                            </div>
+
+                        </div>
+                        <hr className="add-professor-form-seperator" />
+
+
+                        
+                            <button type='submit' disabled={!validFirstname || !validLastname || !validTitle ? true : false} className="add-professor-form-button-submit">Izmeni profesora</button>
+                        
+
+                    </form>
+                </div>
             </div>
             {viewDeleteModuo &&
                 <DeleteModuo placeholder="professor" setViewDeleteModuo={setViewDeleteModuo} handleDelete={handleDelete} />
+            }
+            {success &&
+                <SuccessModuo placeholder="izmenili profesora" setViewSuccessModuo={setSuccess} />
             }
 
         </>

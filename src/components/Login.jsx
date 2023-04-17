@@ -3,6 +3,7 @@ import useAuth from '../hooks/useAuth';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import useLogout from '../hooks/useLogout';
 import axios from '../api/axios';
+import pozadina from '../images/pozadina3.png'
 const LOGIN_URL = '/auth';
 
 const Login = () => {
@@ -69,7 +70,7 @@ const Login = () => {
             } else if (err.response?.status === 400) {
                 setErrMsg('Missing Username or Password');
             } else if (err.response?.status === 401) {
-                setErrMsg('Unauthorized');
+                setErrMsg('Unauthorized: Wrong Username or Password');
             } else {
                 setErrMsg('Login Failed');
             }
@@ -86,14 +87,28 @@ const Login = () => {
     }, [persist])
 
     return (
-        <div className='loginContainer'>
 
+        <div className="login-container">
+            <img src={pozadina} alt="" className="login-wallpaper" />
+            <div className="login-form-container">
+                <div className="login-error-container">
+                    <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+                </div>
+                <div className="login-title">Dobrodošli u Bazu profesora!</div>
+                <div className="login-register-container">
+                    <span className='login-register-text'>
+                        Nemate nalog?
+                    </span>
 
-            <div className='loginDiv'>
-                <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-                <h1>Sign In</h1>
-                <form onSubmit={handleSubmit}>
-                    <label htmlFor="username">Username:</label>
+                    <Link to="/register">
+                        <span className='login-register-link'>
+                            Kreirajte ga
+                        </span>
+                    </Link>
+                </div>
+
+                <form className="login-form" onSubmit={handleSubmit}>
+                    <label htmlFor="username" className='login-form-label'>Username</label>
                     <input
                         type="text"
                         id="username"
@@ -102,35 +117,32 @@ const Login = () => {
                         onChange={(e) => setUser(e.target.value)}
                         value={user}
                         required
+                        className='login-form-input'
                     />
-
-                    <label htmlFor="password">Password:</label>
+                    <label htmlFor="password" className='login-form-label'>Password</label>
                     <input
                         type="password"
                         id="password"
                         onChange={(e) => setPwd(e.target.value)}
                         value={pwd}
                         required
+                        className='login-form-input'
                     />
-                    <button>Sign In</button>
-                    <div className="persistCheck">
+                    <div className="login-form-checkbox-container">
                         <input
                             type="checkbox"
                             id="persist"
                             onChange={togglePersist}
                             checked={persist}
+                            className="login-form-checkbox"
                         />
-                        <label htmlFor="persist">Trust This Device</label>
+                        <label htmlFor="persist" className="login-form-checkbox-label">Veruj ovom uređaju</label>
                     </div>
+                    <button type='submit' className='login-form-submit'>Prijavi se</button>
                 </form>
-                <p>
-                    Need an Account?<br />
-                    <span className="line">
-                        <Link to="/register">Sign Up</Link>
-                    </span>
-                </p>
             </div>
         </div>
+
     )
 }
 
