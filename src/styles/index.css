@@ -58,21 +58,6 @@ label {
 
 /* show sort modal */
 
-.sortModal {
-    background-color: white;
-    color: black;
-    margin-top: 10px;
-    border-radius: 10px;
-    padding: 10px 0 10px 0;
-    width: fit-content;
-    position: absolute;
-}
-
-.sortModal>ul {
-    list-style: none;
-    padding: 0px;
-    margin: 0px;
-}
 
 .buttonFlex {
     display: flex;
@@ -467,6 +452,7 @@ a:has(.login-register-link):hover {
     /* min-height: 100vh; */
     /* overflow-y:scroll;
     height: calc(100vh - 124px); */
+    min-height: 100vh;
 }
 
 .admin-container {
@@ -1171,6 +1157,7 @@ a:has(.login-register-link):hover {
     border: 1px solid #E4E6EF;
     border-radius: 6px;
 }
+
 /* 
 .search-component-input-container:focus {
      outline: 2px solid #3699FF;
@@ -1279,7 +1266,7 @@ a:has(.login-register-link):hover {
 .professors-home-content-container {
     display: flex;
     flex-direction: column;
-    padding: 35px 20px 0px 30px;
+    padding: 35px 20px 0px 20px;
     width: 100%;
     overflow-y: scroll;
 
@@ -1394,7 +1381,7 @@ a:has(.login-register-link):hover {
 
 .professors-home-table-head-cell {
 
-    padding: 16px 0px 16px 0px;
+    padding: 16px 0px 16px 20px;
     text-align: left;
     border-bottom: 1px solid #EFF2F7;
 
@@ -1417,7 +1404,7 @@ a:has(.login-register-link):hover {
 }
 
 .professors-home-table-body-cell {
-    padding: 16px 0px 16px 0px;
+    padding: 16px 0px 16px 20px;
     text-align: left;
     border-bottom: 1px solid #EFF2F7;
     max-width: 190px;
@@ -1428,20 +1415,36 @@ a:has(.login-register-link):hover {
     /* hide any overflowing text */
     text-overflow: ellipsis;
     /* show an ellipsis if text overflows */
-    padding-right: 10px;
+}
+.professors-home-table-head-cell.notSelectable {
+    cursor: pointer;
 }
 
-.professors-home-table-body-cell:first {
+.professors-home-table-body-cell.title-body-cell {
+
+
+    color: #181C32 !important;
+
+}
+.professors-home-table-body-cell:has(.tag-body-cell-span){
+    box-sizing: border-box;
+    padding: 0px !important;
     font-family: 'Poppins';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 13px;
-    line-height: 20px;
-    /* identical to box height */
+font-style: normal;
+font-weight: 600;
+font-size: 11.37px;
+line-height: 17px;
+/* identical to box height */
 
 
-    color: #181C32;
+color: #181C32;
 }
+.tag-body-cell-span{
+    background: #EFFAFF;
+border-radius: 44px;
+padding: 5px 20px 5px 20px;
+}
+
 
 .professors-home-table-body-edit-cell {
     border-bottom: 1px solid #EFF2F7;
@@ -1591,10 +1594,10 @@ a:has(.login-register-link):hover {
     width: 260px;
     max-height: 260px;
     overflow-y: scroll;
-    overflow-x:hidden;
+    overflow-x: hidden;
     display: flex;
     flex-direction: column;
-    margin-top:-6px;
+    margin-top: -6px;
     word-wrap: break-word;
     white-space: pre-wrap;
 }
@@ -1619,3 +1622,10 @@ a:has(.login-register-link):hover {
     background: #DDDDFF;
 
 }
+
+/* sort span */
+.sort-arrows {
+    height: 20px;
+    vertical-align: center;
+}
+

@@ -1,14 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { useOutletContext, Link } from 'react-router-dom'
-import SearchProfessorsBar from './SearchProfessorsBar';
+import React, { useState, useEffect, useRef } from 'react';
+import { useOutletContext, Link } from 'react-router-dom';
 import DropdownMultiSelect from './DropdownMultiSelect';
-import exportFromJSON from 'export-from-json'
+import exportFromJSON from 'export-from-json';
 import PdfGenerator from './PdfGenerator';
-import SortModal from './SortModal'
 // import useProf from '../hooks/useProf';
 import { useFilter } from '@react-aria/i18n';
 import SearchHomeBar from './SearchHomeBar';
-import xlsimg from '../images/xls.png'
+import xlsimg from '../images/xls.png';
+import SortSpan from './SortSpan';
 
 function exportJson(data1) { // mozda napravi komponentu dugme XLS kliknes i odradi ovu funkciju
   data1.forEach(element => {
@@ -32,18 +31,21 @@ export default function ProfessorsHome() {
   const [opcijeSignificantPublications, setOpcijeSignificantPublications] = useState([]);
   const [opcijeTags, setOpcijeTags] = useState([]);
 
-  const [showSortModal, setShowSortModal] = useState(false);//moguci fix je da napravis komponentu BrojPublikacija
+  // const [showSortModal, setShowSortModal] = useState(false);//moguci fix je da napravis komponentu BrojPublikacija
   function sortMax() {
-    setShowSortModal(false);
-    filtriraniProfesori.sort((a, b) => {
+    const stariProfesori = [...filtriraniProfesori];
+    const noviProf = stariProfesori.sort((a, b) => {
       return b.significantPublications.length - a.significantPublications.length;
     });
+    setFiltriraniProfesori(noviProf);
+
   }
   function sortMin() {
-    setShowSortModal(false);
-    filtriraniProfesori.sort((a, b) => {
+    const stariProfesori = [...filtriraniProfesori];
+    const noviProf = stariProfesori.sort((a, b) => {
       return a.significantPublications.length - b.significantPublications.length;
     });
+    setFiltriraniProfesori(noviProf);
   }
 
 
@@ -154,15 +156,7 @@ export default function ProfessorsHome() {
                 <th className='professors-home-table-head-cell'>Naučni projekti</th>
                 <th className='professors-home-table-head-cell'>Najznačajnije publikacije</th>
                 <th className='professors-home-table-head-cell'>Tagovi</th>
-                <th className='professors-home-table-head-cell notSelectable' onClick={() => setShowSortModal(() => !showSortModal)}>
-                  <span>
-                    Broj Publikacija
-                  </span>
-                  <span className="material-symbols-outlined">
-                    sort
-                  </span>
-                  {showSortModal && <SortModal sortMin={sortMin} sortMax={sortMax} />}
-                </th>
+                <SortSpan sortMax={sortMax} sortMin={sortMin} />
                 <th className='professors-home-table-head-cell'></th>
 
               </tr>
@@ -173,13 +167,13 @@ export default function ProfessorsHome() {
 
                   return (
                     <tr className='professors-home-table-body-row' key={professor._id} >
-                      <td className='professors-home-table-body-cell'>{professor.title}</td>
+                      <td className='professors-home-table-body-cell title-body-cell'>{professor.title}</td>
                       <td className='professors-home-table-body-cell'>{professor.firstname} {professor.lastname}</td>
                       <td className='professors-home-table-body-cell'>{professor.scientificResearch[0]}</td>
                       <td className='professors-home-table-body-cell'>{professor.labaratories[0]}</td>
                       <td className='professors-home-table-body-cell'>{professor.scientificProjects[0]}</td>
                       <td className='professors-home-table-body-cell'>{professor.significantPublications[0]}</td>
-                      <td className='professors-home-table-body-cell'>{professor.tags[0]}</td>
+                      <td className='professors-home-table-body-cell'><span className='tag-body-cell-span'>{professor.tags[0]}</span></td>
                       <td className='professors-home-table-body-cell'>{professor.significantPublications.length} </td>
                       <td className='professors-home-table-body-edit-cell'>
                         <Link to={"/professors/edit/" + professor._id}>
