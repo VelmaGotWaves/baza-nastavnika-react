@@ -15,7 +15,16 @@ body {
 }
 
 .sucmsg {
-    background-color: limegreen;
+    background: #47C9A2;
+    border-radius: 30px;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 20px;
+    /* identical to box height */
+    padding-left: 20px;
+    color: #ffffff;
 }
 
 .errmsg {

@@ -167,7 +167,8 @@ export default function EditProfessor() {
         setErrMsg("");
         setSuccess(false);
         setViewDeleteModuo(false)
-        // console.log(selectedId)
+        console.log(selectedId)
+        console.log(selectedId)
         if (selectedId == "") {
             setErrMsg("Invalid Professor Id");
             return;
@@ -185,6 +186,7 @@ export default function EditProfessor() {
             );
             // console.log(response.data)
             setSuccess(true);
+            setSelectedId("");
             setFirstname("");
             setLastname("");
             setTitle("");
