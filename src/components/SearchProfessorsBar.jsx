@@ -43,14 +43,14 @@ export default function SearchProfessorsBar(importVariables) {
                                     if(importVariables.selectedProfessorChanged){
                                         importVariables.selectedProfessorChanged(e.target.value);
                                     }
-                                    importVariables.setQuery(`${prof.title} ${prof.firstname} ${prof.lastname}`);
+                                    importVariables.setQuery(`${prof.titula} ${prof.ime} ${prof.prezime}`);
                                     searchComponentContainer.current.blur();
                                     searchComponentResultsContainer.current.blur();
                                     searchComponentInput.current.blur();
                                 }}
                                 className="search-component-result"
                             >
-                                {prof.title} {prof.firstname} {prof.lastname}
+                                {prof.titula} {prof.ime} {prof.prezime}
                             </option>)
                     })}
                 </div>

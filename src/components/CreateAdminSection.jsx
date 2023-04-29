@@ -1,16 +1,15 @@
 import React from 'react'
-import { useRef, useState, useEffect } from "react";
-import axios from '../api/axios';
+import { useState, useEffect } from "react";
 import SuccessModuo from './SuccessModuo';
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const REGISTER_URL = '/register';
 
 export default function CreateAdminSection() {
-
-    const userRef = useRef();
-    const errRef = useRef();
+    const axiosPrivate = useAxiosPrivate();
 
     const [user, setUser] = useState('');
     const [validName, setValidName] = useState(false);
@@ -24,10 +23,6 @@ export default function CreateAdminSection() {
     const [errMsg, setErrMsg] = useState('');
     // const [success, setSuccess] = useState(false);
     const [viewSuccessModuo, setViewSuccessModuo] = useState(false)
-
-    useEffect(() => {
-        userRef.current.focus();
-    }, [])
 
     useEffect(() => {
         setValidName(USER_REGEX.test(user));
@@ -52,7 +47,7 @@ export default function CreateAdminSection() {
             return;
         }
         try {
-            const response = await axios.post(REGISTER_URL,
+            const response = await axiosPrivate.post(REGISTER_URL,
                 JSON.stringify({ user, pwd }),
                 {
                     headers: { 'Content-Type': 'application/json' },
@@ -74,7 +69,6 @@ export default function CreateAdminSection() {
             } else {
                 setErrMsg('Registration Failed')
             }
-            errRef.current.focus();
         }
     }
 
@@ -93,7 +87,6 @@ export default function CreateAdminSection() {
                             <input
                                 type="text"
                                 id="username"
-                                ref={userRef}
                                 autoComplete="off"
                                 onChange={(e) => setUser(e.target.value)}
                                 value={user}

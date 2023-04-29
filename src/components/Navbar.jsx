@@ -24,8 +24,10 @@ export default function Navbar() {
             updateIndicatorLocation(1);
         } else if (pathname.includes("edit")) {
             updateIndicatorLocation(2);
-        } else if (pathname.includes("admin")) {
+        } else if (pathname.includes("projects")) {
             updateIndicatorLocation(3);
+        } else if (pathname.includes("admin")) {
+            updateIndicatorLocation(4);
         } else if (pathname.includes("professors")) {
             updateIndicatorLocation(0);
         }
@@ -72,6 +74,9 @@ export default function Navbar() {
                         </Link>
                         <Link to='/professors/edit'>
                             <div className='navbar-navigation-divs'>Izmeni Profesora</div>
+                        </Link>
+                        <Link to='/professors/projects'>
+                            <div className='navbar-navigation-divs'>Projekti</div>
                         </Link>
                         <Link to='/admin'>
                             <div className='navbar-navigation-divs'>Admini</div>

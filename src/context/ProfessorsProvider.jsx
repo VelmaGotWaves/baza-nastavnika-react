@@ -7,6 +7,8 @@ import useAxiosPrivate from "../hooks/useAxiosPrivate";
 export default function ProfessorsProvider() {
 
     const [professors, setProfessors] = useState([]);
+    const [projects, setProjects] = useState([]);
+
     const axiosPrivate = useAxiosPrivate();
 
     useEffect(() => {
@@ -28,6 +30,21 @@ export default function ProfessorsProvider() {
 
         getProfessors();
 
+        const getProjects = async () => {
+            try {
+                const response = await axiosPrivate.get('/projects', {
+                    signal: controller.signal
+                });
+                isMounted && setProjects(response.data);
+
+            } catch (err) {
+                console.error(err);
+                console.log("(projects)professors provider.jsx error catch")
+            }
+        }
+
+        getProjects();
+
         return () => {
             isMounted = false;
             controller.abort();
@@ -36,5 +53,5 @@ export default function ProfessorsProvider() {
 
     // console.log(professors);
     
-    return <Outlet context={[professors, setProfessors]} />;
+    return <Outlet context={[professors, setProfessors, projects, setProjects]} />;
 }

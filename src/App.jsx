@@ -16,7 +16,7 @@ import EditProfessor from './components/EditProfessor';
 import ProfessorsHome from './components/ProfessorsHome';
 import RequireAuthProfessors from './components/RequireAuthProfessors';
 import { ProfProvider } from './context/ProfProvider';
-
+import Projects from './components/Projects';
 const ROLES = {
   'User': 2001,
   'Editor': 1984,
@@ -62,6 +62,9 @@ function App() {
               </Route>
               <Route element={<RequireAuthProfessors allowedRoles={[ROLES.Editor, ROLES.Admin]} />}>
                 <Route path="edit/:id?" element={<EditProfessor />}/>
+              </Route>
+              <Route element={<RequireAuthProfessors allowedRoles={[ROLES.Editor, ROLES.Admin]} />}>
+                <Route path="projects" element={<Projects />}/>
               </Route>
 
             </Route>

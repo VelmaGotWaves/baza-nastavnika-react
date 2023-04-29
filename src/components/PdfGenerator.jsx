@@ -1,7 +1,7 @@
 import React from 'react'
 import { PDFDownloadLink, Page, Text, View, Document, StyleSheet, Font } from '@react-pdf/renderer';
 import pdfimg from '../images/pdf.png'
-export default function PdfGenerator({ filtriraniProfesori }) {
+export default function PdfGenerator({ filtriraniProfesori, projects }) {
     Font.register({
         family: 'Roboto',
         src: 'https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-medium-webfont.ttf'
@@ -85,15 +85,15 @@ export default function PdfGenerator({ filtriraniProfesori }) {
                                                 <Text style={styles.tableCell}>Titula, Ime, Prezime </Text>
                                             </View>
                                             <View style={styles.tableColData}>
-                                                <Text style={styles.tableCell}>{prof.title} {prof.firstname} {prof.lastname}</Text>
+                                                <Text style={styles.tableCell}>{prof.titula} {prof.ime} {prof.prezime}</Text>
                                             </View>
                                         </View>
                                         <View style={styles.tableRow} >
                                             <View style={styles.tableColKey}>
-                                                <Text style={styles.tableCell}>Naucno Istrazivanje</Text>
+                                                <Text style={styles.tableCell}>Oblasti Istrazivanja</Text>
                                             </View>
                                             <View style={styles.tableColData}>
-                                                <Text style={styles.tableCell}>{prof.scientificResearch.map((data, index) => {
+                                                <Text style={styles.tableCell}>{prof.oblastiIstrazivanja.map((data, index) => {
                                                     return (
                                                         <Text key={index}>- {data + "\n"}</Text>
                                                     )
@@ -102,10 +102,10 @@ export default function PdfGenerator({ filtriraniProfesori }) {
                                         </View>
                                         <View style={styles.tableRow} >
                                             <View style={styles.tableColKey}>
-                                                <Text style={styles.tableCell}>Labaratorije</Text>
+                                                <Text style={styles.tableCell}>Katedre</Text>
                                             </View>
                                             <View style={styles.tableColData}>
-                                                <Text style={styles.tableCell}>{prof.labaratories.map((data, index) => {
+                                                <Text style={styles.tableCell}>{prof.katedre.map((data, index) => {
                                                     return (
                                                         <Text key={index}>- {data + "\n"}</Text>
                                                     )
@@ -114,17 +114,18 @@ export default function PdfGenerator({ filtriraniProfesori }) {
                                         </View>
                                         <View style={styles.tableRow} >
                                             <View style={styles.tableColKey}>
-                                                <Text style={styles.tableCell}>Naucni Projekti</Text>
+                                                <Text style={styles.tableCell}>Projekti</Text>
                                             </View>
                                             <View style={styles.tableColData}>
                                                 <Text style={styles.tableCell}>
                                                     <View style={{ flexDirection: "column" }}>
 
-                                                        {prof.scientificProjects.map((data, index) => {
+                                                        {prof.projekti.map((data, index) => {
+                                                            const projekat = projects?.map(proj => {if(proj._id == data) return proj}) || null;
                                                             return (
                                                                 <View key={index} style={{ marginBottom: 4, flexDirection: "row" }}>
                                                                     <Text style={{ marginRight: 8 }}>{index + 1 + "."}</Text>
-                                                                    <Text>{data + '\n'}</Text>
+                                                                    <Text>{projekat[0]?.nazivPrograma + projekat[0]?.nazivProjekta + '\n'}</Text>
                                                                 </View>
                                                             )
                                                         })}
@@ -134,12 +135,12 @@ export default function PdfGenerator({ filtriraniProfesori }) {
                                         </View>
                                         <View style={styles.tableRow}>
                                             <View style={styles.tableColKey}>
-                                                <Text style={styles.tableCell}>Najznacajnije Publikacije</Text>
+                                                <Text style={styles.tableCell}>Publikacije</Text>
                                             </View>
                                             <View style={styles.tableColData}>
                                                 <Text style={styles.tableCell}>
                                                     <View style={{ display: "flex", flexDirection: "column" }}>
-                                                        {prof.significantPublications.map((data, index) => {
+                                                        {prof.publikacije.map((data, index) => {
                                                             return (
                                                                 <View key={index} style={{ display: "flex", flexDirection: "row", marginBottom: 4 }}>
                                                                     <Text style={{ marginRight: 8 }}>{index + 1 + "."}</Text>

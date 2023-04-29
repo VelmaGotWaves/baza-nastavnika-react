@@ -4,18 +4,22 @@ import { useOutletContext, useParams } from 'react-router-dom';
 import DeleteModuo from './DeleteModuo';
 import SearchProfessorsBar from './SearchProfessorsBar';
 import SuccessModuo from './SuccessModuo';
+import DropdownMultiSearch from './DropdownMultiSearch';
+import DropdownMultiSearchID from './DropdownMultiSearchID';
+import { katedreOptionsArray } from './data/katedre';
+import { oblastiIstrazivanjaOptionsArray } from './data/oblastiIstrazivanja';
 
-const FIRSTNAME_REGEX = /^[a-zA-ZčćžđšČĆŽĐŠ]{3,24}(?:[ -][a-zA-ZčćžđšČĆŽĐŠ]{3,24})*$/;
-const LASTNAME_REGEX = /^[a-zA-ZčćžđšČĆŽĐŠ]{3,24}(?:[ -][a-zA-ZčćžđšČĆŽĐŠ]{3,24})*$/;
+const FIRSTNAME_REGEX = /^[a-zA-ZčćžđšČĆŽĐŠ]{3,24}(?:[ -][a-zA-ZčćžđšČĆŽĐŠ]{2,24})*$/;
+const LASTNAME_REGEX = /^[a-zA-ZčćžđšČĆŽĐŠ]{3,24}(?:[ -][a-zA-ZčćžđšČĆŽĐŠ]{2,24})*$/;
 const TITLE_REGEX = /^[A-z-][A-z-_. ]{0,23}$/;
 import { useFilter } from '@react-aria/i18n';
 
 export default function EditProfessor() {
     const { id } = useParams();
-    const [firstFire , setFirstFire]= useState(true);
+    const [firstFire, setFirstFire] = useState(true);
 
     const [query, setQuery] = useState('');
-    const [professors, setProfessors] = useOutletContext();
+    const [professors, setProfessors, projects, setProjects] = useOutletContext();
     const [filtriraniProfesori, setFiltriraniProfesori] = useState(professors);
 
     const axiosPrivate = useAxiosPrivate();
@@ -24,22 +28,28 @@ export default function EditProfessor() {
         firstnameRef.current.focus();
     }, [])
 
-    const [selectedId, setSelectedId] = useState('')
+    const [selectedId, setSelectedId] = useState('');
 
-    const [firstname, setFirstname] = useState('');
+    const [ime, setIme] = useState('');
     const [validFirstname, setValidFirstname] = useState(false);
 
-    const [lastname, setLastname] = useState('');
+    const [prezime, setPrezime] = useState('');
     const [validLastname, setValidLastname] = useState(false);
 
-    const [title, setTitle] = useState('');
+    const [titula, setTitula] = useState('');
     const [validTitle, setValidTitle] = useState(false);
 
-    const [scientificResearch, setScientificResearch] = useState('');
-    const [labaratories, setLabaratories] = useState('');
-    const [significantPublications, setSignificantPublications] = useState('');
-    const [scientificProjects, setScientificProjects] = useState('');
-    const [tags, setTags] = useState('');
+    const [opcijeOblastiIstrazivanja, setOpcijeOblastiIstrazivanja] = useState([]);
+    const [opcijeKatedre, setOpcijeKatedre] = useState([]);
+    const [opcijePublikacije, setOpcijePublikacije] = useState('');
+    const [opcijeProjekti, setOpcijeProjekti] = useState([]);
+    const [tekstTagovi, setTekstTagovi] = useState('');
+    const [opcijeTagovi, setOpcijeTagovi] = useState([]);
+
+    const [insertDataOblastiIstrazivanja, setInsertDataOblastiIstrazivanja] = useState([]);
+    const [insertDataKatedre, setInsertDataKatedre] = useState([]);
+    const [insertDataProjekti, setInsertDataProjekti] = useState([]);
+    const [insertDataTagovi, setInsertDataTagovi] = useState([]);
 
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
@@ -49,14 +59,14 @@ export default function EditProfessor() {
     const selectRef = useRef();
 
     useEffect(() => {
-        setValidFirstname(FIRSTNAME_REGEX.test(firstname));
-    }, [firstname])
+        setValidFirstname(FIRSTNAME_REGEX.test(ime));
+    }, [ime])
     useEffect(() => {
-        setValidLastname(LASTNAME_REGEX.test(lastname));
-    }, [lastname])
+        setValidLastname(LASTNAME_REGEX.test(prezime));
+    }, [prezime])
     useEffect(() => {
-        setValidTitle(TITLE_REGEX.test(title));
-    }, [title])
+        setValidTitle(TITLE_REGEX.test(titula));
+    }, [titula])
 
 
 
@@ -64,48 +74,24 @@ export default function EditProfessor() {
         e.preventDefault();
         setErrMsg("");
         setSuccess(false);
-        if (selectedId == "") {
+        if (selectedId == "" || selectedId.length != 24) {
             setErrMsg("Invalid Professor Id");
             return;
         }
-        if (!FIRSTNAME_REGEX.test(firstname)) {
+        if (!FIRSTNAME_REGEX.test(ime)) {
             setErrMsg("Invalid First Name");
             return;
         }
-        if (!LASTNAME_REGEX.test(lastname)) {
+        if (!LASTNAME_REGEX.test(prezime)) {
             setErrMsg("Invalid Last Name");
             return;
         }
-        if (!TITLE_REGEX.test(title)) {
+        if (!TITLE_REGEX.test(titula)) {
             setErrMsg("Invalid Title");
             return;
         }
 
-        const scientificResearchArray = scientificResearch.replace(/[\t\n]|[^\S\n\r ]+/g, ' ').split("!");
-        const scientificResearchArrayWithoutEmptyStrings = scientificResearchArray.filter((str) => {
-            if (str?.trim() != "" && str?.trim() !== "" && str?.trim() != null && str?.trim() != "null") {
-                return true
-            }
-        });
-        const scientificResearchFINAL = scientificResearchArrayWithoutEmptyStrings.map((str) => str.trim());
-
-        const labaratoriesArray = labaratories.replace(/[\t\n]|[^\S\n\r ]+/g, ' ').split("!");
-        const labaratoriesArrayWithoutEmptyStrings = labaratoriesArray.filter((str) => {
-            if (str?.trim() != "" && str?.trim() !== "" && str?.trim() != null && str?.trim() != "null") {
-                return true
-            }
-        });
-        const labaratoriesFINAL = labaratoriesArrayWithoutEmptyStrings.map((str) => str.trim());
-
-        const scientificProjectsArray = scientificProjects.replace(/[\t\n]|[^\S\n\r ]+/g, ' ').split("!");
-        const scientificProjectsArrayWithoutEmptyStrings = scientificProjectsArray.filter((str) => {
-            if (str?.trim() != "" && str?.trim() !== "" && str?.trim() != null && str?.trim() != "null") {
-                return true
-            }
-        });
-        const scientificProjectsFINAL = scientificProjectsArrayWithoutEmptyStrings.map((str) => str.trim());
-
-        const significantPublicationsArray = significantPublications.replace(/[\t\n]|[^\S\n\r ]+/g, ' ').split("!");
+        const significantPublicationsArray = opcijePublikacije.replace(/[\t\n]|[^\S\n\r ]+/g, ' ').split("!");
         const significantPublicationsArrayWithoutEmptyStrings = significantPublicationsArray.filter((str) => {
             if (str?.trim() != "" && str?.trim() !== "" && str?.trim() != null && str?.trim() != "null") {
                 return true
@@ -113,27 +99,28 @@ export default function EditProfessor() {
         });
         const significantPublicationsFINAL = significantPublicationsArrayWithoutEmptyStrings.map((str) => str.trim());
 
-        const tagsArray = tags.replace(/[\t\n]|[^\S\n\r ]+/g, ' ').split("!");
+        const tagsArray = tekstTagovi.replace(/[\t\n]|[^\S\n\r ]+/g, ' ').split("!");
         const tagsArrayWithoutEmptyStrings = tagsArray.filter((str) => {
             if (str?.trim() != "" && str?.trim() !== "" && str?.trim() != null && str?.trim() != "null") {
                 return true
             }
         });
-        const tagsFINAL = tagsArrayWithoutEmptyStrings.map((str) => str.trim());
+        const tagsALMOST = tagsArrayWithoutEmptyStrings.map((str) => str.trim());
+        const tagsFINAL = [...new Set([...tagsALMOST, ...opcijeTagovi])];
 
         //filter zbog nekog razloga nije hteo da radi, moja greska vrv, ovako mi je lakse da ostavim map
 
         try {
             const response = await axiosPrivate.patch("/professors", {
                 id: selectedId,
-                firstname: firstname,
-                lastname: lastname,
-                title: title,
-                scientificResearch: scientificResearchFINAL,
-                labaratories: labaratoriesFINAL,
-                scientificProjects: scientificProjectsFINAL,
-                significantPublications: significantPublicationsFINAL,
-                tags: tagsFINAL
+                ime: ime,
+                prezime: prezime,
+                titula: titula,
+                oblastiIstrazivanja: opcijeOblastiIstrazivanja,
+                katedre: opcijeKatedre,
+                projekti: opcijeProjekti,
+                publikacije: significantPublicationsFINAL,
+                tagovi: tagsFINAL
             },
                 {
                     headers: { 'Content-Type': 'application/json' },
@@ -169,7 +156,7 @@ export default function EditProfessor() {
         setViewDeleteModuo(false)
         console.log(selectedId)
         console.log(selectedId)
-        if (selectedId == "") {
+        if (selectedId == "" || selectedId.length != 24) {
             setErrMsg("Invalid Professor Id");
             return;
         }
@@ -187,15 +174,16 @@ export default function EditProfessor() {
             // console.log(response.data)
             setSuccess(true);
             setSelectedId("");
-            setFirstname("");
-            setLastname("");
-            setTitle("");
-            setScientificResearch("");
-            setLabaratories("");
-            setSignificantPublications("");
-            setScientificProjects("");
+            setIme("");
+            setPrezime("");
+            setTitula("");
+            setOpcijeOblastiIstrazivanja([]);
+            setOpcijeKatedre([]);
+            setOpcijePublikacije("");
+            setOpcijeProjekti([]);
+            setOpcijeTagovi([]);
+            setTekstTagovi("");
             selectRef.value = "";
-            setTags("");
             setQuery("");
             setProfessors(() => {
                 const profWithoutTheOne = professors.filter(prof => prof._id != response.data._id)
@@ -222,37 +210,48 @@ export default function EditProfessor() {
         const selectedProfessorArray = professors.filter(prof => prof._id == value);
         if (selectedProfessorArray.length > 0) {
             const selectedProfessor = selectedProfessorArray[0];
-            setFirstname(selectedProfessor.firstname);
-            setLastname(selectedProfessor.lastname);
-            setTitle(selectedProfessor.title);
-            let tempScientificResearch = "";
-            selectedProfessor.scientificResearch.map(sr => tempScientificResearch += sr + "!\n");
-            setScientificResearch(tempScientificResearch);
-            let tempLabaratories = "";
-            selectedProfessor.labaratories.map(l => tempLabaratories += l + "!\n");
-            setLabaratories(tempLabaratories);
-            let tempSProj = "";
-            selectedProfessor.scientificProjects.map(sproj => tempSProj += sproj + "!\n");
-            setScientificProjects(tempSProj);
-            let tempSP = "";
-            selectedProfessor.significantPublications.map(sp => tempSP += sp + "!\n");
-            setSignificantPublications(tempSP);
-            let taggg = "";
-            selectedProfessor.tags.map(tag => taggg += tag + "!\n");
-            setTags(taggg);
-            setQuery(`${selectedProfessor.title} ${selectedProfessor.firstname} ${selectedProfessor.lastname}`);
+            setIme(selectedProfessor.ime);
+            setPrezime(selectedProfessor.prezime);
+            setTitula(selectedProfessor.titula);
+            setQuery(`${selectedProfessor.titula} ${selectedProfessor.ime} ${selectedProfessor.prezime}`);
             setFirstFire(false);
 
+            // setOpcijeOblastiIstrazivanja(selectedProfessor.oblastiIstrazivanja);
+            // setOpcijeKatedre(selectedProfessor.katedre);
+            // const projProj = projects.filter(pr => {
+            //     if(selectedProfessor.projekti.some(projekat => projekat == pr._id))
+            //     return pr
+            // })
+            // setOpcijeProjekti(projProj);
+            // let tempSP = "";
+            // console.log(selectedProfessor.publikacije)
+            // selectedProfessor.publikacije.map(sp => tempSP += sp + "!\n");
+            // setOpcijePublikacije(tempSP);
+            // setOpcijeTagovi(selectedProfessor.tagovi);
+            
+            setInsertDataOblastiIstrazivanja(selectedProfessor.oblastiIstrazivanja)
+            setInsertDataKatedre(selectedProfessor.katedre);
+            const projProj = projects.filter(pr => {
+                if(selectedProfessor.projekti.some(projekat => projekat == pr._id))
+                return pr
+            })
+            setInsertDataProjekti(projProj);
+            let tempSP = "";
+            console.log(selectedProfessor.publikacije)
+            selectedProfessor.publikacije.map(sp => tempSP += sp + "!\n");
+            setOpcijePublikacije(tempSP);
+            setInsertDataTagovi(selectedProfessor.tagovi);
         } else {
             setQuery("");
-            setFirstname("");
-            setLastname("");
-            setTitle("");
-            setScientificResearch("");
-            setLabaratories("");
-            setSignificantPublications("");
-            setScientificProjects("");
-            setTags("")
+            setIme("");
+            setPrezime("");
+            setTitula("");
+            setOpcijeOblastiIstrazivanja([]);
+            setOpcijeKatedre([]);
+            setOpcijePublikacije("");
+            setOpcijeProjekti([]);
+            setOpcijeTagovi([]);
+            setTekstTagovi("");
         }
     }
 
@@ -279,8 +278,8 @@ export default function EditProfessor() {
         console.log(stariProfesori)
         const filtriraniStariProfesori = stariProfesori.filter(professor => {
             if (query) {
-                let title_firstname_lastname = professor.title + " " + professor.firstname + " " + professor.lastname;
-                if (!(contains(title_firstname_lastname.toLowerCase(), query.toLowerCase()) || contains(professor.title.toLowerCase(), query.toLowerCase()) || contains(professor.lastname.toLowerCase(), query.toLowerCase()) || contains(professor.firstname.toLowerCase(), query.toLowerCase()) || contains(query.toLowerCase(), professor.firstname.toLowerCase()) || contains(query.toLowerCase(), professor.lastname.toLowerCase()) || contains(query.toLowerCase(), professor.title.toLowerCase()))) {
+                let title_firstname_lastname = professor.titula + " " + professor.ime + " " + professor.prezime;
+                if (!(contains(title_firstname_lastname.toLowerCase(), query.toLowerCase()) || contains(professor.titula.toLowerCase(), query.toLowerCase()) || contains(professor.prezime.toLowerCase(), query.toLowerCase()) || contains(professor.ime.toLowerCase(), query.toLowerCase()) || contains(query.toLowerCase(), professor.ime.toLowerCase()) || contains(query.toLowerCase(), professor.prezime.toLowerCase()) || contains(query.toLowerCase(), professor.titula.toLowerCase()))) {
                     return false;
                 }
             }
@@ -301,8 +300,8 @@ export default function EditProfessor() {
                         <hr className="add-professor-form-seperator" />
 
                         <div className='edit-professor-form-search-container'>
-                            <SearchProfessorsBar query={query} setQuery={setQuery} filtriraniProfesori={filtriraniProfesori} selectedProfessorChanged={selectedProfessorChanged}/>
-                            
+                            <SearchProfessorsBar query={query} setQuery={setQuery} filtriraniProfesori={filtriraniProfesori} selectedProfessorChanged={selectedProfessorChanged} />
+
                             <button type='reset' disabled={!selectedId ? true : false} onClick={() => setViewDeleteModuo(prev => !prev)} className='edit-professor-form-delete-button'>Obriši profesora</button>
 
                         </div>
@@ -317,8 +316,8 @@ export default function EditProfessor() {
                                         type="text"
                                         id="firstname"
                                         ref={firstnameRef}
-                                        onChange={(e) => setFirstname(e.target.value)}
-                                        value={firstname}
+                                        onChange={(e) => setIme(e.target.value)}
+                                        value={ime}
                                         required
                                         className='add-professor-form-name-input'
                                         placeholder='Unesite ime'
@@ -332,8 +331,8 @@ export default function EditProfessor() {
                                     <input
                                         type="text"
                                         id="title"
-                                        onChange={(e) => setTitle(e.target.value)}
-                                        value={title}
+                                        onChange={(e) => setTitula(e.target.value)}
+                                        value={titula}
                                         className='add-professor-form-name-input'
                                         placeholder='Unesite titulu'
                                     />
@@ -348,8 +347,8 @@ export default function EditProfessor() {
                                     <input
                                         type="text"
                                         id="lastname"
-                                        onChange={(e) => setLastname(e.target.value)}
-                                        value={lastname}
+                                        onChange={(e) => setPrezime(e.target.value)}
+                                        value={prezime}
                                         required
                                         className='add-professor-form-name-input'
                                         placeholder='Unesite prezime'
@@ -366,76 +365,60 @@ export default function EditProfessor() {
 
 
                                 <label htmlFor="scientificResearch" className="add-professor-form-label">
-                                    Kategorije naučnog istraživanja
+                                    Oblasti istraživanjanja
                                 </label>
-                                <span className='add-professor-form-information-input-description'>
-                                    Potrebno je uneti područje znastvenog istraživanja. <a href="https://dl.acm.org/ccs">Ponuđena područja</a> <br />Svako područje je potrebno razdvojiti <b>zarezom.</b>
-                                </span>
-                                <textarea
-                                    id="scientificResearch"
-                                    onChange={(e) => setScientificResearch(e.target.value)}
-                                    value={scientificResearch}
-                                    className='add-professor-form-information-input'
-                                    placeholder='Unesite kategorije'
-                                />
 
+                                <DropdownMultiSearch insertData={insertDataOblastiIstrazivanja}importArray={oblastiIstrazivanjaOptionsArray} uniqueSelectedItems={opcijeOblastiIstrazivanja} setUniqueSelectedItems={setOpcijeOblastiIstrazivanja} placeholder={"Izaberite oblasti"} />
+                                <span className='add-professor-form-information-input-description'>
+                                    Potrebno je izabrati područje znastvenog istraživanja.
+                                </span>
                                 <label htmlFor="tags" className="add-professor-form-label">
-                                    Tags:
+                                    Tagovi
                                 </label>
+                                <DropdownMultiSearch insertData={insertDataTagovi}importArray={[...new Set(professors?.map(x => x.tagovi).flat(1))]} uniqueSelectedItems={opcijeTagovi} setUniqueSelectedItems={setOpcijeTagovi} placeholder={"Izaberite tagove"} />
                                 <textarea
                                     id="tags"
-                                    onChange={(e) => setTags(e.target.value)}
+                                    onChange={(e) => setTekstTagovi(e.target.value)}
                                     className='add-professor-form-information-input'
-                                    value={tags}
+                                    value={tekstTagovi}
                                     placeholder='Unesite tagove'
                                 />
-                                <label htmlFor="labaratories" className="add-professor-form-label">
-                                    Labaratorije
-                                </label>
                                 <span className='add-professor-form-information-input-description'>
-                                    Potrebno je uneti laboratorije u kojima profesor radi. Na kraj dodati voditeljstvo/članstvo.<br />Svako područje je potrebno razdvojiti <b>zarezom.</b>
+                                    Ako zelite da dodate tagove koji <b>nisu</b> ponudjeni.<br />Svaki tag je potrebno razdvojiti <b>uzvicnikom!</b>
                                 </span>
-                                <textarea
-                                    className='add-professor-form-information-input'
-                                    id="labaratories"
-                                    onChange={(e) => setLabaratories(e.target.value)}
-                                    value={labaratories}
-                                    placeholder='Unesite labaratorije'
 
-                                />
-
+                                <label htmlFor="labaratories" className="add-professor-form-label">
+                                    Katedre
+                                </label>
+                                <DropdownMultiSearch insertData={insertDataKatedre}importArray={katedreOptionsArray} uniqueSelectedItems={opcijeKatedre} setUniqueSelectedItems={setOpcijeKatedre} placeholder={"Izaberite katedre"} />
+                                <span className='add-professor-form-information-input-description'>
+                                    Potrebno je uneti katedre u kojima profesor radi.
+                                </span>
 
 
                                 <label htmlFor="scientificProjects" className="add-professor-form-label">
-                                    Naučni projekti
+                                    Projekti
                                 </label>
+                                <DropdownMultiSearchID insertData={insertDataProjekti}importArray={projects} uniqueSelectedItems={opcijeProjekti} setUniqueSelectedItems={setOpcijeProjekti} placeholder={"Izaberite projekte"} />
                                 <span className='add-professor-form-information-input-description'>
-                                    Potrebno je uneti projekte koje profesor trenutno vodi ili u njima učestvuje.<br />Svako područje je potrebno razdvojiti <b>zarezom.</b>
+                                    Potrebno je uneti projekte koje profesor trenutno vodi ili u njima učestvuje.
                                 </span>
-                                <textarea
-                                    className='add-professor-form-information-input'
-
-                                    id="scientificProjects"
-                                    onChange={(e) => setScientificProjects(e.target.value)}
-                                    value={scientificProjects}
-                                    placeholder='Unesite naučne projekte'
-
-                                />
 
                                 <label htmlFor="significantPublications" className="add-professor-form-label">
-                                    Najznačajnije publikacije
+                                    Publikacije
                                 </label>
-                                <span className='add-professor-form-information-input-description'>
-                                    Potrebno je uneti najviše pet(5) najznačajnijih publikacija.<br />Svako područje je potrebno razdvojiti <b>zarezom.</b>
-                                </span>
+
                                 <textarea
                                     className='add-professor-form-information-input'
 
                                     id="significantPublications"
-                                    onChange={(e) => setSignificantPublications(e.target.value)}
-                                    value={significantPublications}
+                                    onChange={(e) => setOpcijePublikacije(e.target.value)}
+                                    value={opcijePublikacije}
                                     placeholder='Unesite najznačajnije publikacije'
                                 />
+                                <span className='add-professor-form-information-input-description'>
+                                    Potrebno je uneti publikacije.<br />Svaku publikaciju je potrebno razdvojiti <b>uzvicnikom!</b>
+                                </span>
 
                             </div>
 
@@ -443,9 +426,9 @@ export default function EditProfessor() {
                         <hr className="add-professor-form-seperator" />
 
 
-                        
-                            <button type='submit' disabled={!validFirstname || !validLastname || !validTitle ? true : false} className="add-professor-form-button-submit">Izmeni profesora</button>
-                        
+
+                        <button type='submit' disabled={!validFirstname || !validLastname || !validTitle ? true : false} className="add-professor-form-button-submit">Izmeni profesora</button>
+
 
                     </form>
                 </div>

@@ -8,6 +8,10 @@ import { useFilter } from '@react-aria/i18n';
 import SearchHomeBar from './SearchHomeBar';
 import xlsimg from '../images/xls.png';
 import SortSpan from './SortSpan';
+import DropdownMultiSearch from './DropdownMultiSearch';
+import { katedreOptionsArray } from './data/katedre';
+import { oblastiIstrazivanjaOptionsArray } from './data/oblastiIstrazivanja';
+import DropdownMultiSearchID from './DropdownMultiSearchID';
 
 function exportJson(data1) { // mozda napravi komponentu dugme XLS kliknes i odradi ovu funkciju
   data1.forEach(element => {
@@ -15,27 +19,27 @@ function exportJson(data1) { // mozda napravi komponentu dugme XLS kliknes i odr
     delete element.__v
   });
   const data = data1
-  const fileName = 'download'
+  const fileName = 'profesori'
   const exportType = 'xls'
   exportFromJSON({ data, fileName, exportType })
 }
 
 export default function ProfessorsHome() {
-  const [professors, setProfessors] = useOutletContext();
+  const [professors, setProfessors, projects, setProjects] = useOutletContext();
   // const {professors, setProfessors} = useProf();
   const [filtriraniProfesori, setFiltriraniProfesori] = useState(professors);
   const [query, setQuery] = useState('');
-  const [opcijeScientificResearch, setOpcijeScientificResearch] = useState([]);
-  const [opcijeLabaratories, setOpcijeLabaratories] = useState([]);
-  const [opcijeScientificProjects, setOpcijeScientificProjects] = useState([]);
-  const [opcijeSignificantPublications, setOpcijeSignificantPublications] = useState([]);
-  const [opcijeTags, setOpcijeTags] = useState([]);
+  const [opcijeOblastiIstrazivanja, setOpcijeOblastiIstrazivanja] = useState([]);
+  const [opcijeKatedre, setOpcijeKatedre] = useState([]);
+  const [opcijeProjekti, setOpcijeProjekti] = useState([]);
+  const [opcijePublikacije, setOpcijePublikacije] = useState([]);
+  const [opcijeTagovi, setOpcijeTagovi] = useState([]);
 
   // const [showSortModal, setShowSortModal] = useState(false);//moguci fix je da napravis komponentu BrojPublikacija
   function sortMax() {
     const stariProfesori = [...filtriraniProfesori];
     const noviProf = stariProfesori.sort((a, b) => {
-      return b.significantPublications.length - a.significantPublications.length;
+      return b.publikacije.length - a.publikacije.length;
     });
     setFiltriraniProfesori(noviProf);
 
@@ -43,7 +47,7 @@ export default function ProfessorsHome() {
   function sortMin() {
     const stariProfesori = [...filtriraniProfesori];
     const noviProf = stariProfesori.sort((a, b) => {
-      return a.significantPublications.length - b.significantPublications.length;
+      return a.publikacije.length - b.publikacije.length;
     });
     setFiltriraniProfesori(noviProf);
   }
@@ -63,28 +67,29 @@ export default function ProfessorsHome() {
       //     return false
       //   }
       // }
+      // u ovaj QUERY CES DODATI I SORTIRANJE PREMA KATEDRI I SORTIRANJE PREMA * I SORTIRANJE PREMA SVEMU 
       if (query) {
-        let title_firstname_lastname = professor.title + " " + professor.firstname + " " + professor.lastname;
-        if (!(contains(title_firstname_lastname.toLowerCase(), query.toLowerCase()) || contains(professor.title.toLowerCase(), query.toLowerCase()) || contains(professor.lastname.toLowerCase(), query.toLowerCase()) || contains(professor.firstname.toLowerCase(), query.toLowerCase()) || contains(query.toLowerCase(), professor.firstname.toLowerCase()) || contains(query.toLowerCase(), professor.lastname.toLowerCase()) || contains(query.toLowerCase(), professor.title.toLowerCase()))) {
+        let title_firstname_lastname = professor.titula + " " + professor.ime + " " + professor.prezime;
+        if (!(contains(title_firstname_lastname.toLowerCase(), query.toLowerCase()) || contains(professor.titula.toLowerCase(), query.toLowerCase()) || contains(professor.prezime.toLowerCase(), query.toLowerCase()) || contains(professor.ime.toLowerCase(), query.toLowerCase()) || contains(query.toLowerCase(), professor.ime.toLowerCase()) || contains(query.toLowerCase(), professor.prezime.toLowerCase()) || contains(query.toLowerCase(), professor.titula.toLowerCase()))) {
           return false
         }
       }
-      if ((opcijeScientificResearch.length == 0) && (opcijeLabaratories.length == 0) && (opcijeScientificProjects.length == 0) && (opcijeSignificantPublications.length == 0) && (opcijeTags.length == 0)) {
+      if ((opcijeOblastiIstrazivanja.length == 0) && (opcijeKatedre.length == 0) && (opcijeProjekti.length == 0) && (opcijePublikacije.length == 0) && (opcijeTagovi.length == 0)) {
         return true;
       }
-      if ((opcijeScientificResearch.length != 0) && professor.scientificResearch.some((el) => opcijeScientificResearch.includes(el))) {
+      if ((opcijeOblastiIstrazivanja.length != 0) && professor.oblastiIstrazivanja.some((el) => opcijeOblastiIstrazivanja.includes(el))) {
         return true;
       }
-      if ((opcijeLabaratories.length != 0) && professor.labaratories.some((el) => opcijeLabaratories.includes(el))) {
+      if ((opcijeKatedre.length != 0) && professor.katedre.some((el) => opcijeKatedre.includes(el))) {
         return true;
       }
-      if ((opcijeScientificProjects.length != 0) && professor.scientificProjects.some((el) => opcijeScientificProjects.includes(el))) {
+      if ((opcijeProjekti.length != 0) && professor.projekti.some((profesorovaSifra) => opcijeProjekti.some((projekat) => projekat._id.includes(profesorovaSifra)))) {
         return true;
       }
-      if ((opcijeSignificantPublications.length != 0) && professor.significantPublications.some((el) => opcijeSignificantPublications.includes(el))) {
+      if ((opcijePublikacije.length != 0) && professor.publikacije.some((el) => opcijePublikacije.includes(el))) {
         return true;
       }
-      if ((opcijeTags.length != 0) && professor.tags.some((el) => opcijeTags.includes(el))) {
+      if ((opcijeTagovi.length != 0) && professor.tagovi.some((el) => opcijeTagovi.includes(el))) {
         return true;
       }
 
@@ -93,38 +98,36 @@ export default function ProfessorsHome() {
     });
 
     setFiltriraniProfesori(filtriraniStariProfesori);
-  }, [opcijeScientificResearch, opcijeLabaratories, opcijeScientificProjects, opcijeSignificantPublications, query, professors, opcijeTags]);
+  }, [opcijeOblastiIstrazivanja, opcijeKatedre, opcijeProjekti, opcijePublikacije, query, professors, opcijeTagovi]);
 
-
+  const [katedre1, setKatedre1] = useState([]);
+  
   return (
     <div className="professors-home-container">
       <div className="professors-home-filters-container">
         <span className="professors-home-filters-title">Napredna pretraga</span>
         {/* dal cu search koristiti jos se pitam, vrv je nebitan za ovu aplikaciju, trenutno postoji vizuelno ali nije povezan na back, mogu eventualno da ga povezem na ime i prezime */}
         <div>
-          <span className="professors-home-filters-span">Naučno istraživanje</span>
-          <DropdownMultiSelect uniqueSelectedItems={opcijeScientificResearch} setUniqueSelectedItems={setOpcijeScientificResearch} placeholder={"Odaberi istraživanja"} nizOpcija={professors?.map(x => x.scientificResearch)} />
+          <span className="professors-home-filters-span">Oblasti istraživanjanja</span>
+          <DropdownMultiSearch importArray={oblastiIstrazivanjaOptionsArray} uniqueSelectedItems={opcijeOblastiIstrazivanja} setUniqueSelectedItems={setOpcijeOblastiIstrazivanja} placeholder={"Izaberite oblasti"}/>
+        </div>
+        
+        <div>
+          <span className="professors-home-filters-span">Katedre</span>
+          <DropdownMultiSearch importArray={katedreOptionsArray} uniqueSelectedItems={opcijeKatedre} setUniqueSelectedItems={setOpcijeKatedre} placeholder={"Izaberite katedre"}/>
         </div>
         <div>
-          <span className="professors-home-filters-span">Laboratorija</span>
-          <DropdownMultiSelect uniqueSelectedItems={opcijeLabaratories} setUniqueSelectedItems={setOpcijeLabaratories} placeholder={"Odaberi laboratorije"} nizOpcija={professors?.map(x => x.labaratories)} />
+          <span className="professors-home-filters-span">Projekti</span>
+          <DropdownMultiSearchID importArray={projects} uniqueSelectedItems={opcijeProjekti} setUniqueSelectedItems={setOpcijeProjekti} placeholder={"Izaberite projekte"}/>
         </div>
         <div>
-          <span className="professors-home-filters-span">Naučni projekti</span>
-          <DropdownMultiSelect uniqueSelectedItems={opcijeScientificProjects} setUniqueSelectedItems={setOpcijeScientificProjects} placeholder={"Odaberi projekte"} nizOpcija={professors?.map(x => x.scientificProjects)} />
-        </div>
-        <div>
-          <span className="professors-home-filters-span">Najznačajnije publikacije</span>
-          <DropdownMultiSelect uniqueSelectedItems={opcijeSignificantPublications} setUniqueSelectedItems={setOpcijeSignificantPublications} placeholder={"Odaberi publikacije"} nizOpcija={professors?.map(x => x.significantPublications)} />
-
+          <span className="professors-home-filters-span">Publikacije</span>
+          <DropdownMultiSearch importArray={[...new Set(professors?.map(x => x.publikacije).flat(1))]} uniqueSelectedItems={opcijePublikacije} setUniqueSelectedItems={setOpcijePublikacije} placeholder={"Izaberite publikacije"}/>
         </div>
         <div>
           <span className="professors-home-filters-span">Tagovi</span>
-          <DropdownMultiSelect uniqueSelectedItems={opcijeTags} setUniqueSelectedItems={setOpcijeTags} placeholder={"Odaberi tagove"} nizOpcija={professors?.map(x => x.tags)} />
-
+          <DropdownMultiSearch importArray={[...new Set(professors?.map(x => x.tagovi).flat(1))]} uniqueSelectedItems={opcijeTagovi} setUniqueSelectedItems={setOpcijeTagovi} placeholder={"Izaberite tagove"}/>
         </div>
-
-
 
       </div>
       <div className="professors-home-content-container">
@@ -141,7 +144,7 @@ export default function ProfessorsHome() {
               </span>
 
             </button>
-            <PdfGenerator filtriraniProfesori={filtriraniProfesori} />
+            <PdfGenerator filtriraniProfesori={filtriraniProfesori} projects={projects} />
           </div>
 
         </div>
@@ -151,10 +154,10 @@ export default function ProfessorsHome() {
               <tr className='professors-home-table-head-row'>
                 <th className='professors-home-table-head-cell'>Titula</th>
                 <th className='professors-home-table-head-cell'>Ime i Prezime</th>
-                <th className='professors-home-table-head-cell'>Naučno Istrazivanje -Kategorije</th>
-                <th className='professors-home-table-head-cell'>Labaratorije</th>
-                <th className='professors-home-table-head-cell'>Naučni projekti</th>
-                <th className='professors-home-table-head-cell'>Najznačajnije publikacije</th>
+                <th className='professors-home-table-head-cell'>Oblasti Istrazivanja</th>
+                <th className='professors-home-table-head-cell'>Katedre</th>
+                <th className='professors-home-table-head-cell'>Projekti</th>
+                <th className='professors-home-table-head-cell'>Publikacije</th>
                 <th className='professors-home-table-head-cell'>Tagovi</th>
                 <SortSpan sortMax={sortMax} sortMin={sortMin} />
                 <th className='professors-home-table-head-cell'></th>
@@ -164,17 +167,18 @@ export default function ProfessorsHome() {
             <tbody className='professors-home-table-body'>
               { // ovde rezultat
                 filtriraniProfesori?.map(professor => {
+                  console.log(projects.map(pro => {if(pro._id == professor.projekti[0]){return pro.nazivProjekta}})[0]);
 
                   return (
                     <tr className='professors-home-table-body-row' key={professor._id} >
-                      <td className='professors-home-table-body-cell title-body-cell'>{professor.title}</td>
-                      <td className='professors-home-table-body-cell'>{professor.firstname} {professor.lastname}</td>
-                      <td className='professors-home-table-body-cell'>{professor.scientificResearch[0]}</td>
-                      <td className='professors-home-table-body-cell'>{professor.labaratories[0]}</td>
-                      <td className='professors-home-table-body-cell'>{professor.scientificProjects[0]}</td>
-                      <td className='professors-home-table-body-cell'>{professor.significantPublications[0]}</td>
-                      <td className='professors-home-table-body-cell'><span className='tag-body-cell-span'>{professor.tags[0]}</span></td>
-                      <td className='professors-home-table-body-cell'>{professor.significantPublications.length} </td>
+                      <td className='professors-home-table-body-cell title-body-cell'>{professor.titula}</td>
+                      <td className='professors-home-table-body-cell'>{professor.ime} {professor.prezime}</td>
+                      <td className='professors-home-table-body-cell'>{professor.oblastiIstrazivanja[0]}</td>
+                      <td className='professors-home-table-body-cell'>{professor.katedre[0]}</td>
+                      <td className='professors-home-table-body-cell'>{projects.map(pro => {if(pro._id == professor.projekti[0]){return pro.nazivProjekta}})[0]}</td>
+                      <td className='professors-home-table-body-cell'>{professor.publikacije[0]}</td>
+                      <td className='professors-home-table-body-cell'><span className='tag-body-cell-span'>{professor.tagovi[0]}</span></td>
+                      <td className='professors-home-table-body-cell'>{professor.publikacije.length} </td>
                       <td className='professors-home-table-body-edit-cell'>
                         <Link to={"/professors/edit/" + professor._id}>
                           <button className='professors-home-table-body-edit-cell-button'>
@@ -196,7 +200,9 @@ export default function ProfessorsHome() {
           </table>
         </div>
         <div className="professors-home-page-count-container">
-          <div className="professors-home-page-count"></div>
+          <div className="professors-home-page-count">
+              
+          </div>
         </div>
       </div>
     </div>
