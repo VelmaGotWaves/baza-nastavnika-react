@@ -1254,6 +1254,7 @@ a:has(.login-register-link):hover {
     overflow-x: hidden;
     overflow-y: hidden;
     padding: 15px;
+    max-height: fit-content;
 }
 
 .professors-home-filters-title {

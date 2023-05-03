@@ -71,8 +71,6 @@ export default function CreateProjectsSection() {
         <p className={errMsg ? "errmsg" : "offscreen"} >{errMsg}</p>
 
         <span className='admin-create-title'>Napravi projekat</span>
-        <hr className='admin-display-seperator' />
-        
         <form onSubmit={handleSubmit} className='admin-create-form'>
           <div className="admin-create-form-container">
             <div className="admin-create-form-username-container">
@@ -128,7 +126,8 @@ export default function CreateProjectsSection() {
             </div>
           </div>
 
-          <hr className='admin-create-seperator' />
+          <hr className='admin-display-seperator' />
+
 
           <button disabled={!validProject? true : false} className='admin-create-submit-button'>Kreiraj novi projekat</button>
 

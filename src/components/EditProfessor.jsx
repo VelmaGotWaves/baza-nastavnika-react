@@ -228,12 +228,12 @@ export default function EditProfessor() {
             // selectedProfessor.publikacije.map(sp => tempSP += sp + "!\n");
             // setOpcijePublikacije(tempSP);
             // setOpcijeTagovi(selectedProfessor.tagovi);
-            
+
             setInsertDataOblastiIstrazivanja(selectedProfessor.oblastiIstrazivanja)
             setInsertDataKatedre(selectedProfessor.katedre);
             const projProj = projects.filter(pr => {
-                if(selectedProfessor.projekti.some(projekat => projekat == pr._id))
-                return pr
+                if (selectedProfessor.projekti.some(projekat => projekat == pr._id))
+                    return pr
             })
             setInsertDataProjekti(projProj);
             let tempSP = "";
@@ -367,15 +367,18 @@ export default function EditProfessor() {
                                 <label htmlFor="scientificResearch" className="add-professor-form-label">
                                     Oblasti istraživanjanja
                                 </label>
-
-                                <DropdownMultiSearch insertData={insertDataOblastiIstrazivanja}importArray={oblastiIstrazivanjaOptionsArray} uniqueSelectedItems={opcijeOblastiIstrazivanja} setUniqueSelectedItems={setOpcijeOblastiIstrazivanja} placeholder={"Izaberite oblasti"} />
                                 <span className='add-professor-form-information-input-description'>
                                     Potrebno je izabrati područje znastvenog istraživanja.
                                 </span>
+                                <DropdownMultiSearch insertData={insertDataOblastiIstrazivanja} importArray={oblastiIstrazivanjaOptionsArray} uniqueSelectedItems={opcijeOblastiIstrazivanja} setUniqueSelectedItems={setOpcijeOblastiIstrazivanja} placeholder={"Izaberite oblasti"} />
+
                                 <label htmlFor="tags" className="add-professor-form-label">
                                     Tagovi
                                 </label>
-                                <DropdownMultiSearch insertData={insertDataTagovi}importArray={[...new Set(professors?.map(x => x.tagovi).flat(1))]} uniqueSelectedItems={opcijeTagovi} setUniqueSelectedItems={setOpcijeTagovi} placeholder={"Izaberite tagove"} />
+                                <DropdownMultiSearch insertData={insertDataTagovi} importArray={[...new Set(professors?.map(x => x.tagovi).flat(1))]} uniqueSelectedItems={opcijeTagovi} setUniqueSelectedItems={setOpcijeTagovi} placeholder={"Izaberite tagove"} />
+                                <span className='add-professor-form-information-input-description'>
+                                    Ako zelite da dodate tagove koji <b>nisu</b> ponuđeni.<br />Svaki tag je potrebno razdvojiti <b>uzvičnikom!</b>
+                                </span>
                                 <textarea
                                     id="tags"
                                     onChange={(e) => setTekstTagovi(e.target.value)}
@@ -383,31 +386,33 @@ export default function EditProfessor() {
                                     value={tekstTagovi}
                                     placeholder='Unesite tagove'
                                 />
-                                <span className='add-professor-form-information-input-description'>
-                                    Ako zelite da dodate tagove koji <b>nisu</b> ponudjeni.<br />Svaki tag je potrebno razdvojiti <b>uzvicnikom!</b>
-                                </span>
+
 
                                 <label htmlFor="labaratories" className="add-professor-form-label">
                                     Katedre
                                 </label>
-                                <DropdownMultiSearch insertData={insertDataKatedre}importArray={katedreOptionsArray} uniqueSelectedItems={opcijeKatedre} setUniqueSelectedItems={setOpcijeKatedre} placeholder={"Izaberite katedre"} />
                                 <span className='add-professor-form-information-input-description'>
                                     Potrebno je uneti katedre u kojima profesor radi.
                                 </span>
+                                <DropdownMultiSearch insertData={insertDataKatedre} importArray={katedreOptionsArray} uniqueSelectedItems={opcijeKatedre} setUniqueSelectedItems={setOpcijeKatedre} placeholder={"Izaberite katedre"} />
+
 
 
                                 <label htmlFor="scientificProjects" className="add-professor-form-label">
                                     Projekti
                                 </label>
-                                <DropdownMultiSearchID insertData={insertDataProjekti}importArray={projects} uniqueSelectedItems={opcijeProjekti} setUniqueSelectedItems={setOpcijeProjekti} placeholder={"Izaberite projekte"} />
                                 <span className='add-professor-form-information-input-description'>
                                     Potrebno je uneti projekte koje profesor trenutno vodi ili u njima učestvuje.
                                 </span>
+                                <DropdownMultiSearchID insertData={insertDataProjekti} importArray={projects} uniqueSelectedItems={opcijeProjekti} setUniqueSelectedItems={setOpcijeProjekti} placeholder={"Izaberite projekte"} />
+
 
                                 <label htmlFor="significantPublications" className="add-professor-form-label">
                                     Publikacije
                                 </label>
-
+                                <span className='add-professor-form-information-input-description'>
+                                    Potrebno je uneti publikacije.<br />Svaku publikaciju je potrebno razdvojiti <b>uzvičnikom!</b>
+                                </span>
                                 <textarea
                                     className='add-professor-form-information-input'
 
@@ -416,9 +421,7 @@ export default function EditProfessor() {
                                     value={opcijePublikacije}
                                     placeholder='Unesite najznačajnije publikacije'
                                 />
-                                <span className='add-professor-form-information-input-description'>
-                                    Potrebno je uneti publikacije.<br />Svaku publikaciju je potrebno razdvojiti <b>uzvicnikom!</b>
-                                </span>
+
 
                             </div>
 
