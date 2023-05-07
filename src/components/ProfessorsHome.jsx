@@ -70,7 +70,16 @@ export default function ProfessorsHome() {
       // u ovaj QUERY CES DODATI I SORTIRANJE PREMA KATEDRI I SORTIRANJE PREMA * I SORTIRANJE PREMA SVEMU 
       if (query) {
         let title_firstname_lastname = professor.titula + " " + professor.ime + " " + professor.prezime;
-        if (!(contains(title_firstname_lastname.toLowerCase(), query.toLowerCase()) || contains(professor.titula.toLowerCase(), query.toLowerCase()) || contains(professor.prezime.toLowerCase(), query.toLowerCase()) || contains(professor.ime.toLowerCase(), query.toLowerCase()) || contains(query.toLowerCase(), professor.ime.toLowerCase()) || contains(query.toLowerCase(), professor.prezime.toLowerCase()) || contains(query.toLowerCase(), professor.titula.toLowerCase()))) {
+        if (!(contains(title_firstname_lastname.toLowerCase(), query.toLowerCase()) || contains(professor.titula.toLowerCase(), query.toLowerCase()) || 
+        contains(professor.prezime.toLowerCase(), query.toLowerCase()) || contains(professor.ime.toLowerCase(), query.toLowerCase()) || 
+        contains(query.toLowerCase(), professor.ime.toLowerCase()) || contains(query.toLowerCase(), professor.prezime.toLowerCase()) || 
+        contains(query.toLowerCase(), professor.titula.toLowerCase()) ||
+        professor.oblastiIstrazivanja.some( item => contains(item.toLowerCase(), query.toLowerCase()) || contains(query.toLowerCase(),item.toLowerCase())) ||
+        professor.katedre.some( item => contains(item.toLowerCase(), query.toLowerCase()) || contains(query.toLowerCase(),item.toLowerCase())) ||
+        professor.publikacije.some( item => contains(item.toLowerCase(), query.toLowerCase()) || contains(query.toLowerCase(),item.toLowerCase())) ||
+        professor.projekti.some( item => contains(item.toLowerCase(), query.toLowerCase()) || contains(query.toLowerCase(),item.toLowerCase())) ||
+        professor.tagovi.some( item => contains(item.toLowerCase(), query.toLowerCase()) || contains(query.toLowerCase(),item.toLowerCase()))
+        )) {
           return false
         }
       }
@@ -167,15 +176,13 @@ export default function ProfessorsHome() {
             <tbody className='professors-home-table-body'>
               { // ovde rezultat
                 filtriraniProfesori?.map(professor => {
-                  console.log(projects.map(pro => {if(pro._id == professor.projekti[0]){return pro.nazivProjekta}})[0]);
-
                   return (
                     <tr className='professors-home-table-body-row' key={professor._id} >
                       <td className='professors-home-table-body-cell title-body-cell'>{professor.titula}</td>
                       <td className='professors-home-table-body-cell'>{professor.ime} {professor.prezime}</td>
                       <td className='professors-home-table-body-cell'>{professor.oblastiIstrazivanja[0]}</td>
                       <td className='professors-home-table-body-cell'>{professor.katedre[0]}</td>
-                      <td className='professors-home-table-body-cell'>{projects.map(pro => {if(pro._id == professor.projekti[0]){return pro.nazivProjekta}})[0]}</td>
+                      <td className='professors-home-table-body-cell'>{projects.map(pro => {if(pro._id == professor.projekti[0]){return pro.nazivProjekta}})}</td>
                       <td className='professors-home-table-body-cell'>{professor.publikacije[0]}</td>
                       <td className='professors-home-table-body-cell'><span className='tag-body-cell-span'>{professor.tagovi[0]}</span></td>
                       <td className='professors-home-table-body-cell'>{professor.publikacije.length} </td>

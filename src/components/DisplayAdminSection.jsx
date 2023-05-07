@@ -3,7 +3,11 @@ import { useState, useEffect } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useNavigate, useLocation } from "react-router-dom";
 import DeleteModuo from './DeleteModuo';
+import useAuth from '../hooks/useAuth';
+
 export default function DisplayAdminSection() {
+    const { auth } = useAuth();
+
     const [users, setUsers] = useState();
     const axiosPrivate = useAxiosPrivate();
     const navigate = useNavigate();
@@ -94,24 +98,29 @@ export default function DisplayAdminSection() {
                     </thead>
                     <tbody>
                         {
-                            users?.map(user => {
+                            users?.map((user , index) => {
                                 // console.log(Object.keys(user.roles))
                                 return (
-                                    <tr className='admin-display-table-row' key={user._id} >
+                                    <tr className='admin-display-table-row' key={index} >
                                         <td className='admin-display-table-cell'>{user.username}</td>
                                         <td className='admin-display-table-cell'>{Object.keys(user.roles).map(key => key + " ")}</td>
                                         <td className='admin-display-table-delete-cell'>
-                                            <button className='admin-display-table-delete-button' onClick={() => {
-                                                setSelectedId(user._id)
-                                                setViewDeleteModuo(true)
-                                            }}>
-                                                <span className="material-symbols-outlined">
-                                                    delete_forever
-                                                </span>
-                                                <span>
-                                                    Obriši
-                                                </span>
-                                            </button>
+                                            {
+                                                auth.user != user.username?(
+                                                    <button className='admin-display-table-delete-button' onClick={() => {
+                                                        setSelectedId(user._id)
+                                                        setViewDeleteModuo(true)
+                                                    }}>
+                                                        <span className="material-symbols-outlined">
+                                                            delete_forever
+                                                        </span>
+                                                        <span>
+                                                            Obriši
+                                                        </span>
+                                                    </button>
+                                                ): " "
+                                            }
+                                            
                                         </td>
                                     </tr>
                                 )
