@@ -32,7 +32,6 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="linkpage" element={<LinkPage />} />
         <Route path="unauthorized" element={<Unauthorized />} />
-        <Route path="register" element={<Register />} />
 
         {/* we want to protect these routes */}
         <Route element={<Navbar />}>
