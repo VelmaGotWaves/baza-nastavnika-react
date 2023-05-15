@@ -1,5 +1,5 @@
 import { useNavigate, Link } from "react-router-dom";
-import useLogout from "../hooks/useLogout";
+import useLogout from "../../hooks/useLogout";
 import {useEffect} from 'react'
 const Home = () => {
     const navigate = useNavigate();

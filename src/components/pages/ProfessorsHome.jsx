@@ -1,17 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useOutletContext, Link } from 'react-router-dom';
-import DropdownMultiSelect from './DropdownMultiSelect';
+import DropdownMultiSelect from '../not-in-use/DropdownMultiSelect';
 import exportFromJSON from 'export-from-json';
-import PdfGenerator from './PdfGenerator';
+import PdfGenerator from '../PdfGenerator';
 // import useProf from '../hooks/useProf';
 import { useFilter } from '@react-aria/i18n';
-import SearchHomeBar from './SearchHomeBar';
-import xlsimg from '../images/xls.png';
-import SortSpan from './SortSpan';
-import DropdownMultiSearch from './DropdownMultiSearch';
-import { katedreOptionsArray } from './data/katedre';
-import { oblastiIstrazivanjaOptionsArray } from './data/oblastiIstrazivanja';
-import DropdownMultiSearchID from './DropdownMultiSearchID';
+import SearchHomeBar from '../SearchHomeBar';
+import xlsimg from '../../images/xls.png';
+import SortSpan from '../SortSpan';
+import DropdownMultiSearch from '../DropdownMultiSearch';
+import { katedreOptionsArray } from '../data/katedre';
+import { oblastiIstrazivanjaOptionsArray } from '../data/oblastiIstrazivanja';
+import DropdownMultiSearchID from '../DropdownMultiSearchID';
 
 function exportJson(data1) { // mozda napravi komponentu dugme XLS kliknes i odradi ovu funkciju
   data1.forEach(element => {

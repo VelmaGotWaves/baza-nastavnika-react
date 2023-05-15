@@ -1,5 +1,5 @@
-import DisplayAdminSection from "./DisplayAdminSection";
-import CreateAdminSection from "./CreateAdminSection";
+import DisplayAdminSection from "../sections/DisplayAdminSection";
+import CreateAdminSection from "../sections/CreateAdminSection";
 const Admin = () => {
     return (
 

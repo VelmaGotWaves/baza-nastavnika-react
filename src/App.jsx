@@ -1,21 +1,25 @@
-import Login from './components/Login';
-import Home from './components/Home';
-import Layout from './components/Layout';
-import Admin from './components/Admin';
-import Missing from './components/Missing';
-import Unauthorized from './components/Unauthorized';
+import Login from './components/pages/Login';
+import Home from './components/pages/Home';
+import Layout from './components/wrappers/Layout';
+import Admin from './components/pages/Admin';
+import Missing from './components/pages/Missing';
+import Unauthorized from './components/pages/Unauthorized';
 import LinkPage from './components/LinkPage';
 import RequireAuth from './components/RequireAuth';
 import PersistLogin from './components/PersistLogin';
 import { Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import AddProfessor from './components/AddProfessor';
+import Navbar from './components/pages/Navbar';
+import AddProfessor from './components/pages/AddProfessor';
 import ProfessorsProvider from './context/ProfessorsProvider';
-import EditProfessor from './components/EditProfessor';
-import ProfessorsHome from './components/ProfessorsHome';
+import EditProfessor from './components/pages/EditProfessor';
+import ProfessorsHome from './components/pages/ProfessorsHome';
 import RequireAuthProfessors from './components/RequireAuthProfessors';
-import { ProfProvider } from './context/ProfProvider';
-import Projects from './components/Projects';
+// import { ProfProvider } from './context/ProfProvider';
+import Projects from './components/pages/Projects';
+import ProjectsHome from './components/pages/ProjectsHome';
+import AddProject from './components/pages/AddProject';
+import EditProject from './components/pages/EditProject';
+// prebaci ovo kasnije u neki env ili nesto
 const ROLES = {
   'User': 2001,
   'Editor': 1984,
@@ -33,8 +37,9 @@ function App() {
         <Route path="unauthorized" element={<Unauthorized />} />
 
         {/* we want to protect these routes */}
-        <Route element={<Navbar />}>
-          <Route element={<PersistLogin />}>
+        <Route element={<PersistLogin />}>
+          <Route element={<Navbar />}>
+
             <Route element={<RequireAuth allowedRoles={[ROLES.User]} />}>
               <Route path="/" element={<Home />} />
             </Route>
@@ -45,27 +50,41 @@ function App() {
 
             <Route path="professors" element={<ProfessorsProvider />}>
 
-              <Route element={<RequireAuthProfessors allowedRoles={[ROLES.Editor, ROLES.Admin]} />}>
+              <Route element={<RequireAuthProfessors allowedRoles={[ROLES.User, ROLES.Editor, ROLES.Admin]} />}>
                 <Route index
                   element={
                     // <ProfProvider>
-                      <ProfessorsHome />
+                    <ProfessorsHome />
                     // </ProfProvider>
                   }
                 />
               </Route>
+              <Route element={<RequireAuthProfessors allowedRoles={[ROLES.Editor, ROLES.Admin]} />}>
+                <Route path="add" element={<AddProfessor />} />
+              </Route>
+              <Route element={<RequireAuthProfessors allowedRoles={[ROLES.Editor, ROLES.Admin]} />}>
+                <Route path="edit/:id?" element={<EditProfessor />} />
+              </Route>
+              
 
-              <Route element={<RequireAuthProfessors allowedRoles={[ROLES.Editor, ROLES.Admin]} />}>
-                <Route path="add" element={<AddProfessor />}/>
+            </Route>
+            
+            <Route path="projects" element={<ProfessorsProvider />}>
+
+              <Route element={<RequireAuthProfessors allowedRoles={[ROLES.User, ROLES.Editor, ROLES.Admin]} />}>
+                <Route index element={
+                <Projects />
+                } />
               </Route>
               <Route element={<RequireAuthProfessors allowedRoles={[ROLES.Editor, ROLES.Admin]} />}>
-                <Route path="edit/:id?" element={<EditProfessor />}/>
+                <Route path="add" element={<AddProject />} />
               </Route>
               <Route element={<RequireAuthProfessors allowedRoles={[ROLES.Editor, ROLES.Admin]} />}>
-                <Route path="projects" element={<Projects />}/>
+                <Route path="edit/:id?" element={<EditProject />} />
               </Route>
 
             </Route>
+
           </Route>
         </Route>
         {/* catch all */}

@@ -120,8 +120,10 @@ export default function PdfGenerator({ filtriraniProfesori, projects }) {
                                                 <Text style={styles.tableCell}>
                                                     <View style={{ flexDirection: "column" }}>
 
-                                                        {prof.projekti.map((data, index) => {
-                                                            const projekat = projects?.map(proj => {if(proj._id == data) return proj}) || null;
+                                                        {prof.projekti?.map((data, index) => {
+                                                            
+                                                            const projekat = projects?.filter(proj => proj._id == data);
+                                                            // console.log(data) VELIKI PROBLEM OVDE NEKAD DAJE NULL IAKO IMAJU PROJEKTI
                                                             return (
                                                                 <View key={index} style={{ marginBottom: 4, flexDirection: "row" }}>
                                                                     <Text style={{ marginRight: 8 }}>{index + 1 + "."}</Text>

@@ -1,6 +1,6 @@
 import React from 'react';
-import CreateProjectsSection from './CreateProjectsSection';
-import DisplayProjectsSection from './DisplayProjectsSection';
+import CreateProjectsSection from '../sections/CreateProjectsSection';
+import DisplayProjectsSection from '../sections/DisplayProjectsSection';
 export default function Projects() {
     return (
         <div className="admin-page-container">

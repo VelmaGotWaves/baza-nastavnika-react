@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
-import useAuth from '../hooks/useAuth'
+import useAuth from '../../hooks/useAuth'
 import { Link, Outlet, useNavigate, useLocation } from 'react-router-dom';
-import useLogout from '../hooks/useLogout';
+import useLogout from '../../hooks/useLogout';
 
 export default function Navbar() {
     const navigate = useNavigate();
@@ -16,18 +16,28 @@ export default function Navbar() {
 
     useEffect(() => {
         windowChange();
+    }, []);
+
+    useEffect(() => {
+        windowChange();
     }, [pathname, updateIndicatorLocation, navDivs]);
     window.addEventListener('resize', windowChange);
 
     function windowChange() {
-        if (pathname.includes("add")) {
+        if (pathname.includes("professors/add")) {
             updateIndicatorLocation(1);
-        } else if (pathname.includes("edit")) {
+        } else if (pathname.includes("professors/edit")) {
             updateIndicatorLocation(2);
+        } else if (pathname.includes("projects/add")) {
+            updateIndicatorLocation(4);
+        } else if (pathname.includes("projects/edit")) {
+            updateIndicatorLocation(5);
         } else if (pathname.includes("projects")) {
             updateIndicatorLocation(3);
         } else if (pathname.includes("admin")) {
-            updateIndicatorLocation(4);
+            updateIndicatorLocation(6);
+        } else if (pathname.includes("projects")) {
+            updateIndicatorLocation(3);
         } else if (pathname.includes("professors")) {
             updateIndicatorLocation(0);
         }
@@ -75,8 +85,14 @@ export default function Navbar() {
                         <Link to='/professors/edit'>
                             <div className='navbar-navigation-divs'>Izmeni Profesora</div>
                         </Link>
-                        <Link to='/professors/projects'>
+                        <Link to='/projects'>
                             <div className='navbar-navigation-divs'>Projekti</div>
+                        </Link>
+                        <Link to='/projects/add'>
+                            <div className='navbar-navigation-divs'>Dodaj Projekte</div>
+                        </Link>
+                        <Link to='/projects/edit'>
+                            <div className='navbar-navigation-divs'>Izmeni Projekte</div>
                         </Link>
                         <Link to='/admin'>
                             <div className='navbar-navigation-divs'>Admini</div>

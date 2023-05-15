@@ -1,9 +1,10 @@
 import { useRef, useState, useEffect } from 'react';
-import useAuth from '../hooks/useAuth';
+import useAuth from '../../hooks/useAuth';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import useLogout from '../hooks/useLogout';
-import axios from '../api/axios';
-import pozadina from '../images/pozadina3.png'
+import useLogout from '../../hooks/useLogout';
+import axios from '../../api/axios';
+import pozadina from '../../images/pozadina3.png';
+import Loader from '../Loader';
 const LOGIN_URL = '/auth';
 
 const Login = () => {
@@ -27,7 +28,7 @@ const Login = () => {
     const [pwd, setPwd] = useState('');
     const [errMsg, setErrMsg] = useState('');
 
-
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         // signOut();
@@ -47,6 +48,8 @@ const Login = () => {
         e.preventDefault();
 
         try {
+            setIsLoading(true);
+            // ovde mozes mount true
             const response = await axios.post(LOGIN_URL,
                 JSON.stringify({ user, pwd, persist }),
                 {
@@ -54,8 +57,6 @@ const Login = () => {
                     withCredentials: true
                 }
             );
-            // console.log(JSON.stringify(response?.data));
-            // console.log(JSON.stringify(response));
             const accessToken = response?.data?.accessToken;
             const roles = response?.data?.roles;
             setAuth({ user: response?.data?.user, roles, accessToken, refreshTokenApp: response?.data?.refreshTokenApp });
@@ -75,6 +76,8 @@ const Login = () => {
                 setErrMsg('Login Failed');
             }
             errRef.current.focus();
+        } finally{
+            setIsLoading(false);
         }
     }
 
@@ -95,7 +98,7 @@ const Login = () => {
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
                 </div>
                 <div className="login-title">Dobrodošli u Bazu profesora!</div>
-                <div className="login-register-container">
+                {/* <div className="login-register-container">
                     <span className='login-register-text'>
                         Nemate nalog?
                     </span>
@@ -105,7 +108,7 @@ const Login = () => {
                             Kreirajte ga
                         </span>
                     </Link>
-                </div>
+                </div> */}
 
                 <form className="login-form" onSubmit={handleSubmit}>
                     <label htmlFor="username" className='login-form-label'>Username</label>
@@ -138,7 +141,10 @@ const Login = () => {
                         />
                         <label htmlFor="persist" className="login-form-checkbox-label">Veruj ovom uređaju</label>
                     </div>
-                    <button type='submit' className='login-form-submit'>Prijavi se</button>
+                    {isLoading ? <Loader /> : (
+                        <button type='submit' className='login-form-submit'>Prijavi se</button>
+
+                    )}
                 </form>
             </div>
         </div>

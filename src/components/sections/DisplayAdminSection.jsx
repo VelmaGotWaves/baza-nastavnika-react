@@ -1,9 +1,9 @@
 import React from 'react'
 import { useState, useEffect } from "react";
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useNavigate, useLocation } from "react-router-dom";
-import DeleteModuo from './DeleteModuo';
-import useAuth from '../hooks/useAuth';
+import DeleteModuo from '../DeleteModuo';
+import useAuth from '../../hooks/useAuth';
 
 export default function DisplayAdminSection() {
     const { auth } = useAuth();

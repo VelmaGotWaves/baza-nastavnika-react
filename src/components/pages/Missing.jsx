@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import Isolation_Module from '../images/Isolation_Mode.png'
+import Isolation_Module from '../../images/Isolation_Mode.png'
 const Missing = () => {
     return (
         <div className="missing-content">

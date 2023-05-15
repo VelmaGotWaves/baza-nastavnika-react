@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from "react";
-import SuccessModuo from './SuccessModuo';
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import SuccessModuo from '../SuccessModuo';
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;

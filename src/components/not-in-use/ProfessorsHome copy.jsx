@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useOutletContext, Link } from 'react-router-dom'
-import SearchProfessorsBar from './SearchProfessorsBar';
+import SearchProfessorsBar from '../SearchProfessorsBar';
 import DropdownMultiSelect from './DropdownMultiSelect';
 import exportFromJSON from 'export-from-json'
-import PdfGenerator from './PdfGenerator';
-import SortModal from './SortModal'
+import PdfGenerator from '../PdfGenerator';
+import SortModal from '../SortModal'
 // import useProf from '../hooks/useProf';
 import { useFilter } from '@react-aria/i18n';
 
