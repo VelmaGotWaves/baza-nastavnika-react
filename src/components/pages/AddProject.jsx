@@ -84,7 +84,6 @@ export default function AddProject() {
     // ovde ce biti provera uslova TODO MISLIM DA IMA JOS DOSTA OVDE DA SE VALIDIRA ALI KO CE GA ZNATI (npr date, npr sa png na pdf, npr itd....)
     
 
-    console.log(Object.keys(filesAneksi).map(key => filesAneksi[key].name));
     if (!PROJECT_REGEX.test(nazivProjekta)) {
       setErrMsg("Nije dobar naziv projekta");
       return;
@@ -117,15 +116,15 @@ export default function AddProject() {
 
     const fd = new FormData();
 
-    if (fileUgovor) {
-      if (fileUgovor.name.split('.').pop() != "PNG") {
+    if (typeof fileUgovor==="object") {
+      if (fileUgovor.name.split('.').pop() != "PNG" && fileUgovor.name.split('.').pop() != "png") {
         setErrMsg("Fajl ugovora nije dozvoljenog tipa");
         return;
       }
       fd.append("fileUgovor", fileUgovor);
 
     }
-    if (filesAneksi) {
+    if (typeof filesAneksi ==="object") {
       if (Object.keys(filesAneksi).map(key => filesAneksi[key].name).find(fileName => fileName.split('.').pop() != "PNG")) {
         setErrMsg("Fajl aneksa nije dozvoljenog tipa");
         return;
@@ -157,12 +156,15 @@ export default function AddProject() {
     fd.append("clanoviProjektnogTima", JSON.stringify(clanoviProjektnogTima));
     fd.append("website", website);
     fd.append("kljucneReci", JSON.stringify(kljucneReciFINAL));
+    
+
     try {
+      setErrMsg('');
       const response = await axiosPrivate.post("/projects", fd, {
         headers: {
           'Content-Type': 'multipart/form-data'
         },
-        // withCredentials: true mora bez with credentials da bi se poslala slika, kako radi ne znam
+        // withCredentials: true mora bez with credentials da bi se poslala slika, kako radi ne znam, posto inace treba credentials da bi se poslao authorization header
 
       }
       );
@@ -186,44 +188,6 @@ export default function AddProject() {
       }
     }
 
-    // const fd = new FormData();
-
-    // fd.append("fileUgovor", fileUgovor);
-    // fd.append("filesAneksi", filesAneksi);
-    // console.log(fd.get("fileUgovor"))
-    // try {
-    //   const response = await axiosPrivate.post("/projects", {
-    //     text:
-    //     {nazivProjekta,
-    //     nazivPrograma,
-    //     vrstaProjekta,
-    //     programFinansiranja,
-    //     referentniBroj,
-    //     interniBroj,
-    //     rukovodilac,
-    //     administrator,
-    //     profitniCentar,
-    //     planiraniPocetak,
-    //     planiraniZavrsetak,
-    //     trajanje,
-    //     ukupanBudzet,
-    //     budzetZaFon,
-    //     opis,
-    //     ciljevi,
-    //     partnerskeInstitucije,
-    //     clanoviProjektnogTima,
-    //     website,
-    //     kljucneReci: kljucneReciFINAL},
-    //     files:{
-    //       fd: fd
-    //     }
-    //   },
-    //     {
-    //       headers: { 'Content-Type': 'aplication/json' },
-    //       withCredentials: true,
-
-    //     }
-    //   );
   }
 
 
@@ -607,14 +571,14 @@ export default function AddProject() {
                   <label className="add-professor-form-label">
                     Ugovor
                   </label>
-                  <input type="file" name="" id="" onChange={(e) => { setFileUgovor(e.target.files[0]); console.log(fileUgovor) }} />
+                  <input type="file" name="" id="" onChange={(e) => { setFileUgovor(e.target.files[0]) }} />
                   {/* na kraju dodaj neku logiku za pakovanje ovih fajlova */}
                 </div>
                 <div className="add-professor-form-name-inputs-right">
                   <label className="add-professor-form-label">
                     Aneksi
                   </label>
-                  <input type="file" name="" id="" multiple onChange={(e) => { setFilesAneksi(e.target.files); console.log(filesAneksi) }} />
+                  <input type="file" name="" id="" multiple onChange={(e) => { setFilesAneksi(e.target.files) }} />
                 </div>
               </div>
             </div>
