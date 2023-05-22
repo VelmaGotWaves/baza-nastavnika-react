@@ -7,7 +7,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthProvider';
 import { disableReactDevTools } from '@fvilers/disable-react-devtools';
 
-if("DISABLE_DEV" == "NOT") {
+if("DISABLE_DEV" == "DISABLE_DEV") {
   disableReactDevTools();
 }
 ReactDOM.createRoot(document.getElementById('root')).render(

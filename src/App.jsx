@@ -19,6 +19,7 @@ import Projects from './components/pages/Projects';
 import ProjectsHome from './components/pages/ProjectsHome';
 import AddProject from './components/pages/AddProject';
 import EditProject from './components/pages/EditProject';
+import View from './components/pages/View';
 // prebaci ovo kasnije u neki env ili nesto
 const ROLES = {
   'User': 2001,
@@ -47,7 +48,7 @@ function App() {
             <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
               <Route path="admin" element={<Admin />} />
             </Route>
-
+            
             <Route path="professors" element={<ProfessorsProvider />}>
 
               <Route element={<RequireAuthProfessors allowedRoles={[ROLES.User, ROLES.Editor, ROLES.Admin]} />}>
@@ -83,7 +84,15 @@ function App() {
                 <Route path="edit/:id?" element={<EditProject />} />
               </Route>
 
+
             </Route>
+
+            <Route path="view" element={<ProfessorsProvider />}>
+              <Route element={<RequireAuthProfessors allowedRoles={[ROLES.User, ROLES.Editor, ROLES.Admin]} />}>
+                <Route path=":subject?/:id?" element={<View />} />
+              </Route>
+            </Route>
+            
 
           </Route>
         </Route>

@@ -232,7 +232,7 @@ export default function EditProfessor() {
             setInsertDataOblastiIstrazivanja(selectedProfessor.oblastiIstrazivanja)
             setInsertDataKatedre(selectedProfessor.katedre);
             const projProj = projects.filter(pr => {
-                if (selectedProfessor.projekti.some(projekat => projekat == pr._id))
+                if (selectedProfessor.projekti.some(projekat => projekat.projekatId == pr._id))
                     return pr
             })
             setInsertDataProjekti(projProj);
