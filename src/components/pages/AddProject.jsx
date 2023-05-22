@@ -110,9 +110,10 @@ export default function AddProject() {
       const partneriFINAL = partneriArrayWithoutEmptyStrings.map((str) => str.trim());
       return {
         koordinator: prev.koordinator,
-        partneri: partneriFINAL
+        partneri: [...partneriFINAL]
       }
     })
+    console.log(partnerskeInstitucije)
 
     const fd = new FormData();
 

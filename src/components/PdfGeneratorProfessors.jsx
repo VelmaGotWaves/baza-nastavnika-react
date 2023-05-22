@@ -1,7 +1,7 @@
 import React from 'react'
 import { PDFDownloadLink, Page, Text, View, Document, StyleSheet, Font } from '@react-pdf/renderer';
 import pdfimg from '../images/pdf.png'
-export default function PdfGenerator({ filtriraniProfesori, projects }) {
+export default function PdfGeneratorProfessors({ filtriraniProfesori, projects }) {
     Font.register({
         family: 'Roboto',
         src: 'https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-medium-webfont.ttf'
@@ -64,6 +64,7 @@ export default function PdfGenerator({ filtriraniProfesori, projects }) {
             marginBottom: 4
         }
     });
+    console.log(filtriraniProfesori)
     const MyDoc = () => (
         <Document>
             {
@@ -121,13 +122,13 @@ export default function PdfGenerator({ filtriraniProfesori, projects }) {
                                                     <View style={{ flexDirection: "column" }}>
 
                                                         {prof.projekti?.map((data, index) => {
-                                                            
-                                                            const projekat = projects?.filter(proj => proj._id == data);
+
+                                                            const projekat = projects?.filter(proj => proj._id == data.projekatId);
                                                             // console.log(data) VELIKI PROBLEM OVDE NEKAD DAJE NULL IAKO IMAJU PROJEKTI
                                                             return (
-                                                                <View key={index} style={{ marginBottom: 4, flexDirection: "row" }}>
-                                                                    <Text style={{ marginRight: 8 }}>{index + 1 + "."}</Text>
-                                                                    <Text>{projekat[0]?.nazivPrograma + projekat[0]?.nazivProjekta + '\n'}</Text>
+                                                                <View key={index} >
+                                                                    <Text >{index + 1 + "."}</Text>
+                                                                    <Text>{projekat[0]?.nazivPrograma + projekat[0]?.nazivProjekta + " (" + data.uloga + ')\n'}</Text>
                                                                 </View>
                                                             )
                                                         })}
@@ -144,8 +145,8 @@ export default function PdfGenerator({ filtriraniProfesori, projects }) {
                                                     <View style={{ display: "flex", flexDirection: "column" }}>
                                                         {prof.publikacije.map((data, index) => {
                                                             return (
-                                                                <View key={index} style={{ display: "flex", flexDirection: "row", marginBottom: 4 }}>
-                                                                    <Text style={{ marginRight: 8 }}>{index + 1 + "."}</Text>
+                                                                <View key={index} >
+                                                                    <Text >{index + 1 + "."}</Text>
                                                                     <Text >{data + '\n'}</Text>
                                                                 </View>
                                                             )
@@ -167,7 +168,7 @@ export default function PdfGenerator({ filtriraniProfesori, projects }) {
         <PDFDownloadLink document={<MyDoc />} fileName="profesori.pdf" className='no-underline'>
             {({ blob, url, loading, error }) =>
                 loading ? (
-                    <button className='professors-home-content-utils-buttons-pdf'>
+                    <button type="button"className='professors-home-content-utils-buttons-pdf'>
                         <img src={pdfimg} alt="" className='professors-home-content-utils-buttons-pdf-img' />
                         <span className='professors-home-content-utils-buttons-pdf-span'>
                             Loading document...
@@ -175,7 +176,7 @@ export default function PdfGenerator({ filtriraniProfesori, projects }) {
                     </button>
                 ) :
                     (
-                        <button className='professors-home-content-utils-buttons-pdf'>
+                        <button type="button"className='professors-home-content-utils-buttons-pdf'>
                             <img src={pdfimg} alt="" className='professors-home-content-utils-buttons-pdf-img' />
                             <span className='professors-home-content-utils-buttons-pdf-span'>
                                 Eksportuj u PDF
@@ -183,6 +184,6 @@ export default function PdfGenerator({ filtriraniProfesori, projects }) {
                         </button>
                     )
             }
-        </PDFDownloadLink>
+        </PDFDownloadLink >
     )
 }

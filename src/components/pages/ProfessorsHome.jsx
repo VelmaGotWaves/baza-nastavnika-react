@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useOutletContext, Link } from 'react-router-dom';
 import DropdownMultiSelect from '../not-in-use/DropdownMultiSelect';
 import exportFromJSON from 'export-from-json';
-import PdfGenerator from '../PdfGenerator';
+import PdfGeneratorProfessors from '../PdfGeneratorProfessors';
 // import useProf from '../hooks/useProf';
 import { useFilter } from '@react-aria/i18n';
 import SearchHomeBar from '../SearchHomeBar';
@@ -77,7 +77,10 @@ export default function ProfessorsHome() {
         professor.oblastiIstrazivanja.some( item => contains(item.toLowerCase(), query.toLowerCase()) || contains(query.toLowerCase(),item.toLowerCase())) ||
         professor.katedre.some( item => contains(item.toLowerCase(), query.toLowerCase()) || contains(query.toLowerCase(),item.toLowerCase())) ||
         professor.publikacije.some( item => contains(item.toLowerCase(), query.toLowerCase()) || contains(query.toLowerCase(),item.toLowerCase())) ||
-        professor.projekti.some( item => contains(item.toLowerCase(), query.toLowerCase()) || contains(query.toLowerCase(),item.toLowerCase())) ||
+        professor.projekti.some( item => {
+          const projekt = projects.find(proj => proj.id == item.projekatId)
+          return (contains(projekt.nazivProjekta.toLowerCase(), query.toLowerCase()) || contains(query.toLowerCase(),projekt.nazivProjekta.toLowerCase()) || contains(projekt.nazivPrograma.toLowerCase(), query.toLowerCase()) || contains(query.toLowerCase(),projekt.nazivPrograma.toLowerCase()))
+        }) ||
         professor.tagovi.some( item => contains(item.toLowerCase(), query.toLowerCase()) || contains(query.toLowerCase(),item.toLowerCase()))
         )) {
           return false
@@ -92,7 +95,7 @@ export default function ProfessorsHome() {
       if ((opcijeKatedre.length != 0) && professor.katedre.some((el) => opcijeKatedre.includes(el))) {
         return true;
       }
-      if ((opcijeProjekti.length != 0) && professor.projekti.some((profesorovaSifra) => opcijeProjekti.some((projekat) => projekat._id.includes(profesorovaSifra)))) {
+      if ((opcijeProjekti.length != 0) && professor.projekti.some((profesorovProjekat) => opcijeProjekti.some((projekat) => projekat._id.includes(profesorovProjekat.projekatId)))) {
         return true;
       }
       if ((opcijePublikacije.length != 0) && professor.publikacije.some((el) => opcijePublikacije.includes(el))) {
@@ -153,7 +156,7 @@ export default function ProfessorsHome() {
               </span>
 
             </button>
-            <PdfGenerator filtriraniProfesori={filtriraniProfesori} projects={projects} />
+            <PdfGeneratorProfessors filtriraniProfesori={filtriraniProfesori} projects={projects} />
           </div>
 
         </div>
@@ -182,10 +185,20 @@ export default function ProfessorsHome() {
                       <td className='professors-home-table-body-cell'>{professor.ime} {professor.prezime}</td>
                       <td className='professors-home-table-body-cell'>{professor.oblastiIstrazivanja[0]}</td>
                       <td className='professors-home-table-body-cell'>{professor.katedre[0]}</td>
-                      <td className='professors-home-table-body-cell'>{projects.map(pro => {if(pro._id == professor.projekti[0]){return pro.nazivProjekta}})}</td>
+                      <td className='professors-home-table-body-cell'>{projects.map(pro => {if(pro._id == professor.projekti[0].projekatId){return pro.nazivProjekta}})}</td>
                       <td className='professors-home-table-body-cell'>{professor.publikacije[0]}</td>
                       <td className='professors-home-table-body-cell'><span className='tag-body-cell-span'>{professor.tagovi[0]}</span></td>
-                      <td className='professors-home-table-body-cell'>{professor.publikacije.length} </td>
+                      <td className='professors-home-table-body-cell'>
+                        {professor.publikacije.length} 
+                        <Link to={"/view/professor/" + professor._id}>
+                          <button className='professors-home-table-body-edit-cell-button'>
+                            <span className="material-symbols-outlined">
+                              watch
+                            </span>
+                            
+                          </button>
+                        </Link>
+                      </td>
                       <td className='professors-home-table-body-edit-cell'>
                         <Link to={"/professors/edit/" + professor._id}>
                           <button className='professors-home-table-body-edit-cell-button'>
