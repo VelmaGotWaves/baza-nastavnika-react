@@ -122,7 +122,7 @@ export default function DisplayProjectsSection() {
 
             </div>
             {viewDeleteModuo &&
-                <DeleteModuo placeholder="admina" setViewDeleteModuo={setViewDeleteModuo} handleDelete={deleteProjectsButton} />
+                <DeleteModuo placeholder="projekat" setViewDeleteModuo={setViewDeleteModuo} handleDelete={deleteProjectsButton} />
             }
         </>
     )

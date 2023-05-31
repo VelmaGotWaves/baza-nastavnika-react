@@ -164,6 +164,8 @@ export default function ProfessorsHome() {
           <table className='professors-home-table'>
             <thead className='professors-home-table-head'>
               <tr className='professors-home-table-head-row'>
+              <th className='professors-home-table-head-cell'></th>
+
                 <th className='professors-home-table-head-cell'>Titula</th>
                 <th className='professors-home-table-head-cell'>Ime i Prezime</th>
                 <th className='professors-home-table-head-cell'>Oblasti Istrazivanja</th>
@@ -181,25 +183,29 @@ export default function ProfessorsHome() {
                 filtriraniProfesori?.map(professor => {
                   return (
                     <tr className='professors-home-table-body-row' key={professor._id} >
-                      <td className='professors-home-table-body-cell title-body-cell'>{professor.titula}</td>
-                      <td className='professors-home-table-body-cell'>{professor.ime} {professor.prezime}</td>
-                      <td className='professors-home-table-body-cell'>{professor.oblastiIstrazivanja[0]}</td>
-                      <td className='professors-home-table-body-cell'>{professor.katedre[0]}</td>
-                      <td className='professors-home-table-body-cell'>{projects.map(pro => {if(pro._id == professor.projekti[0].projekatId){return pro.nazivProjekta}})}</td>
-                      <td className='professors-home-table-body-cell'>{professor.publikacije[0]}</td>
-                      <td className='professors-home-table-body-cell'><span className='tag-body-cell-span'>{professor.tagovi[0]}</span></td>
-                      <td className='professors-home-table-body-cell'>
-                        {professor.publikacije.length} 
-                        <Link to={"/view/professor/" + professor._id}>
+                      <td className='professors-home-table-body-cell title-body-cell'>
+                      <Link to={"/view/professor/" + professor._id}>
                           <button className='professors-home-table-body-edit-cell-button'>
                             <span className="material-symbols-outlined">
-                              watch
+                              visibility
                             </span>
                             
                           </button>
                         </Link>
                       </td>
+                      <td className='professors-home-table-body-cell title-body-cell'>{professor.titula}</td>
+                      <td className='professors-home-table-body-cell'>{professor.ime} {professor.prezime}</td>
+                      <td className='professors-home-table-body-cell'>{professor.oblastiIstrazivanja[0]}</td>
+                      <td className='professors-home-table-body-cell'>{professor.katedre[0]}</td>
+                      <td className='professors-home-table-body-cell'>{projects.map(pro => {if(pro._id == professor.projekti[0]?.projekatId){return pro.nazivProjekta}})}</td>
+                      <td className='professors-home-table-body-cell'>{professor.publikacije[0]}</td>
+                      <td className='professors-home-table-body-cell'><span className='tag-body-cell-span'>{professor.tagovi[0]}</span></td>
+                      <td className='professors-home-table-body-cell'>
+                        {professor.publikacije.length} 
+                        
+                      </td>
                       <td className='professors-home-table-body-edit-cell'>
+                      
                         <Link to={"/professors/edit/" + professor._id}>
                           <button className='professors-home-table-body-edit-cell-button'>
                             <span className="material-symbols-outlined">

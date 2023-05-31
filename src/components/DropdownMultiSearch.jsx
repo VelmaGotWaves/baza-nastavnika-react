@@ -3,6 +3,22 @@ import { useFilter } from '@react-aria/i18n';
 // import donosi - - - katedre niz originalan , izabrane katedre u butonima i takodje placeholder
 //  - -   - - - - - -  importVariables.importArray - importVariables.setUniqueSelectedItems i importVariables.uniqueSelectedItems i takodje praceholder
 export default function DropdownMultiSearch(importVariables) {
+    const [showModal, setShowModal] = useState(false);
+
+
+    function turnOffModal() {
+        setShowModal(false);
+    }
+    setTimeout(() => {
+        if (showModal) {
+            window.addEventListener('click', turnOffModal)
+        }
+        else {
+            window.removeEventListener('click', turnOffModal)
+        }
+    }, 0)
+
+
     const [query, setQuery] = useState("");
     const [selectedItems, setSelectedItems] = useState([]);
     const [filteredOptions, setFilteredOptions] = useState(importVariables.importArray);
@@ -11,13 +27,9 @@ export default function DropdownMultiSearch(importVariables) {
         sensitivity: 'base'
     });
 
-    const [isFocused, setIsFocused] = useState(false);
-    const searchComponentContainer = useRef(null);
-    const searchComponentResultsContainer = useRef(null);
-    const searchComponentInput = useRef(null);
     // ovaj use effect je za search koji se filtrirati full katedre, koje se ispisuju dole u opcijama, i kada kliknes na nju oda se ode u uniqueSelectedItems
     useEffect(() => {
-        const oldArray= [...importVariables.importArray];
+        const oldArray = [...importVariables.importArray];
         const filteredOldArray = oldArray.filter(item => {
             if (query) {
                 if (!contains(item.toLowerCase(), query.toLowerCase())) {
@@ -29,13 +41,13 @@ export default function DropdownMultiSearch(importVariables) {
 
         setFilteredOptions(filteredOldArray);
     }, [query, importVariables.importArray]);
-// ovaj use effect se postara da nema duplikata dugmica
+    // ovaj use effect se postara da nema duplikata dugmica
     useEffect(() => {
         importVariables.setUniqueSelectedItems([...new Set(selectedItems)]);
     }, [selectedItems]);
     useEffect(() => {
         setSelectedItems([...new Set(importVariables.insertData)]);
-    },[importVariables.insertData]);
+    }, [importVariables.insertData]);
 
     function removeAButton(button) {
         const newSelectedItems = selectedItems.filter(item => item != button);
@@ -48,10 +60,10 @@ export default function DropdownMultiSearch(importVariables) {
     // moram da napravim
     return (
         <div className='dropdown-multi-search-component-container'
-            tabIndex={0}
-            onClick={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
-            ref={searchComponentContainer}
+            onClick={(e) => {
+                e.stopPropagation();
+                setShowModal(true);
+            }}
         >
             <div className="dropdown-multi-search-input-buttons-container">
                 <input
@@ -60,19 +72,19 @@ export default function DropdownMultiSearch(importVariables) {
                     placeholder={importVariables.placeholder}
                     onChange={(e) => setQuery(e.target.value)}
                     className='dropdown-multi-search-component-input'
-                    ref={searchComponentInput}
                     autoComplete="off"
                 />
-                
+
                 {importVariables.uniqueSelectedItems.length != 0 &&
                     (
                         <div className="dropdown-multi-search-tags-buttons-container">
                             {importVariables.uniqueSelectedItems.map((itemus, index) => (
 
-                                <button type='button'key={index} onClick={(e) => {
+                                <button type='button' key={index} onClick={(e) => {
                                     e.stopPropagation();
-                                    setIsFocused(false);
                                     removeAButton(itemus);
+                                    setShowModal(false);
+
                                 }} className="dropdown-multi-search-tag-button">
 
                                     <span className="material-symbols-outlined dropdown-multi-search-tag-button-icon">
@@ -87,19 +99,19 @@ export default function DropdownMultiSearch(importVariables) {
                 }
 
             </div>
-            {isFocused &&
-                <div className="dropdown-multi-search-component-results-container" ref={searchComponentResultsContainer}>
+            {showModal &&
+                <div className="dropdown-multi-search-component-results-container" >
                     {filteredOptions.map(item => {
                         return (
                             <option
                                 value={item}
                                 key={item}
-                                onMouseDown={(e) => {
-                                    setSelectedItems( sI => [...sI, item]);
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setSelectedItems(sI => [...sI, item]);
                                     setQuery("");
-                                    searchComponentContainer.current.blur();
-                                    searchComponentResultsContainer.current.blur();
-                                    searchComponentInput.current.blur();
+                                    setShowModal(false);
+                                    
                                 }}
                                 className="dropdown-multi-search-component-result"
                             >

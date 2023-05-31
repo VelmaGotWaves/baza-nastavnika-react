@@ -9,7 +9,7 @@ export default function Navbar() {
 
     const signOut = async () => {
         await logout();
-        navigate('/');
+        navigate('/login');
     }
     const { pathname } = useLocation();
     const navDivs = document.body.querySelectorAll('.navbar-navigation-divs');
@@ -24,23 +24,44 @@ export default function Navbar() {
     window.addEventListener('resize', windowChange);
 
     function windowChange() {
-        if (pathname.includes("professors/add")) {
-            updateIndicatorLocation(1);
-        } else if (pathname.includes("professors/edit")) {
-            updateIndicatorLocation(2);
-        } else if (pathname.includes("projects/add")) {
-            updateIndicatorLocation(4);
-        } else if (pathname.includes("projects/edit")) {
-            updateIndicatorLocation(5);
-        } else if (pathname.includes("projects")) {
-            updateIndicatorLocation(3);
-        } else if (pathname.includes("admin")) {
-            updateIndicatorLocation(6);
-        } else if (pathname.includes("projects")) {
-            updateIndicatorLocation(3);
-        } else if (pathname.includes("professors")) {
-            updateIndicatorLocation(0);
+        if (auth?.roles?.includes(ROLES.Admin)) {
+            if (pathname.includes("professors/add")) {
+                updateIndicatorLocation(1);
+            } else if (pathname.includes("professors/edit")) {
+                updateIndicatorLocation(2);
+            } else if (pathname.includes("projects/add")) {
+                updateIndicatorLocation(4);
+            } else if (pathname.includes("projects/edit")) {
+                updateIndicatorLocation(5);
+            } else if (pathname.includes("professors")) {
+                updateIndicatorLocation(0);
+            } else if (pathname.includes("projects")) {
+                updateIndicatorLocation(3);
+            } else if (pathname.includes("users")) {
+                updateIndicatorLocation(6);
+            }
+        } else if (auth?.roles?.includes(ROLES.Editor)) {
+            if (pathname.includes("professors/add")) {
+                updateIndicatorLocation(1);
+            } else if (pathname.includes("professors/edit")) {
+                updateIndicatorLocation(2);
+            } else if (pathname.includes("projects/add")) {
+                updateIndicatorLocation(4);
+            } else if (pathname.includes("projects/edit")) {
+                updateIndicatorLocation(5);
+            } else if (pathname.includes("professors")) {
+                updateIndicatorLocation(0);
+            } else if (pathname.includes("projects")) {
+                updateIndicatorLocation(3);
+            }
+        } else {
+            if (pathname.includes("professors")) {
+                updateIndicatorLocation(0);
+            } else if (pathname.includes("projects")) {
+                updateIndicatorLocation(1);
+            } 
         }
+
     }
 
     function updateIndicatorLocation(n) {
@@ -53,6 +74,11 @@ export default function Navbar() {
     }
 
     const { auth } = useAuth();
+    const ROLES = {
+        'User': 2001,
+        'Editor': 1984,
+        'Admin': 5150
+      }
     return (
         <div>
             <div className='navbar'>
@@ -76,27 +102,41 @@ export default function Navbar() {
                 <hr className="navbar-seperator" />
                 <div className="navbar-navigation-container">
                     <div className="navbar-navigation-nav">
+
                         <Link to='/professors'>
                             <div className='navbar-navigation-divs'>Profesori</div>
                         </Link>
-                        <Link to='/professors/add'>
-                            <div className='navbar-navigation-divs'>Dodaj Profesora</div>
-                        </Link>
-                        <Link to='/professors/edit'>
-                            <div className='navbar-navigation-divs'>Izmeni Profesora</div>
-                        </Link>
+
+                        {auth?.roles?.includes(ROLES.Editor) ? (
+                            <>
+                                <Link to='/professors/add'>
+                                    <div className='navbar-navigation-divs'>Dodaj Profesora</div>
+                                </Link>
+                                <Link to='/professors/edit'>
+                                    <div className='navbar-navigation-divs'>Izmeni Profesora</div>
+                                </Link>
+                            </>
+                        ) : ""}
+
                         <Link to='/projects'>
                             <div className='navbar-navigation-divs'>Projekti</div>
                         </Link>
-                        <Link to='/projects/add'>
-                            <div className='navbar-navigation-divs'>Dodaj Projekte</div>
-                        </Link>
-                        <Link to='/projects/edit'>
-                            <div className='navbar-navigation-divs'>Izmeni Projekte</div>
-                        </Link>
-                        <Link to='/admin'>
-                            <div className='navbar-navigation-divs'>Admini</div>
-                        </Link>
+                        {auth?.roles?.includes(ROLES.Editor) ? (
+                            <>
+                                <Link to='/projects/add'>
+                                    <div className='navbar-navigation-divs'>Dodaj Projekte</div>
+                                </Link>
+                                <Link to='/projects/edit'>
+                                    <div className='navbar-navigation-divs'>Izmeni Projekte</div>
+                                </Link>
+                            </>
+                        ) : ""}
+                        {auth?.roles?.includes(ROLES.Admin) ? (
+                            <Link to='/users'>
+                                <div className='navbar-navigation-divs'>Korisnici</div>
+                            </Link>
+                        ) : ""}
+
                     </div>
 
                 </div>

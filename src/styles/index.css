@@ -955,6 +955,7 @@ a:has(.login-register-link):hover {
 .add-professor-page-container {
     display: flex;
     justify-content: center;
+    flex-direction: column;
     /* overflow-y:scroll;
     height: calc(100vh - 124px); */
 }
@@ -965,6 +966,8 @@ a:has(.login-register-link):hover {
     border: 2px solid #3699FF;
     border-radius: 12px;
     width: 800px;
+    margin:auto; 
+    /* ovaj jebeni auto je hotfix za add-professor-page-container zato sto sam stavio column umesto row */
     margin-top: 60px;
     margin-bottom: 60px;
 }
@@ -1851,4 +1854,55 @@ padding: 5px 20px 5px 20px;
     font-size: 14px;
     line-height: 21px;
     
+  }
+  /* VIEW VIEW VIEW */
+  .view-add-professor-form-container {
+    padding: 35px 50px 35px 50px;
+    background: #FFFFFF;
+    border: 2px solid #3699FF;
+    border-radius: 12px;
+    width: 800px;
+    margin:auto;
+    margin-top: 60px;
+
+}
+.project-files-container{
+    padding: 35px 50px 35px 50px;
+    background: #FFFFFF;
+    border: 2px solid #3699FF;
+    border-radius: 12px;
+    width: 800px;
+    margin:auto;
+    margin-bottom: 60px;
+    margin-top:5px;
+}
+ 
+  .date-picker-container-projects-home{
+    width: 260px;
+    min-height: 40px;
+    background: #FFFFFF;
+    border: 1px solid #E4E6EF;
+    border-radius: 6px;
+
+    display: flex;
+    align-items: center;
+
+
+    color: #181C32;
+    margin-right: 40px;
+    
+  }
+  .date-picker-component{
+    border:none;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    width:85%;
+    height: 100%;
+    
+  }
+  .date-picker-component:focus{
+    outline:none;
   }

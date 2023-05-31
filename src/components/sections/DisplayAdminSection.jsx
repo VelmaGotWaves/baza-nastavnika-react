@@ -86,7 +86,7 @@ export default function DisplayAdminSection() {
             <div className='admin-display-container'>
                 <p className={errMsg ? "errmsg" : "offscreen"} >{errMsg}</p>
                 <p className={success ? "sucmsg" : "offscreen"} >Success</p>
-                <span className='admin-display-title'>Lista administratora</span>
+                <span className='admin-display-title'>Lista korisnika</span>
                 <hr className='admin-display-seperator' />
                 <table className='admin-display-table'>
                     <thead className='admin-display-table-head'>
