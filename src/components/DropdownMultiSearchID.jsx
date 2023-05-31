@@ -2,6 +2,21 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useFilter } from '@react-aria/i18n';
 
 export default function DropdownMultiSearchID(importVariables) {
+    const [showModal, setShowModal] = useState(false);
+
+
+    function turnOffModal() {
+        setShowModal(false);
+    }
+    setTimeout(() => {
+        if (showModal) {
+            window.addEventListener('click', turnOffModal)
+        }
+        else {
+            window.removeEventListener('click', turnOffModal)
+        }
+    }, 0)
+
     const [query, setQuery] = useState("");
     const [selectedItems, setSelectedItems] = useState([]);
     const [filteredOptions, setFilteredOptions] = useState(importVariables.importArray);
@@ -10,16 +25,12 @@ export default function DropdownMultiSearchID(importVariables) {
         sensitivity: 'base'
     });
 
-    const [isFocused, setIsFocused] = useState(false);
-    const searchComponentContainer = useRef(null);
-    const searchComponentResultsContainer = useRef(null);
-    const searchComponentInput = useRef(null);
     // ovaj use effect je za search koji se filtrirati full katedre, koje se ispisuju dole u opcijama, i kada kliknes na nju oda se ode u uniqueSelectedItems
     useEffect(() => {
         const oldArray = [...importVariables.importArray];
         const filteredOldArray = oldArray.filter(item => {
             if (query) {
-                if (!(contains(item.nazivProjekta.toLowerCase(), query.toLowerCase()) || contains(item.nazivPrograma.toLowerCase(), query.toLowerCase())|| contains(`${item.nazivPrograma.toLowerCase()} ${item.nazivProjekta.toLowerCase()}`, query.toLowerCase()))) {
+                if (!(contains(item.nazivProjekta.toLowerCase(), query.toLowerCase()) || contains(item.nazivPrograma.toLowerCase(), query.toLowerCase()) || contains(`${item.nazivPrograma.toLowerCase()} ${item.nazivProjekta.toLowerCase()}`, query.toLowerCase()))) {
                     return false;
                 }
             }
@@ -34,7 +45,7 @@ export default function DropdownMultiSearchID(importVariables) {
     }, [selectedItems])
     useEffect(() => {
         setSelectedItems([...new Set(importVariables.insertData)])
-    },[importVariables.insertData])
+    }, [importVariables.insertData])
 
     function removeAButton(button) {
         const newSelectedItems = selectedItems.filter(item => item != button);
@@ -47,10 +58,10 @@ export default function DropdownMultiSearchID(importVariables) {
     // moram da napravim
     return (
         <div className='dropdown-multi-search-component-container'
-            tabIndex={0}
-            onClick={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
-            ref={searchComponentContainer}
+            onClick={(e) => {
+                e.stopPropagation();
+                setShowModal(true);
+            }}
         >
             <div className="dropdown-multi-search-input-buttons-container">
                 <input
@@ -59,7 +70,6 @@ export default function DropdownMultiSearchID(importVariables) {
                     placeholder={importVariables.placeholder}
                     onChange={(e) => setQuery(e.target.value)}
                     className='dropdown-multi-search-component-input'
-                    ref={searchComponentInput}
                     autoComplete="off"
                 />
 
@@ -71,8 +81,8 @@ export default function DropdownMultiSearchID(importVariables) {
                                 <button type='button' key={index} onClick={(e) => {
                                     e.stopPropagation();
                                     // OVDE NEGDE MORAS DA STAVIS _.id
-                                    setIsFocused(false);
                                     removeAButton(itemus);
+                                    setShowModal(false);
                                 }} className="dropdown-multi-search-tag-button">
 
                                     <span className="material-symbols-outlined dropdown-multi-search-tag-button-icon">
@@ -87,19 +97,17 @@ export default function DropdownMultiSearchID(importVariables) {
                 }
 
             </div>
-            {isFocused &&
-                <div className="dropdown-multi-search-component-results-container" ref={searchComponentResultsContainer}>
+            {showModal &&
+                <div className="dropdown-multi-search-component-results-container" >
                     {filteredOptions.map(item => {
                         return (
                             <option
                                 value={item._id}
                                 key={item._id}
-                                onMouseDown={(e) => {
+                                onClick={(e) => {
+                                    e.stopPropagation();
                                     setSelectedItems(sI => [...sI, item]);
                                     setQuery("");
-                                    searchComponentContainer.current.blur();
-                                    searchComponentResultsContainer.current.blur();
-                                    searchComponentInput.current.blur();
                                 }}
                                 className="dropdown-multi-search-component-result"
                             >

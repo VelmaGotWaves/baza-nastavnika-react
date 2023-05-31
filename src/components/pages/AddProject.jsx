@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useOutletContext } from 'react-router-dom';
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import SuccessModuo from '../SuccessModuo';
@@ -75,14 +75,14 @@ export default function AddProject() {
 
   useEffect(() => {
     setErrMsg('');
-  }, [nazivProjekta, nazivPrograma, referentniBroj])
+  }, [nazivProjekta, nazivPrograma, vrstaProjekta])
 
 
-
+  const allowedFileExtensions = ["png", "jpeg", "txt", "pdf", "doc", "docx", "rtf", "xls"];
   const handleSubmit = async (e) => {
     e.preventDefault();
     // ovde ce biti provera uslova TODO MISLIM DA IMA JOS DOSTA OVDE DA SE VALIDIRA ALI KO CE GA ZNATI (npr date, npr sa png na pdf, npr itd....)
-    
+
 
     if (!PROJECT_REGEX.test(nazivProjekta)) {
       setErrMsg("Nije dobar naziv projekta");
@@ -117,19 +117,28 @@ export default function AddProject() {
 
     const fd = new FormData();
 
-    if (typeof fileUgovor==="object") {
-      if (fileUgovor.name.split('.').pop() != "PNG" && fileUgovor.name.split('.').pop() != "png") {
+    if (typeof fileUgovor === "object") {
+      if (!allowedFileExtensions.some((extension) => extension == fileUgovor.name.split('.').pop().toLowerCase())) {
         setErrMsg("Fajl ugovora nije dozvoljenog tipa");
         return;
       }
+      if(fileUgovor.size > 5*1024*1024){// 5 MB
+        setErrMsg("Fajl ugovora je veci od 5 MB");
+        return;
+      } 
       fd.append("fileUgovor", fileUgovor);
 
     }
-    if (typeof filesAneksi ==="object") {
-      if (Object.keys(filesAneksi).map(key => filesAneksi[key].name).find(fileName => fileName.split('.').pop() != "PNG")) {
+    if (typeof filesAneksi === "object") {
+      if (Object.keys(filesAneksi).map(key => filesAneksi[key].name).find(fileName => !allowedFileExtensions.some((extension) => extension == fileName.split('.').pop().toLowerCase()))) {
+
         setErrMsg("Fajl aneksa nije dozvoljenog tipa");
         return;
       }
+      if(Object.keys(filesAneksi).some(key => filesAneksi[key].size > 5*1024*1024)){// 5 MB
+        setErrMsg("Neki aneks je veci od 5 MB");
+        return;
+      } 
       Object.keys(filesAneksi).forEach(key => {
         fd.append("filesAneksi", filesAneksi[key])
       });
@@ -157,7 +166,7 @@ export default function AddProject() {
     fd.append("clanoviProjektnogTima", JSON.stringify(clanoviProjektnogTima));
     fd.append("website", website);
     fd.append("kljucneReci", JSON.stringify(kljucneReciFINAL));
-    
+
 
     try {
       setErrMsg('');
@@ -166,19 +175,18 @@ export default function AddProject() {
           'Content-Type': 'multipart/form-data'
         },
         // withCredentials: true mora bez with credentials da bi se poslala slika, kako radi ne znam, posto inace treba credentials da bi se poslao authorization header
-
       }
       );
 
-      // setSuccess(true);
       setViewSuccessModuo(true);
-      // setProjects( proj => [
-      //   ...proj,
-      //   response.data
-      // ])
-      // setNazivProjekta('');
-      // setNazivPrograma('');
-      // setReferentniBroj('');
+      setProjects(() => {
+        const projWithoutTheOne = projects.filter(proj => proj._id != response.data._id)
+        return [
+          ...projWithoutTheOne,
+          response.data]
+      })
+
+      // TODO resetuj sve na default values
     } catch (err) {
       if (!err?.response) {
         setErrMsg('No Server Response');
@@ -258,6 +266,7 @@ export default function AddProject() {
                   value={vrstaProjekta}
                   className='projects-select-component'
                 >
+                  <option value="" className='projects-select-option'>Izaberite</option>
                   <option value="domaci" className='projects-select-option'>Domaći</option>
                   <option value="medjunarodni" className='projects-select-option'>Međunarodni</option>
                   <option value="interni" className='projects-select-option'>Interni</option>
@@ -324,7 +333,12 @@ export default function AddProject() {
                 <SearchSpecificProfessorsBar professors={professors} professorId={administrator} setProfessorId={setRukovodilac} />
                 {rukovodilac ? (
                   <span className='add-professor-form-name-input-description' style={{ color: "#47C9A2" }}>
-                    {rukovodilac}
+                    {
+                      professors.map(prof => {
+                        if (prof._id == rukovodilac) return (`${prof.titula} ${prof.ime} ${prof.prezime}`)
+                        else (`Rukovodilac nije izabran.`)
+                      })
+                    }
                   </span>
                 ) : (
                   <span className='add-professor-form-name-input-description'>
@@ -339,11 +353,16 @@ export default function AddProject() {
                 <SearchSpecificProfessorsBar professors={professors} professorId={administrator} setProfessorId={setAdministrator} />
                 {administrator ? (
                   <span className='add-professor-form-name-input-description' style={{ color: "#47C9A2" }}>
-                    {administrator}
+                    {
+                      professors.map(prof => {
+                        if (prof._id == administrator) return (`${prof.titula} ${prof.ime} ${prof.prezime}`)
+                        else (`Administrator nije izabran.`)
+                      })
+                    }
                   </span>
                 ) : (
                   <span className='add-professor-form-name-input-description'>
-                    Rukovodilac nije izabran.
+                    Administrator nije izabran.
                   </span>
                 )}
 
@@ -554,7 +573,7 @@ export default function AddProject() {
                   Ključne reči
                 </label>
                 <span className='add-professor-form-information-input-description'>
-                  Potrebno je uneti partnere.<br />Svakog partnera je potrebno razdvojiti <b>uzvičnikom!</b>
+                  Potrebno je uneti kljucne reci.<br />Svaku kljucnu rec razdvojiti <b>uzvičnikom!</b>
                 </span>
                 <textarea
                   className='add-professor-form-information-input'
@@ -572,14 +591,23 @@ export default function AddProject() {
                   <label className="add-professor-form-label">
                     Ugovor
                   </label>
-                  <input type="file" name="" id="" onChange={(e) => { setFileUgovor(e.target.files[0]) }} />
+                  <input type="file" name="" id="" onChange={(e) => { setFileUgovor(e.target.files[0]) }} accept=".png,.jpeg,.txt,.pdf,.doc,.docx,.rtf,.xls" />
                   {/* na kraju dodaj neku logiku za pakovanje ovih fajlova */}
+                  <span className='add-professor-form-information-input-description'>
+                    Dozvoljen je fajl tipa: .png, .jpeg, .txt, .pdf, .doc, .docx, .rtf, .xls <br />
+                    Jedan fajl ne sme da predje 5MB
+                  </span>
+
                 </div>
                 <div className="add-professor-form-name-inputs-right">
                   <label className="add-professor-form-label">
                     Aneksi
                   </label>
-                  <input type="file" name="" id="" multiple onChange={(e) => { setFilesAneksi(e.target.files) }} />
+                  <input type="file" name="" id="" multiple onChange={(e) => { setFilesAneksi(e.target.files) }} accept=".png,.jpeg,.txt,.pdf,.doc,.docx,.rtf,.xls" />
+                  <span className='add-professor-form-information-input-description'>
+                    Dozvoljeni su fajlovi tipa: .png, .jpeg, .txt, .pdf, .doc, .docx, .rtf, .xls <br />
+                    Jedan fajl ne sme da predje 5MB
+                  </span>
                 </div>
               </div>
             </div>

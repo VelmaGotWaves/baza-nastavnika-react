@@ -20,6 +20,8 @@ export default function CreateAdminSection() {
     const [matchPwd, setMatchPwd] = useState('');
     const [validMatch, setValidMatch] = useState(false);
 
+    const [role, setRole] = useState("User");
+
     const [errMsg, setErrMsg] = useState('');
     // const [success, setSuccess] = useState(false);
     const [viewSuccessModuo, setViewSuccessModuo] = useState(false)
@@ -48,7 +50,7 @@ export default function CreateAdminSection() {
         }
         try {
             const response = await axiosPrivate.post(REGISTER_URL,
-                JSON.stringify({ user, pwd }),
+                JSON.stringify({ user, pwd, role }),
                 {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true
@@ -56,7 +58,7 @@ export default function CreateAdminSection() {
             );
 
             // setSuccess(true);
-                setViewSuccessModuo(true);
+            setViewSuccessModuo(true);
 
             setUser('');
             setPwd('');
@@ -76,8 +78,8 @@ export default function CreateAdminSection() {
         <>
             <div className='admin-create-container'>
                 <p className={errMsg ? "errmsg" : "offscreen"} >{errMsg}</p>
-                
-                <span className='admin-create-title'>Napravi administatora</span>
+
+                <span className='admin-create-title'>Napravi korisnika</span>
                 <form onSubmit={handleSubmit} className='admin-create-form'>
                     <div className="admin-create-form-container">
                         <div className="admin-create-form-username-container">
@@ -96,6 +98,26 @@ export default function CreateAdminSection() {
                             />
                             <span className='admin-create-form-input-description'>
                                 Mora početi slovom i može imati od 4 do 24 karaktera
+                            </span>
+                            <label htmlFor="username" className='admin-create-form-label'>
+                                Uloga:
+                            </label>
+                            <select
+
+                                onChange={(e) => { setRole(e.target.value) }}
+                                value={role}
+                                className='projects-select-component'
+                            >
+                                <option value="User" className='projects-select-option'>User</option>
+                                <option value="Editor" className='projects-select-option'>Editor</option>
+                                <option value="Admin" className='projects-select-option'>Admin</option>
+                                
+                            </select>
+                            <span className='admin-create-form-input-description'>
+                                User - ima pravo pristupa stranama za pregledanje profesora i projekta, kao i generisanje PDF-a. <br/>
+                                Editor - kao User + ima i pravo kreiranja i menjanja profesora i projekta, kao i njihovih fajlova. <br/>
+                                Admin - kao Editor + ima i pravo dodavanja i brisanja korisnika. <br/>
+
                             </span>
                         </div>
                         <div className="admin-create-form-password-container">

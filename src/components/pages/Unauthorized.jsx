@@ -14,7 +14,7 @@ const Unauthorized = () => {
                 <img src={Isolation_Module} alt="" className="missing-image" />
             </div>
             <span className="missing-span">
-                Ups! Nije vam dozvoljen pristup ovoj stranici.
+                Ups! Nije vam dozvoljen pristup ovoj stranici. <br/>
             </span>
             <div className="missing-button-container">
                 <button className="missing-button" onClick={goBack}>
