@@ -110,7 +110,7 @@ export default function AddProject() {
       const partneriFINAL = partneriArrayWithoutEmptyStrings.map((str) => str.trim());
       return {
         koordinator: prev.koordinator,
-        partneri: [...partneriFINAL]
+        partneri: partneriFINAL
       }
     })
     console.log(partnerskeInstitucije)
@@ -122,10 +122,10 @@ export default function AddProject() {
         setErrMsg("Fajl ugovora nije dozvoljenog tipa");
         return;
       }
-      if(fileUgovor.size > 5*1024*1024){// 5 MB
+      if (fileUgovor.size > 5 * 1024 * 1024) {// 5 MB
         setErrMsg("Fajl ugovora je veci od 5 MB");
         return;
-      } 
+      }
       fd.append("fileUgovor", fileUgovor);
 
     }
@@ -135,10 +135,10 @@ export default function AddProject() {
         setErrMsg("Fajl aneksa nije dozvoljenog tipa");
         return;
       }
-      if(Object.keys(filesAneksi).some(key => filesAneksi[key].size > 5*1024*1024)){// 5 MB
+      if (Object.keys(filesAneksi).some(key => filesAneksi[key].size > 5 * 1024 * 1024)) {// 5 MB
         setErrMsg("Neki aneks je veci od 5 MB");
         return;
-      } 
+      }
       Object.keys(filesAneksi).forEach(key => {
         fd.append("filesAneksi", filesAneksi[key])
       });
@@ -179,13 +179,41 @@ export default function AddProject() {
       );
 
       setViewSuccessModuo(true);
-      setProjects(() => {
-        const projWithoutTheOne = projects.filter(proj => proj._id != response.data._id)
+      console.log(response.data)
+      setProjects((prev) => {
+
         return [
-          ...projWithoutTheOne,
+          ...prev,
           response.data]
       })
+      setVrstaProjekta('');
+      setProgramFinansiranja('');
+      setNazivPrograma('');
+      setNazivProjekta('');
+      setReferentniBroj('');
+      setInterniBroj('');
+      setRukovodilac();
+      setAdministrator();
+      setProfitniCentar('');
+      setPlaniraniPocetak(null);
+      setPlaniraniZavrsetak(null);
+      setTrajanje('');
+      setUkupanBudzet('');
+      setBudzetZaFon('');
+      setOpis('');
+      setCiljevi('');
+      setPartnerskeInstitucije({
+        koordinator: '',
+        partneri: []
+      });
+      setPartneriText('');
+      setClanoviProjektnogTima([])
+      setWebsite('');
+      setKljucneReci('');
 
+
+      setFileUgovor();
+      setFilesAneksi([])
       // TODO resetuj sve na default values
     } catch (err) {
       if (!err?.response) {
@@ -195,6 +223,8 @@ export default function AddProject() {
       } else {
         setErrMsg('Registration Failed')
       }
+    }finally {
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     }
 
   }

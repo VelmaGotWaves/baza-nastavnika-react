@@ -32,7 +32,7 @@ export default function AddProfessor() {
     const [opcijeOblastiIstrazivanja, setOpcijeOblastiIstrazivanja] = useState([]);
     const [opcijeKatedre, setOpcijeKatedre] = useState([]);
     const [opcijePublikacije, setOpcijePublikacije] = useState('');
-    const [opcijeProjekti, setOpcijeProjekti] = useState([]);
+    // const [opcijeProjekti, setOpcijeProjekti] = useState([]);
     const [tekstTagovi, setTekstTagovi] = useState('');
     const [opcijeTagovi, setOpcijeTagovi] = useState([]);
 
@@ -96,7 +96,7 @@ export default function AddProfessor() {
                 titula: titula,
                 oblastiIstrazivanja: opcijeOblastiIstrazivanja,
                 katedre: opcijeKatedre,
-                projekti: opcijeProjekti,
+                // projekti: opcijeProjekti,
                 publikacije: significantPublicationsFINAL,
                 tagovi: tagsFINAL
             },
@@ -118,7 +118,7 @@ export default function AddProfessor() {
             setOpcijeOblastiIstrazivanja([]);
             setOpcijeKatedre([]);
             setOpcijePublikacije("");
-            setOpcijeProjekti([]);
+            // setOpcijeProjekti([]);
             setOpcijeTagovi([]);
             setTekstTagovi("");
 
@@ -237,13 +237,13 @@ export default function AddProfessor() {
 
 
 
-                                <label htmlFor="scientificProjects" className="add-professor-form-label">
+                                {/* <label htmlFor="scientificProjects" className="add-professor-form-label">
                                     Projekti
                                 </label>
                                 <span className='add-professor-form-information-input-description'>
                                     Potrebno je uneti projekte koje profesor trenutno vodi ili u njima učestvuje.
                                 </span>
-                                <DropdownMultiSearchID importArray={projects} uniqueSelectedItems={opcijeProjekti} setUniqueSelectedItems={setOpcijeProjekti} placeholder={"Izaberite projekte"} />
+                                <DropdownMultiSearchID importArray={projects} uniqueSelectedItems={opcijeProjekti} setUniqueSelectedItems={setOpcijeProjekti} placeholder={"Izaberite projekte"} /> */}
 
                                 <label htmlFor="significantPublications" className="add-professor-form-label">
                                     Publikacije
