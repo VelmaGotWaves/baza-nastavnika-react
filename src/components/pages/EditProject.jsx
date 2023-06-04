@@ -41,7 +41,7 @@ export default function EditProject() {
 
   const [profitniCentar, setProfitniCentar] = useState('');
 
-  const [planiraniPocetak, setPlaniraniPocetak] = useState();
+  const [planiraniPocetak, setPlaniraniPocetak] = useState(null);
   const [planiraniZavrsetak, setPlaniraniZavrsetak] = useState(null);
 
   const [trajanje, setTrajanje] = useState('');
@@ -122,7 +122,42 @@ export default function EditProject() {
           ...projectsWithoutTheOne
         ]
       })
-      // TODO I SADA KLIRUJ SVA POLJA _____________________________________________________________________________________
+      setVrstaProjekta('');
+      setProgramFinansiranja('');
+      setNazivPrograma('');
+      setNazivProjekta('');
+      setReferentniBroj('');
+      setInterniBroj('');
+      setRukovodilac();
+      setAdministrator();
+      setProfitniCentar('');
+      setPlaniraniPocetak(null);
+      setPlaniraniZavrsetak(null);
+      setTrajanje('');
+      setUkupanBudzet('');
+      setBudzetZaFon('');
+      setOpis('');
+      setCiljevi('');
+      setPartnerskeInstitucije({
+        koordinator: '',
+        partneri: []
+      });
+      setPartneriText('');
+      setClanoviProjektnogTima([])
+      setWebsite('');
+      setKljucneReci('');
+
+      setSelectedId('')
+      setFoundProject();
+
+      setUgovorAction()
+      setSelectedUgovor()
+      setFileUgovor();
+      setAneksiAction()
+      setAllAneksi([])
+      setSelectedAneks()
+      setFilesAneksi([])
+
     } catch (err) {
       if (!err?.response) {
         setErrMsg('No Server Response');
@@ -175,9 +210,11 @@ export default function EditProject() {
         }
       });
       const partneriFINAL = partneriArrayWithoutEmptyStrings.map((str) => str.trim());
+      console.log(partneriFINAL)
+      console.log(prev)
       return {
         koordinator: prev.koordinator,
-        partneri: [...partneriFINAL]
+        partneri: partneriFINAL
       }
     })
     try {
@@ -217,7 +254,7 @@ export default function EditProject() {
           ...projWithoutTheOne,
           response.data]
       })
-      // TODO
+      // TODO ako su promenjeni profesori promeni profesore *cimanje*
     } catch (err) {
       if (!err?.response) {
         setErrMsg('No Server Response');
@@ -302,7 +339,41 @@ export default function EditProject() {
 
 
     } else {
-      // setuj sve na nulu, kako je na pocetku bilo TODO
+      setVrstaProjekta('');
+      setProgramFinansiranja('');
+      setNazivPrograma('');
+      setNazivProjekta('');
+      setReferentniBroj('');
+      setInterniBroj('');
+      setRukovodilac();
+      setAdministrator();
+      setProfitniCentar('');
+      setPlaniraniPocetak(null);
+      setPlaniraniZavrsetak(null);
+      setTrajanje('');
+      setUkupanBudzet('');
+      setBudzetZaFon('');
+      setOpis('');
+      setCiljevi('');
+      setPartnerskeInstitucije({
+        koordinator: '',
+        partneri: []
+      });
+      setPartneriText('');
+      setClanoviProjektnogTima([])
+      setWebsite('');
+      setKljucneReci('');
+
+      setSelectedId('')
+      setFoundProject();
+
+      setUgovorAction()
+      setSelectedUgovor()
+      setFileUgovor();
+      setAneksiAction()
+      setAllAneksi([])
+      setSelectedAneks()
+      setFilesAneksi([])
     }
   }
   useEffect(() => {
@@ -396,7 +467,15 @@ export default function EditProject() {
         }
       );
       setViewSuccessModuo(true);
-      // TODO POSLE SVAKOG SUCCESSA ODRADI STA JE POTREBNO, KAD SI OBRISAO FAJL SKINI GA SA PROJEKTA
+      
+      setProjects(() => {
+        const projWithoutTheOne = projects.filter(proj => proj._id != response.data._id)
+        return [
+          ...projWithoutTheOne,
+          response.data]
+      })
+      setSelectedId(response.data._id)
+      // TODO ovaj set selected id ne radi, tojest ne refresha se select (iako smo obrisali ugovor idalje stoji ta opcija)
     } catch (err) {
       if (!err?.response) {
         setErrMsg('No Server Response');
@@ -451,6 +530,14 @@ export default function EditProject() {
       }
       );
       setViewSuccessModuo(true);
+      
+      setProjects(() => {
+        const projWithoutTheOne = projects.filter(proj => proj._id != response.data._id)
+        return [
+          ...projWithoutTheOne,
+          response.data]
+      })
+      setSelectedId(response.data._id)
     } catch (err) {
       if (!err?.response) {
         setErrMsg('No Server Response');
@@ -553,7 +640,13 @@ export default function EditProject() {
       }
       );
       setViewSuccessModuo(true);
-      // TODO 
+      setProjects(() => {
+        const projWithoutTheOne = projects.filter(proj => proj._id != response.data._id)
+        return [
+          ...projWithoutTheOne,
+          response.data]
+      })
+      setSelectedId(response.data._id)
     } catch (err) {
       if (!err?.response) {
         setErrMsg('No Server Response');
@@ -603,6 +696,13 @@ export default function EditProject() {
         }
       );
       setViewSuccessModuo(true);
+      setProjects(() => {
+        const projWithoutTheOne = projects.filter(proj => proj._id != response.data._id)
+        return [
+          ...projWithoutTheOne,
+          response.data]
+      })
+      setSelectedId(response.data._id)
     } catch (err) {
       if (!err?.response) {
         setErrMsg('No Server Response');
@@ -1077,7 +1177,7 @@ export default function EditProject() {
                         <input type="file" name="" id="" onChange={(e) => { setFileUgovor(e.target.files[0]) }} accept=".png,.jpeg,.txt,.pdf,.doc,.docx,.rtf,.xls" />
                         <button type='button' disabled={fileUgovor ? false : true} onClick={() => uploadUgovor()} className='professors-home-table-body-edit-cell-button'>Upload ugovor</button>
                         <span className='add-professor-form-information-input-description'>
-                          <br/>Ova akcija ce obrisati prethodni ugovor ako postoji.<br />
+                          <br />Ova akcija ce obrisati prethodni ugovor ako postoji.<br />
                           Dozvoljeni su fajlovi tipa: .png, .jpeg, .txt, .pdf, .doc, .docx, .rtf, .xls <br />
                           Jedan fajl ne sme da predje 5MB
                         </span>
@@ -1126,9 +1226,15 @@ export default function EditProject() {
                     }
 
                   </select>
-                  <span className='add-professor-form-name-input-description'>
-                    Izaberite akciju za anekse:
-                  </span>
+                  {allAneksi ? (
+                    <span className='add-professor-form-name-input-description'>
+                      Izaberite akciju za anekse: {allAneksi.toString()}
+                    </span>
+                  ) : (
+                    <span className='add-professor-form-name-input-description'>
+                      Projekat nema anekse u bazi, izaberite akciju.
+                    </span>
+                  )}
                 </div>
                 <div className="add-professor-form-name-inputs-right">
                   {
@@ -1152,7 +1258,7 @@ export default function EditProject() {
                         <input type="file" name="" id="" multiple onChange={(e) => { setFilesAneksi(e.target.files) }} accept=".png,.jpeg,.txt,.pdf,.doc,.docx,.rtf,.xls" />
                         <button type='button' disabled={filesAneksi ? false : true} onClick={() => uploadAneksi()} className='professors-home-table-body-edit-cell-button'>Upload aneksi</button>
                         <span className='add-professor-form-information-input-description'>
-                        <br/>Dozvoljeni su fajlovi tipa: .png, .jpeg, .txt, .pdf, .doc, .docx, .rtf, .xls <br />
+                          <br />Dozvoljeni su fajlovi tipa: .png, .jpeg, .txt, .pdf, .doc, .docx, .rtf, .xls <br />
                           Jedan fajl ne sme da predje 5MB
                         </span>
                       </>

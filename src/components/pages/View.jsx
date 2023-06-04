@@ -65,12 +65,12 @@ export default function View() {
             setErrMsg("Projekat nije izabran");
             window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
             return;
-          }
-          if (!selektovaniProjekat.ugovor) {
+        }
+        if (!selektovaniProjekat.ugovor) {
             setErrMsg("Projekat nema ugovor");
             window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
             return;
-          }
+        }
 
         try {
             const response = await axiosPrivate.get(`/ugovor/${selektovaniProjekat._id}`, {
@@ -95,18 +95,18 @@ export default function View() {
         } catch (err) {
             if (!err?.response) {
                 setErrMsg('No Server Response');
-              } else if (err.response?.status === 400) {
+            } else if (err.response?.status === 400) {
                 setErrMsg('Projekat ID je neophodan.');
-              } else if (err.response?.status === 404) {
+            } else if (err.response?.status === 404) {
                 setErrMsg('Projekat sa navedenim ID nije pronadjen.');
-              } else if (err.response?.status === 500) {
+            } else if (err.response?.status === 500) {
                 setErrMsg('Greska pri nalazenju fajla ugovora.');
-              } else if (err.response?.status === 410) {
+            } else if (err.response?.status === 410) {
                 setErrMsg('Nedostaje fajl ugovora.');
-              } else {
+            } else {
                 setErrMsg('Akcija nije uspela');
-              }
-              window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+            }
+            window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
         }
     }
 
@@ -260,13 +260,31 @@ export default function View() {
                                             }
 
                                         </div>
+                                        {
 
+                                        }
                                         {Object.keys(selektovaniProjekat).map(key => {
                                             if (key == "__v" || key == "_id" || key == "ugovor" || key == "aneksi") {
                                                 return ""
                                             }
-                                            if (key != "partnerskeInstitucije") {
+                                            if (key == "planiraniPocetak" || key == "planiraniZavrsetak") {
+                                                if (selektovaniProjekat[key])
+                                                    return (
+                                                        <Fragment key={key}>
+                                                            {/* proveri selektovaniProfesor.key kog je tipa i proveri da nije array ili object ili nesto tako, takodje stavi keyeve koje ignorises kao sto su aneksi i ugovor  */}
+                                                            <label className="add-professor-form-label">
+                                                                {keyToLabel[key]}
+                                                            </label>
+                                                            <span className='add-professor-form-name-input-description'>
+                                                                {
+                                                                    `${new Date(selektovaniProjekat[key]).getDate()}.${new Date(selektovaniProjekat[key]).getMonth() + 1}.${new Date(selektovaniProjekat[key]).getFullYear()}`
 
+                                                                }
+                                                            </span>
+                                                        </Fragment>
+                                                    )
+                                            }
+                                            if (key == "clanoviProjektnogTima") {
                                                 return (
                                                     <Fragment key={key}>
                                                         {/* proveri selektovaniProfesor.key kog je tipa i proveri da nije array ili object ili nesto tako, takodje stavi keyeve koje ignorises kao sto su aneksi i ugovor  */}
@@ -274,28 +292,68 @@ export default function View() {
                                                             {keyToLabel[key]}
                                                         </label>
                                                         <span className='add-professor-form-name-input-description'>
-                                                            {JSON.stringify(selektovaniProjekat[key])}
+                                                            {
+                                                                selektovaniProjekat[key].length ? selektovaniProjekat[key].map(clanProjektnog => {
+                                                                    professors.map(prof => {
+                                                                        if (prof._id == clanProjektnog) return (`${prof.titula} ${prof.ime} ${prof.prezime}\n`)
+                                                                    })
+                                                                }) : `Nije izabran.`
+
+                                                            }
                                                         </span>
                                                     </Fragment>
                                                 )
+                                            }
+                                            if (key == "administrator" || key == "rukovodilac") {
+                                                return (
+                                                    <Fragment key={key}>
+                                                        {/* proveri selektovaniProfesor.key kog je tipa i proveri da nije array ili object ili nesto tako, takodje stavi keyeve koje ignorises kao sto su aneksi i ugovor  */}
+                                                        <label className="add-professor-form-label">
+                                                            {keyToLabel[key]}
+                                                        </label>
+                                                        <span className='add-professor-form-name-input-description'>
+                                                            {
+                                                                professors.map(prof => {
+                                                                    if (prof._id == selektovaniProjekat[key]) return (`${prof.titula} ${prof.ime} ${prof.prezime}`)
+                                                                    else (`Nije izabran.`)
+                                                                })
+                                                            }
+                                                        </span>
+                                                    </Fragment>
+                                                )
+                                            }
+                                            if (key == "partnerskeInstitucije") {
+                                                return (
+                                                    <Fragment key={key}>
+                                                        {/* proveri selektovaniProfesor.key kog je tipa i proveri da nije array ili object ili nesto tako, takodje stavi keyeve koje ignorises kao sto su aneksi i ugovor  */}
+                                                        <label className="add-professor-form-label">
+                                                            {keyToLabel.partnerskeInstitucije.koordinator}
+                                                        </label>
+                                                        <span className='add-professor-form-name-input-description'>
+                                                            {JSON.stringify(selektovaniProjekat.partnerskeInstitucije.koordinator)}
+                                                        </span>
+                                                        <label className="add-professor-form-label">
+                                                            {keyToLabel.partnerskeInstitucije.partneri}
+                                                        </label>
+                                                        <span className='add-professor-form-name-input-description'>
+                                                            {JSON.stringify(selektovaniProjekat.partnerskeInstitucije.partneri)}
+                                                        </span>
+                                                    </Fragment>
+                                                )
+
                                             }
                                             return (
                                                 <Fragment key={key}>
                                                     {/* proveri selektovaniProfesor.key kog je tipa i proveri da nije array ili object ili nesto tako, takodje stavi keyeve koje ignorises kao sto su aneksi i ugovor  */}
                                                     <label className="add-professor-form-label">
-                                                        {keyToLabel.partnerskeInstitucije.koordinator}
+                                                        {keyToLabel[key]}
                                                     </label>
                                                     <span className='add-professor-form-name-input-description'>
-                                                        {JSON.stringify(selektovaniProjekat.partnerskeInstitucije.koordinator)}
-                                                    </span>
-                                                    <label className="add-professor-form-label">
-                                                        {keyToLabel.partnerskeInstitucije.partneri}
-                                                    </label>
-                                                    <span className='add-professor-form-name-input-description'>
-                                                        {JSON.stringify(selektovaniProjekat.partnerskeInstitucije.partneri)}
+                                                        {JSON.stringify(selektovaniProjekat[key])}
                                                     </span>
                                                 </Fragment>
                                             )
+
 
                                         })}
 
