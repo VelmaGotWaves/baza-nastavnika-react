@@ -5,7 +5,7 @@ const Home = () => {
     const navigate = useNavigate();
     const logout = useLogout();
     useEffect(() => {
-        navigate('/professors');
+        navigate('/employees');
 
     }, [])
 

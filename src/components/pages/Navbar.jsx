@@ -25,15 +25,15 @@ export default function Navbar() {
 
     function windowChange() {
         if (auth?.roles?.includes(ROLES.Admin)) {
-            if (pathname.includes("professors/add")) {
+            if (pathname.includes("employees/add")) {
                 updateIndicatorLocation(1);
-            } else if (pathname.includes("professors/edit")) {
+            } else if (pathname.includes("employees/edit")) {
                 updateIndicatorLocation(2);
             } else if (pathname.includes("projects/add")) {
                 updateIndicatorLocation(4);
             } else if (pathname.includes("projects/edit")) {
                 updateIndicatorLocation(5);
-            } else if (pathname.includes("professors")) {
+            } else if (pathname.includes("employees")) {
                 updateIndicatorLocation(0);
             } else if (pathname.includes("projects")) {
                 updateIndicatorLocation(3);
@@ -41,21 +41,21 @@ export default function Navbar() {
                 updateIndicatorLocation(6);
             }
         } else if (auth?.roles?.includes(ROLES.Editor)) {
-            if (pathname.includes("professors/add")) {
+            if (pathname.includes("employees/add")) {
                 updateIndicatorLocation(1);
-            } else if (pathname.includes("professors/edit")) {
+            } else if (pathname.includes("employees/edit")) {
                 updateIndicatorLocation(2);
             } else if (pathname.includes("projects/add")) {
                 updateIndicatorLocation(4);
             } else if (pathname.includes("projects/edit")) {
                 updateIndicatorLocation(5);
-            } else if (pathname.includes("professors")) {
+            } else if (pathname.includes("employees")) {
                 updateIndicatorLocation(0);
             } else if (pathname.includes("projects")) {
                 updateIndicatorLocation(3);
             }
         } else {
-            if (pathname.includes("professors")) {
+            if (pathname.includes("employees")) {
                 updateIndicatorLocation(0);
             } else if (pathname.includes("projects")) {
                 updateIndicatorLocation(1);
@@ -91,7 +91,7 @@ export default function Navbar() {
                             {auth.user}
                         </span>
                     </div>
-                    <span className="navbar-header-title">BAZA PROFESORA</span>
+                    <span className="navbar-header-title">FON REFERENCE</span>
                     <div className="navbar-header-signout-container" onClick={signOut}>
                         <span className="material-symbols-outlined">
                             logout
@@ -103,17 +103,17 @@ export default function Navbar() {
                 <div className="navbar-navigation-container">
                     <div className="navbar-navigation-nav">
 
-                        <Link to='/professors'>
-                            <div className='navbar-navigation-divs'>Profesori</div>
+                        <Link to='/employees'>
+                            <div className='navbar-navigation-divs'>Zaposleni</div>
                         </Link>
 
                         {auth?.roles?.includes(ROLES.Editor) ? (
                             <>
-                                <Link to='/professors/add'>
-                                    <div className='navbar-navigation-divs'>Dodaj Profesora</div>
+                                <Link to='/employees/add'>
+                                    <div className='navbar-navigation-divs'>Dodaj Zaposlenog</div>
                                 </Link>
-                                <Link to='/professors/edit'>
-                                    <div className='navbar-navigation-divs'>Izmeni Profesora</div>
+                                <Link to='/employees/edit'>
+                                    <div className='navbar-navigation-divs'>Izmeni Zaposlenog</div>
                                 </Link>
                             </>
                         ) : ""}

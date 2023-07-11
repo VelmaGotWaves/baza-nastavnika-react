@@ -69,7 +69,7 @@ export default function SearchMultipleProfessorsBar({ professors, professorIds, 
                     <input
                         value={query}
                         type="text"
-                        placeholder='Izaberite profesora'
+                        placeholder='Izaberite zaposlenog'
                         onChange={(e) => { setQuery(e.target.value) }}
                         className='search-component-input'
                         autoComplete="off"

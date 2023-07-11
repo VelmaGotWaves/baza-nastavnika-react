@@ -84,7 +84,7 @@ export default function PdfGeneratorProfessors({ filtriraniProfesori, projects }
                                             <View style={styles.tableHeader}>
                                                 <View style={styles.tableRow}>
                                                     <View style={styles.tableH} >
-                                                        <Text style={{ margin: "auto", marginVertical: 5, fontSize: 10 }}>Informacije o Profesoru</Text>
+                                                        <Text style={{ margin: "auto", marginVertical: 5, fontSize: 10 }}>Informacije o zaposlenom</Text>
                                                     </View>
                                                 </View>
                                             </View>
@@ -178,7 +178,7 @@ export default function PdfGeneratorProfessors({ filtriraniProfesori, projects }
     }
     if (generateDoc) {
         return (
-            <PDFDownloadLink document={<MyDoc />} fileName="profesori.pdf" className='no-underline'>
+            <PDFDownloadLink document={<MyDoc />} fileName="zaposleni.pdf" className='no-underline'>
                 {({ blob, url, loading, error }) =>
                     loading ? (
                         <button type="button" className='professors-home-content-utils-buttons-pdf'>

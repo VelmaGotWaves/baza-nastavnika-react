@@ -97,7 +97,7 @@ const Login = () => {
                 <div className="login-error-container">
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
                 </div>
-                <div className="login-title">Dobrodošli u Bazu profesora!</div>
+                <div className="login-title">Dobrodošli u FON Reference!</div>
                 {/* <div className="login-register-container">
                     <span className='login-register-text'>
                         Nemate nalog?

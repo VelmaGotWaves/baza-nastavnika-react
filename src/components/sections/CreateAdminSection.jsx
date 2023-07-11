@@ -114,10 +114,9 @@ export default function CreateAdminSection() {
                                 
                             </select>
                             <span className='admin-create-form-input-description'>
-                                User - ima pravo pristupa stranama za pregledanje profesora i projekta, kao i generisanje PDF-a. <br/>
-                                Editor - kao User + ima i pravo kreiranja i menjanja profesora i projekta, kao i njihovih fajlova. <br/>
-                                Admin - kao Editor + ima i pravo dodavanja i brisanja korisnika. <br/>
-
+                                { role == "User"?"User - ima pravo pristupa stranama za pregledanje zaposlenih i projekta, kao i generisanje PDF-a.":"Nije izabrana uloga!"}
+                                { role == "Editor"?"Editor - kao User + ima i pravo kreiranja i menjanja zaposlenih i projekta, kao i njihovih fajlova.":"Nije izabrana uloga!"}
+                                { role == "Admin"?"Admin - kao Editor + ima i pravo dodavanja i brisanja korisnika.":"Nije izabrana uloga!"}
                             </span>
                         </div>
                         <div className="admin-create-form-password-container">

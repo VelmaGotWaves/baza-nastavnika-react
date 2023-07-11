@@ -18,7 +18,7 @@ export default function SearchProfessorsBar(importVariables) {
                     value={importVariables.query}
                     id="search-component-input"
                     type="text"
-                    placeholder='Izaberite profesora'
+                    placeholder='Izaberite zaposlenog'
                     onChange={(e) => importVariables.setQuery(e.target.value)}
                     className='search-component-input'
                     ref={searchComponentInput}

@@ -53,7 +53,7 @@ export default function SearchSpecificProfessorsBar({ professors, professorId, s
         <input
           value={query}
           type="text"
-          placeholder='Izaberite profesora'
+          placeholder='Izaberite zaposlenog'
           onChange={(e) => {setQuery(e.target.value); setProfessorId('')}}
           className='search-component-input'
           autoComplete="off"
