@@ -84,14 +84,14 @@ export default function PdfGeneratorProfessors({ filtriraniProfesori, projects }
                                             <View style={styles.tableHeader}>
                                                 <View style={styles.tableRow}>
                                                     <View style={styles.tableH} >
-                                                        <Text style={{ margin: "auto", marginVertical: 5, fontSize: 10 }}>Informacije o zaposlenom</Text>
+                                                        <Text style={{ margin: "auto", marginVertical: 5, fontSize: 10 }}>Informacije o zaposlenom / Staff member info</Text>
                                                     </View>
                                                 </View>
                                             </View>
                                             <View style={styles.tableBody}>
                                                 <View style={styles.tableRow} >
                                                     <View style={styles.tableColKey}>
-                                                        <Text style={styles.tableCell}>Titula, Ime, Prezime </Text>
+                                                        <Text style={styles.tableCell}>Titula, Ime, Prezime   /   Title, Name, Surname</Text>
                                                     </View>
                                                     <View style={styles.tableColData}>
                                                         <Text style={styles.tableCell}>{prof.titula} {prof.ime} {prof.prezime}</Text>
@@ -99,7 +99,7 @@ export default function PdfGeneratorProfessors({ filtriraniProfesori, projects }
                                                 </View>
                                                 <View style={styles.tableRow} >
                                                     <View style={styles.tableColKey}>
-                                                        <Text style={styles.tableCell}>Oblasti Istrazivanja</Text>
+                                                        <Text style={styles.tableCell}>Oblasti Istrazivanja /   Research fields</Text>
                                                     </View>
                                                     <View style={styles.tableColData}>
                                                         <Text style={styles.tableCell}>{prof.oblastiIstrazivanja.map((data, index) => {
@@ -111,7 +111,7 @@ export default function PdfGeneratorProfessors({ filtriraniProfesori, projects }
                                                 </View>
                                                 <View style={styles.tableRow} >
                                                     <View style={styles.tableColKey}>
-                                                        <Text style={styles.tableCell}>Katedre</Text>
+                                                        <Text style={styles.tableCell}>Katedra / Department</Text>
                                                     </View>
                                                     <View style={styles.tableColData}>
                                                         <Text style={styles.tableCell}>{prof.katedre.map((data, index) => {
@@ -123,7 +123,7 @@ export default function PdfGeneratorProfessors({ filtriraniProfesori, projects }
                                                 </View>
                                                 <View style={styles.tableRow} >
                                                     <View style={styles.tableColKey}>
-                                                        <Text style={styles.tableCell}>Projekti</Text>
+                                                        <Text style={styles.tableCell}>Projekti / Projects</Text>
                                                     </View>
                                                     <View style={styles.tableColData}>
                                                         <Text style={styles.tableCell}>
@@ -146,7 +146,7 @@ export default function PdfGeneratorProfessors({ filtriraniProfesori, projects }
                                                 </View>
                                                 <View style={styles.tableRow}>
                                                     <View style={styles.tableColKey}>
-                                                        <Text style={styles.tableCell}>Publikacije</Text>
+                                                        <Text style={styles.tableCell}>Publikacije / Papers</Text>
                                                     </View>
                                                     <View style={styles.tableColData}>
                                                         <Text style={styles.tableCell}>

@@ -113,10 +113,16 @@ export default function PdfGeneratorProjects({ filtriraniProjekti, professors })
                                                 <View style={styles.tableRow} >
                                                     <View style={styles.tableColKey}>
                                                         <Text style={styles.tableCell}>Referentni broj/ Reference number</Text>
-                                                        <Text style={styles.tableCell}>Interni broj/Internal number </Text>
                                                     </View>
                                                     <View style={styles.tableColData}>
                                                         <Text style={styles.tableCell}>{proj.referentniBroj}</Text>
+                                                    </View>
+                                                </View>
+                                                <View style={styles.tableRow} >
+                                                    <View style={styles.tableColKey}>
+                                                        <Text style={styles.tableCell}>Interni broj/Internal number </Text>
+                                                    </View>
+                                                    <View style={styles.tableColData}>
                                                         <Text style={styles.tableCell}>{proj.interniBroj}</Text>
 
                                                     </View>
@@ -132,10 +138,16 @@ export default function PdfGeneratorProjects({ filtriraniProjekti, professors })
                                                 <View style={styles.tableRow} >
                                                     <View style={styles.tableColKey}>
                                                         <Text style={styles.tableCell}>Ukupan budzet/ Total Budget </Text>
-                                                        <Text style={styles.tableCell}>Budzet za FON /FON budget</Text>
                                                     </View>
                                                     <View style={styles.tableColData}>
                                                         <Text style={styles.tableCell}>{proj.ukupanBudzet}</Text>
+                                                    </View>
+                                                </View>
+                                                <View style={styles.tableRow} >
+                                                    <View style={styles.tableColKey}>
+                                                        <Text style={styles.tableCell}>Budzet za FON /FON budget</Text>
+                                                    </View>
+                                                    <View style={styles.tableColData}>
                                                         <Text style={styles.tableCell}>{proj.budzetZaFon}</Text>
                                                     </View>
                                                 </View>
@@ -150,10 +162,16 @@ export default function PdfGeneratorProjects({ filtriraniProjekti, professors })
                                                 <View style={styles.tableRow} >
                                                     <View style={styles.tableColKey}>
                                                         <Text style={styles.tableCell}>Planirani pocetak/ Planned start </Text>
-                                                        <Text style={styles.tableCell}>Planirani zavrsetak/ Planned finish </Text>
                                                     </View>
                                                     <View style={styles.tableColData}>
                                                         <Text style={styles.tableCell}>{proj.planiraniPocetak ? `${new Date(proj.planiraniPocetak).getDate()}.${new Date(proj.planiraniPocetak).getMonth() + 1}.${new Date(proj.planiraniPocetak).getFullYear()}` : ""}</Text>
+                                                    </View>
+                                                </View>
+                                                <View style={styles.tableRow} >
+                                                    <View style={styles.tableColKey}>
+                                                        <Text style={styles.tableCell}>Planirani zavrsetak/ Planned finish </Text>
+                                                    </View>
+                                                    <View style={styles.tableColData}>
                                                         <Text style={styles.tableCell}>{proj.planiraniZavrsetak ? `${new Date(proj.planiraniZavrsetak).getDate()}.${new Date(proj.planiraniZavrsetak).getMonth() + 1}.${new Date(proj.planiraniZavrsetak).getFullYear()}` : ""}</Text>
                                                     </View>
                                                 </View>
@@ -176,16 +194,23 @@ export default function PdfGeneratorProjects({ filtriraniProjekti, professors })
                                                 <View style={styles.tableRow} >
                                                     <View style={styles.tableColKey}>
                                                         <Text style={styles.tableCell}>Administrator/ Administrator </Text>
-                                                        <Text style={styles.tableCell}>Koordinator/ Leader </Text>
 
                                                     </View>
                                                     <View style={styles.tableColData}>
                                                         <Text style={styles.tableCell}>{admininstrator?.titula} {admininstrator?.ime} {admininstrator?.prezime}</Text>
+
+                                                    </View>
+                                                </View>
+                                                <View style={styles.tableRow} >
+                                                    <View style={styles.tableColKey}>
+                                                        <Text style={styles.tableCell}>Koordinator/ Leader </Text>
+
+                                                    </View>
+                                                    <View style={styles.tableColData}>
                                                         <Text style={styles.tableCell}>{rukovodilac?.titula} {rukovodilac?.ime} {rukovodilac?.prezime}</Text>
 
                                                     </View>
                                                 </View>
-                                                
                                                 <View style={styles.tableRow} >
                                                     <View style={styles.tableColKey}>
                                                         <Text style={styles.tableCell}>Opis / Summary</Text>

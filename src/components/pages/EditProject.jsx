@@ -24,7 +24,6 @@ export default function EditProject() {
   const [vrstaProjekta, setVrstaProjekta] = useState('');
   const [validVrstaProjekta, setValidVrstaProjekta] = useState(false);
 
-  const [programFinansiranja, setProgramFinansiranja] = useState('');
 
   const [nazivProjekta, setNazivProjekta] = useState('');
   const [validNazivProjekta, setValidNazivProjekta] = useState(false);
@@ -123,7 +122,6 @@ export default function EditProject() {
         ]
       })
       setVrstaProjekta('');
-      setProgramFinansiranja('');
       setNazivPrograma('');
       setNazivProjekta('');
       setReferentniBroj('');
@@ -223,7 +221,6 @@ export default function EditProject() {
         nazivProjekta: nazivProjekta,
         nazivPrograma: nazivPrograma,
         vrstaProjekta: vrstaProjekta,
-        programFinansiranja: programFinansiranja,
         referentniBroj: referentniBroj,
         interniBroj: interniBroj,
         rukovodilac: rukovodilac,
@@ -283,7 +280,6 @@ export default function EditProject() {
       }
       setFoundProject(selectedProject)
       setVrstaProjekta(selectedProject.vrstaProjekta)
-      setProgramFinansiranja(selectedProject.programFinansiranja)
       setNazivProjekta(selectedProject.nazivProjekta)
       setNazivPrograma(selectedProject.nazivPrograma)
       setReferentniBroj(selectedProject.referentniBroj)
@@ -340,7 +336,6 @@ export default function EditProject() {
 
     } else {
       setVrstaProjekta('');
-      setProgramFinansiranja('');
       setNazivPrograma('');
       setNazivProjekta('');
       setReferentniBroj('');
@@ -798,20 +793,7 @@ export default function EditProject() {
                   <option value="interni" className='projects-select-option'>Interni</option>
                 </select>
 
-                <label htmlFor="programFinansiranja" className="add-professor-form-label">
-                  Program finansiranja (naručilac projekta)
-                </label>
-                <input
-                  type="text"
-                  id="programFinansiranja"
-                  onChange={(e) => setProgramFinansiranja(e.target.value)}
-                  value={programFinansiranja}
-                  className='add-professor-form-name-input'
-                  placeholder='Unesite program finansiranja'
-                />
-                <span className='add-professor-form-name-input-description'>
-                  Mora
-                </span>
+                
 
 
               </div>
