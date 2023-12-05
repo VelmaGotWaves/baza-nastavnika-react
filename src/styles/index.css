@@ -1322,7 +1322,16 @@ a:has(.login-register-link):hover {
     display: flex;
     gap: 30px;
 }
-
+.professors-home-content-utils-buttons-res {
+    display: flex;
+    gap: 10px;
+    background-color: transparent;
+    border: 1.5px solid #3699FF;
+    padding: 7.5px 25px 7.5px 30px;
+    border-radius: 6px;
+    height: min-content;
+    /* cursor: pointer; */
+}
 .professors-home-content-utils-buttons-xls {
     display: flex;
     gap: 10px;

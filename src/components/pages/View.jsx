@@ -125,7 +125,7 @@ export default function View() {
                         <div className="add-professor-form-container">
                             <form className="add-professor-form" onSubmit={(e) => e.preventDefault()}>
                                 <p className={errMsg ? "errmsg" : "offscreen"} >{errMsg}</p>
-                                <span className="add-professor-form-title">Pregledanje Profesora</span>
+                                <span className="add-professor-form-title">Pregledanje Zaposlenih</span>
                                 <hr className="add-professor-form-seperator" />
 
                                 <div className='edit-professor-form-search-container'>

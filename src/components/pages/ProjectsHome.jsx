@@ -145,6 +145,12 @@ export default function ProjectsHome() {
         <div className="professors-home-content-utils-container">
           <SearchHomeBar query={query} setQuery={setQuery} />
           <div className="professors-home-content-utils-buttons-container">
+            <button className='professors-home-content-utils-buttons-res'>
+              <span className='professors-home-content-utils-buttons-xls-span'>
+                {filtriraniProjekti.length} Rezultat/a
+              </span>
+
+            </button>
             <button className='professors-home-content-utils-buttons-xls' onClick={() => exportJson(filtriraniProjekti)}>
               <img src={xlsimg} alt="" className='professors-home-content-utils-buttons-xls-img' />
               <span className='professors-home-content-utils-buttons-xls-span'>
@@ -152,6 +158,7 @@ export default function ProjectsHome() {
               </span>
 
             </button>
+
             <PdfGeneratorProjects filtriraniProjekti={filtriraniProjekti} professors={professors} />
           </div>
 
@@ -193,7 +200,7 @@ export default function ProjectsHome() {
                       <td className='professors-home-table-body-cell'>{projekat.planiraniPocetak ? `${new Date(projekat.planiraniPocetak).getDate()}.${new Date(projekat.planiraniPocetak).getMonth() + 1}.${new Date(projekat.planiraniPocetak).getFullYear()}` : ""}</td>
                       <td className='professors-home-table-body-cell'>{projekat.planiraniZavrsetak ? `${new Date(projekat.planiraniZavrsetak).getDate()}.${new Date(projekat.planiraniZavrsetak).getMonth() + 1}.${new Date(projekat.planiraniZavrsetak).getFullYear()}` : ""}</td>
                       <td className='professors-home-table-body-cell'>{projekat.trajanje}</td>
-                      
+
                       <td className='professors-home-table-body-edit-cell'>
                         <Link to={"/projects/edit/" + projekat._id}>
                           <button className='professors-home-table-body-edit-cell-button'>

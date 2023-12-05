@@ -79,7 +79,9 @@ export default function ProfessorsHome() {
         professor.publikacije.some( item => contains(item.toLowerCase(), query.toLowerCase()) || contains(query.toLowerCase(),item.toLowerCase())) ||
         professor.projekti.some( item => {
           const projekt = projects.find(proj => proj.id == item.projekatId)
-          return (contains(projekt.nazivProjekta.toLowerCase(), query.toLowerCase()) || contains(query.toLowerCase(),projekt.nazivProjekta.toLowerCase()) || contains(projekt.nazivPrograma.toLowerCase(), query.toLowerCase()) || contains(query.toLowerCase(),projekt.nazivPrograma.toLowerCase()))
+          if(projekt){
+            return (contains(projekt.nazivProjekta.toLowerCase(), query.toLowerCase()) || contains(query.toLowerCase(),projekt.nazivProjekta.toLowerCase()) || contains(projekt.nazivPrograma.toLowerCase(), query.toLowerCase()) || contains(query.toLowerCase(),projekt.nazivPrograma.toLowerCase()))
+          }
         }) ||
         professor.tagovi.some( item => contains(item.toLowerCase(), query.toLowerCase()) || contains(query.toLowerCase(),item.toLowerCase()))
         )) {
@@ -144,11 +146,17 @@ export default function ProfessorsHome() {
       </div>
       <div className="professors-home-content-container">
         <div className="professors-home-content-title-container">
-          <span className="professors-home-content-title">Lista profesora</span>
+          <span className="professors-home-content-title">Lista zaposlenih</span>
         </div>
         <div className="professors-home-content-utils-container">
           <SearchHomeBar query={query} setQuery={setQuery} />
           <div className="professors-home-content-utils-buttons-container">
+          <button className='professors-home-content-utils-buttons-res'>
+              <span className='professors-home-content-utils-buttons-xls-span'>
+                {filtriraniProfesori.length} Rezultat/a
+              </span>
+
+            </button>
             <button className='professors-home-content-utils-buttons-xls' onClick={() => exportJson(filtriraniProfesori)}>
               <img src={xlsimg} alt="" className='professors-home-content-utils-buttons-xls-img' />
               <span className='professors-home-content-utils-buttons-xls-span'>

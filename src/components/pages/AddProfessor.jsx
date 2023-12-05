@@ -6,6 +6,7 @@ import DropdownMultiSearch from '../DropdownMultiSearch';
 import DropdownMultiSearchID from '../DropdownMultiSearchID';
 import { katedreOptionsArray } from '../data/katedre';
 import { oblastiIstrazivanjaOptionsArray } from '../data/oblastiIstrazivanja';
+import { zvanjaOptionsArray } from '../data/zvanja'
 
 const FIRSTNAME_REGEX = /^[a-zA-ZčćžđšČĆŽĐŠ]{3,24}(?:[ -][a-zA-ZčćžđšČĆŽĐŠ]{2,24})*$/;
 const LASTNAME_REGEX = /^[a-zA-ZčćžđšČĆŽĐŠ]{3,24}(?:[ -][a-zA-ZčćžđšČĆŽĐŠ]{2,24})*$/;
@@ -36,6 +37,13 @@ export default function AddProfessor() {
     const [tekstTagovi, setTekstTagovi] = useState('');
     const [opcijeTagovi, setOpcijeTagovi] = useState([]);
 
+    const [zvanje, setZvanje] = useState();
+    const [pol, setPol] = useState();
+    const [email, setEmail] = useState();
+
+    const [validPol, setValidPol] = useState(false);
+    const [validZvanje, setValidZvanje] = useState(false);
+
 
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
@@ -49,7 +57,12 @@ export default function AddProfessor() {
     useEffect(() => {
         setValidTitle(TITLE_REGEX.test(titula));
     }, [titula])
-
+    useEffect(() => {
+        setValidPol(["Muški", "Ženski"].includes(pol));
+    }, [pol])
+    useEffect(() => {
+        setValidZvanje(zvanjaOptionsArray.includes(zvanje));
+    }, [zvanje])
 
 
     const handleSubmit = async (e) => {
@@ -68,8 +81,15 @@ export default function AddProfessor() {
             setErrMsg("Invalid Title");
             return;
         }
+        if (!["Muški", "Ženski"].includes(pol)) {
+            setErrMsg("Invalid Pol");
+            return;
+        }
+        if (!zvanjaOptionsArray.includes(zvanje)) {
+            setErrMsg("Invalid Zvanje");
+            return;
+        }
         // provera da li su katedre uredu i dal su oblasti istrazivanja uredu
-
 
         const significantPublicationsArray = opcijePublikacije.replace(/[\t\n]|[^\S\n\r ]+/g, ' ').split("!");
         const significantPublicationsArrayWithoutEmptyStrings = significantPublicationsArray.filter((str) => {
@@ -98,7 +118,10 @@ export default function AddProfessor() {
                 katedre: opcijeKatedre,
                 // projekti: opcijeProjekti,
                 publikacije: significantPublicationsFINAL,
-                tagovi: tagsFINAL
+                tagovi: tagsFINAL,
+                pol: pol,
+                zvanje: zvanje,
+                email: email
             },
                 {
                     headers: { 'Content-Type': 'application/json' },
@@ -121,6 +144,9 @@ export default function AddProfessor() {
             // setOpcijeProjekti([]);
             setOpcijeTagovi([]);
             setTekstTagovi("");
+            setPol("");
+            setEmail("");
+            setZvanje("");
 
         } catch (err) {
             if (!err?.response) {
@@ -143,7 +169,7 @@ export default function AddProfessor() {
 
                     <form className="add-professor-form" onSubmit={handleSubmit}>
                         <p className={errMsg ? "errmsg" : "offscreen"} >{errMsg}</p>
-                        <span className="add-professor-form-title">Dodaj novog profesora</span>
+                        <span className="add-professor-form-title">Dodaj novog zaposlenog</span>
                         <hr className="add-professor-form-seperator" />
                         <div className="add-professor-form-inputs-container">
                             <div className="add-professor-form-name-inputs-container">
@@ -201,8 +227,58 @@ export default function AddProfessor() {
 
                             </div>
                             <div className="add-professor-form-information-inputs-container">
+                                <label htmlFor="polSelect" className="add-professor-form-label">
+                                    Pol
+                                </label>
+                                <span className='add-professor-form-information-input-description'>
+                                    Potrebno je izabrati pol.
+                                </span>
+                                <select
+                                    id="polSelect"
+                                    onChange={(e) => { setPol(e.target.value) }}
+                                    value={pol}
+                                    className='projects-select-component'
+                                >
+                                    <option value="" className='projects-select-option'>Izaberite</option>
+                                    <option value="Muški" className='projects-select-option'>Muški</option>
+                                    <option value="Ženski" className='projects-select-option'>Ženski</option>
 
 
+                                </select>
+                                <label htmlFor="zvanjeSelect" className="add-professor-form-label">
+                                    Zvanje
+                                </label>
+                                <span className='add-professor-form-information-input-description'>
+                                    Potrebno je izabrati zvanje.
+                                </span>
+                                <select
+                                    id="zvanjeSelect"
+                                    onChange={(e) => { setZvanje(e.target.value) }}
+                                    value={zvanje}
+                                    className='projects-select-component'
+                                >
+                                    <option value="" className='projects-select-option'>Izaberite</option>
+                                    {
+                                        zvanjaOptionsArray.map(zvanje => {
+                                            return (
+                                                <option value={zvanje} className='projects-select-option'>{zvanje}</option>
+                                            )
+                                        })
+                                    }
+
+                                </select>
+                                <label htmlFor="email" className="add-professor-form-label">
+                                    Email
+                                </label>
+                                <input
+                                    type="text"
+                                    id="email"
+                                    autoComplete="off"
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    value={email}
+                                    className='add-professor-form-name-input'
+                                    placeholder='Unesite email'
+                                />
                                 <label htmlFor="scientificResearch" className="add-professor-form-label">
                                     Oblasti istraživanjanja
                                 </label>
@@ -230,7 +306,7 @@ export default function AddProfessor() {
                                     Katedre
                                 </label>
                                 <span className='add-professor-form-information-input-description'>
-                                    Potrebno je uneti katedre u kojima profesor radi.
+                                    Potrebno je uneti katedre u kojima zaposleni radi.
                                 </span>
 
                                 <DropdownMultiSearch importArray={katedreOptionsArray} uniqueSelectedItems={opcijeKatedre} setUniqueSelectedItems={setOpcijeKatedre} placeholder={"Izaberite katedre"} />
@@ -259,19 +335,19 @@ export default function AddProfessor() {
                                     value={opcijePublikacije}
                                     placeholder='Unesite najznačajnije publikacije'
                                 />
-
+                                
                             </div>
 
                         </div>
                         <hr className="add-professor-form-seperator" />
 
-                        <button disabled={!validFirstname || !validLastname || !validTitle ? true : false} className="add-professor-form-button-submit">Dodaj profesora</button>
+                        <button disabled={!validFirstname || !validLastname || !validTitle ? true : false} className="add-professor-form-button-submit">Dodaj zaposlenog</button>
 
                     </form>
                 </div>
             </div>
             {success &&
-                <SuccessModuo placeholder="dodali profesora u nasu bazu" setViewSuccessModuo={setSuccess} />
+                <SuccessModuo placeholder="dodali zaposlenog u bazu" setViewSuccessModuo={setSuccess} />
             }
         </>
     )

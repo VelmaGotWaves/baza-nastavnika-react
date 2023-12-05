@@ -48,7 +48,7 @@ function App() {
               <Route path="users" element={<Admin />} />
             </Route>
             
-            <Route path="professors" element={<ProfessorsProvider />}>
+            <Route path="employees" element={<ProfessorsProvider />}>
 
               <Route element={<RequireAuthProfessors allowedRoles={[ROLES.User, ROLES.Editor, ROLES.Admin]} />}>
                 <Route index
